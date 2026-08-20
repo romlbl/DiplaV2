@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Company extends Model
+class Company extends Authenticatable
 {
-    use HasFactory;
+   use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -19,9 +20,7 @@ class Company extends Model
         'longitude',
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {
