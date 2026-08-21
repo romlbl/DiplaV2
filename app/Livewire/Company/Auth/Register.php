@@ -27,8 +27,8 @@ class Register extends Component
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:companies,email'],
             'password' => ['required', 'confirmed', Password::defaults()],
             'address' => ['required', 'string', 'max:255'],
-            'latitude' => ['nullable', 'numeric'],
-            'longitude' => ['nullable', 'numeric'],
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);

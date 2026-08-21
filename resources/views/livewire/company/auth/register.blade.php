@@ -24,14 +24,29 @@
             class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
         />
 
-        <flux:input
-            wire:model="address"
-            label="Adresse"
-            type="text"
-            required
-            placeholder="L'adresse de votre commerce"
-            class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
-        />
+        <div wire:ignore>
+            <div data-location-picker class="relative">
+                <label for="address" class="block text-sm font-medium text-[#1E293B] mb-1">Adresse</label>
+
+                <input type="text" id="address" required autocomplete="off"
+                    data-role="address-input"
+                    wire:model="address"
+                    placeholder="Commence à taper une adresse..."
+                    class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+
+                <div data-role="suggestions"
+                    style="z-index: 9999;"
+                    class="hidden absolute mt-1 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-lg max-h-60 overflow-y-auto">
+                </div>
+
+                <div data-role="map" class="mt-3 h-56 w-full rounded-xl border border-[#E2E8F0] overflow-hidden"></div>
+
+                <p class="text-xs text-[#333333]/60 mt-1">Ajuste le repère sur la carte si besoin.</p>
+
+                <input type="hidden" data-role="latitude" wire:model="latitude">
+                <input type="hidden" data-role="longitude" wire:model="longitude">
+            </div>
+        </div>
 
         <flux:input
             wire:model="password"

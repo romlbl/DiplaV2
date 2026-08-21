@@ -56,11 +56,25 @@
         <p class="text-xs text-[#333333]/60 mt-1">Séparés par des virgules, ça aide les clients à te trouver.</p>
     </div>
 
-    <div>
+    <div data-location-picker class="relative">
         <label for="address" class="block text-sm font-medium text-[#1E293B] mb-1">Adresse</label>
-        <input type="text" name="address" id="address" required
-               value="{{ old('address', $product->address ?? '') }}"
-               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+
+        <input type="text" name="address" id="address" required autocomplete="off"
+            data-role="address-input"
+            placeholder="Commence à taper une adresse..."
+            value="{{ old('address', $product->address ?? '') }}"
+            class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+
+        <div data-role="suggestions" style="z-index: 9999;"
+            class="hidden absolute z-10 mt-1 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-lg max-h-60 overflow-y-auto">
+        </div>
+
+        <div data-role="map" class="mt-3 h-56 w-full rounded-xl border border-[#E2E8F0] overflow-hidden"></div>
+
+        <p class="text-xs text-[#333333]/60 mt-1">Ajuste le repère sur la carte si besoin, ou glisse-le à la bonne position.</p>
+
+        <input type="hidden" name="latitude" data-role="latitude" value="{{ old('latitude', $product->latitude ?? '') }}">
+        <input type="hidden" name="longitude" data-role="longitude" value="{{ old('longitude', $product->longitude ?? '') }}">
     </div>
 
     <div>

@@ -38,8 +38,10 @@ class ProductController extends Controller
             'type' => ['required', 'in:produit,service'],
             'keywords' => ['nullable', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
             'images' => ['nullable', 'array', 'max:4'],
-            'images.*' => ['image', 'max:5120'], // 5 Mo max par image
+            'images.*' => ['image', 'max:5120'],
         ]);
 
         $company = auth('company')->user();
@@ -80,6 +82,8 @@ class ProductController extends Controller
             'type' => ['required', 'in:produit,service'],
             'keywords' => ['nullable', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
             'images' => ['nullable', 'array', 'max:4'],
             'images.*' => ['image', 'max:5120'],
         ]);
