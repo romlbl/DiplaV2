@@ -4,20 +4,17 @@
 @source "../**/*.js";
 
 @theme {
-    --color-ink-950: #14171a;
-    --color-ink-700: #4b5157;
-    --color-ink-400: #8a9096;
+  --color-background: #FDFBF7;
+  --color-surface: #FAFAFF;
+  --color-border: #E2E8F0;
+  --color-ink: #333333;
+  --color-heading: #1E293B;
+  --color-accent: #1E3D59;
+  --color-accent-soft: #4A3B5C;
 
-    --color-line: #e4e4e1;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-    --color-accent-700: #1f4b43;
-    --color-accent-600: #2a5d53;
-    --color-accent-100: #e7efec;
-
-    --color-canvas: #fafaf9;
-    --color-canvas-alt: #f2f2f0;
-
-    --font-display: "Fraunces", ui-serif, serif;
-    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius-pill: 9999px;
+  --radius-card: 1rem;
 }

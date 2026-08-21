@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Policies\ProductPolicy;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::policy(Product::class, ProductPolicy::class);
+
         if (config('app.env') === 'production') {
             \URL::forceScheme('https');
         }

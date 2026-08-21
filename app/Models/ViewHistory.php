@@ -10,6 +10,7 @@ class ViewHistory extends Model
 {
     use HasFactory;
 
+    protected $table = 'view_history';
     const UPDATED_AT = null;
     const CREATED_AT = 'viewed_at';
 

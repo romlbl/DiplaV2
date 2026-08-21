@@ -67,4 +67,18 @@ class Product extends Model
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Product $product) {
+            foreach ($product->images as $image) {
+                // on extrait le public_id depuis l'URL Cloudinary pour pouvoir la supprimer
+                $publicId = pathinfo(parse_url($image->url, PHP_URL_PATH), PATHINFO_FILENAME);
+                app(\App\Services\CloudinaryService::class)->delete('dipla/products/' . $publicId);
+            }
+
+            $product->images()->delete();
+        });
+    }
+
 }

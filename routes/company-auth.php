@@ -22,6 +22,19 @@ Route::middleware('auth:company')
         })->name('logout');
 
         Route::get('dashboard', function () {
-            return view('company.dashboard');
+            $company = auth('company')->user();
+            $productIds = $company->products()->pluck('id');
+
+            $stats = [
+                'products_count' => $productIds->count(),
+                'total_views' => \App\Models\ViewHistory::whereIn('product_id', $productIds)->count(),
+                'total_favorites' => \App\Models\Favorite::whereIn('product_id', $productIds)->count(),
+            ];
+
+            return view('company.dashboard', compact('stats'));
         })->name('dashboard');
+
+        Route::resource('produits', \App\Http\Controllers\Company\ProductController::class)
+            ->parameters(['produits' => 'product'])
+            ->names('products');
     });
