@@ -31,10 +31,19 @@ class ViewHistory extends Model
 
     public static function record(User $user, Product $product): void
     {
-        static::create([
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-        ]);
+        $existing = static::where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->first();
+
+        if ($existing) {
+            // Déjà dans l'historique : on remonte juste sa date, pas de doublon.
+            $existing->update(['viewed_at' => now()]);
+        } else {
+            static::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+        }
 
         $idsToKeep = static::where('user_id', $user->id)
             ->orderByDesc('viewed_at')

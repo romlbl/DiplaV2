@@ -101,7 +101,7 @@
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($products as $product)
-                <a href="#" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] overflow-hidden shadow-sm hover:shadow-md transition">
+                <a href="{{ route('products.show', $product) }}" wire:navigate class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] overflow-hidden shadow-sm hover:shadow-md transition">
                     @if($product->images->isNotEmpty())
                         <img src="{{ $product->images->first()->url }}" alt="" class="w-full h-40 object-cover">
                     @else
