@@ -29,7 +29,7 @@
             </button>
 
             <ul class="hidden md:flex gap-8 text-sm font-medium items-center text-ink-700">
-                <li><a href="#" class="hover:text-ink-950 border-b border-transparent hover:border-accent-700 transition pb-0.5">Rechercher</a></li>
+                <li><a href="{{ route('search') }}" wire:navigate class="hover:text-ink-950 border-b border-transparent hover:border-accent-700 transition pb-0.5">Rechercher</a></li>
                 @auth
                     <li><a href="{{ route('dashboard') }}" wire:navigate class="hover:text-ink-950 border-b border-transparent hover:border-accent-700 transition pb-0.5">Mon compte</a></li>
                 @else
@@ -44,7 +44,7 @@
         </nav>
 
         <ul id="menu-mobile" class="hidden md:hidden flex-col gap-1 px-4 pb-4 text-sm font-medium text-ink-700 border-t border-line pt-3">
-            <li><a href="#" class="block py-2">Rechercher</a></li>
+            <li><a href="{{ route('search') }}" wire:navigate class="hover:text-ink-950 border-b border-transparent hover:border-accent-700 transition pb-0.5">Rechercher</a></li>
             @auth
                 <li><a href="{{ route('dashboard') }}" wire:navigate class="block py-2">Mon compte</a></li>
             @else

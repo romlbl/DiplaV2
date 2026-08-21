@@ -27,7 +27,9 @@ export function initLocationPicker(container) {
         console.warn('location-picker: éléments manquants dans le conteneur', container);
         return;
     }
-
+    if (mapEl._leaflet_id) {
+        return;
+    }
     const startLat = parseFloat(latInput.value) || 47.322047;
     const startLng = parseFloat(lngInput.value) || 5.04148;
 
