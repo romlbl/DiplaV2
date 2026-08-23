@@ -2,145 +2,128 @@
     @php
         $companiesCount = \App\Models\Company::count();
         $productsCount = \App\Models\Product::count();
-        $newThisWeek = \App\Models\Product::where('created_at', '>=', now()->subWeek())->count();
+
+        // Nouveau : les publications les plus récentes
+        $newProducts = \App\Models\Product::with(['images', 'company', 'reviews'])
+            ->latest()
+            ->take(8)
+            ->get();
+
+        // Recommandation : les produits les plus mis en favoris
+        $recommendedProducts = \App\Models\Product::withCount('favoritedBy')
+            ->with(['images', 'company', 'reviews'])
+            ->orderByDesc('favorited_by_count')
+            ->orderByDesc('created_at')
+            ->take(8)
+            ->get();
+
+        // À proximité : sélection aléatoire en attendant l'activation de la position
+        // (le calcul de distance réel se fait sur /recherche?mode=nearby via la géoloc du navigateur)
+        $nearbyProducts = \App\Models\Product::with(['images', 'company', 'reviews'])
+            ->whereNotNull('latitude')
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
+
+        $categories = ['Artisans', 'Boulangeries', 'Fleuristes', 'Épiceries'];
     @endphp
 
-    <section class="rounded-2xl bg-[#1E3D59] px-6 py-10 md:py-14 text-center">
-        <p class="font-mono text-xs tracking-widest uppercase text-[#FDFBF7]/60 mb-3">
-            Autour de vous
-        </p>
-        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-[#FDFBF7]">
-            Trouvez vos commerces de proximité
+    {{-- Hero --}}
+    <section class="flex flex-col items-center gap-6 py-10 text-center md:py-16">
+        <h1 class="max-w-3xl text-3xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
+            Trouvez ce qu'il vous faut, près de chez vous.
         </h1>
-        <p class="text-[#FDFBF7]/80 text-base md:text-lg mb-8 max-w-xl mx-auto">
-            Produits et services proposés par des entreprises près de chez vous
+        <p class="max-w-xl text-base text-[#333333]/80 md:text-lg">
+            Découvrez les meilleurs artisans, commerces et produits locaux autour de vous en un instant.
         </p>
 
-        <form action="{{ route('search') }}" method="GET" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-2 px-4">
-            <input
-                type="text"
-                name="q"
-                placeholder="Que recherchez-vous ?"
-                class="flex-1 px-4 py-3 rounded-full border-0 bg-[#FDFBF7] text-sm text-[#333333] focus:outline-none focus:ring-2 focus:ring-[#FDFBF7]/40"
-            >
-            <input
-                type="text"
-                name="lieu"
-                placeholder="Lieu"
-                class="sm:w-32 px-4 py-3 rounded-full border-0 bg-[#FDFBF7] text-sm text-[#333333] focus:outline-none focus:ring-2 focus:ring-[#FDFBF7]/40"
-            >
-            <button type="submit" class="bg-[#FDFBF7] text-[#1E3D59] font-semibold text-sm px-6 py-3 rounded-full hover:bg-white transition">
-                Rechercher
-            </button>
+        {{-- Barre de recherche --}}
+        <form action="{{ route('search') }}" method="GET" class="mt-2 w-full max-w-2xl">
+            <div class="flex flex-col items-stretch gap-2 rounded-3xl border border-[#E2E8F0] bg-[#FAFAFF] p-2 shadow-sm transition-colors focus-within:border-[#1E3D59] md:flex-row md:items-center">
+                <div class="flex flex-1 items-center gap-2 px-3 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-[#333333]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                    </svg>
+                    <input type="text" name="q" placeholder="Que recherchez-vous ?"
+                           class="w-full border-0 bg-transparent p-0 text-sm text-[#333333] placeholder-[#333333]/40 focus:outline-none focus:ring-0">
+                </div>
+
+                <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate
+                   class="mx-1 inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#FDFBF7] px-4 py-2.5 text-sm font-medium text-[#1E3D59] transition hover:bg-[#E2E8F0]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    À proximité
+                </a>
+
+                <button type="submit"
+                        class="shrink-0 rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
+                    Rechercher
+                </button>
+            </div>
         </form>
 
-        <p x-data="{ n: 0, target: {{ $productsCount }} }"
-        x-init="let i = setInterval(() => { n += Math.ceil(target/30); if (n >= target) { n = target; clearInterval(i); } }, 30)"
-        class="font-mono text-xs text-[#FDFBF7]/60 mt-6">
-            {{ $companiesCount }} commerces · <span x-text="n"></span> produits · {{ $newThisWeek }} nouveautés
+        {{-- Filtres rapides --}}
+        <div class="flex flex-wrap justify-center gap-2">
+            @foreach($categories as $category)
+                <a href="{{ route('search', ['q' => $category]) }}" wire:navigate
+                   class="rounded-full bg-[#4A3B5C]/10 px-4 py-2 text-xs font-semibold text-[#4A3B5C] transition hover:bg-[#4A3B5C]/20">
+                    {{ $category }}
+                </a>
+            @endforeach
+        </div>
+
+        <p class="font-mono text-xs text-[#333333]/50">
+            {{ $companiesCount }} commerces · {{ $productsCount }} produits
         </p>
     </section>
 
-    <section class="flex flex-wrap gap-2 py-6">
-        <a href="{{ route('search') }}" wire:navigate class="px-4 py-2 rounded-full bg-[#1E3D59] text-[#FDFBF7] text-sm font-medium hover:bg-[#16293F] transition">
-            Tout
-        </a>
-        <a href="{{ route('search', ['type' => 'produit']) }}" wire:navigate class="px-4 py-2 rounded-full border border-[#E2E8F0] bg-[#FAFAFF] text-[#333333] text-sm hover:border-[#1E3D59] transition">
-            Produits
-        </a>
-        <a href="{{ route('search', ['type' => 'service']) }}" wire:navigate class="px-4 py-2 rounded-full border border-[#E2E8F0] bg-[#FAFAFF] text-[#333333] text-sm hover:border-[#1E3D59] transition">
-            Services
-        </a>
-        <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="px-4 py-2 rounded-full border border-[#E2E8F0] bg-[#FAFAFF] text-[#333333] text-sm hover:border-[#1E3D59] transition inline-flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            À proximité
-        </a>
-        <a href="{{ route('search', ['mode' => 'discover']) }}" wire:navigate class="px-4 py-2 rounded-full border border-[#E2E8F0] bg-[#FAFAFF] text-[#4A3B5C] text-sm hover:border-[#4A3B5C] transition inline-flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-            Découvrir
-        </a>
-    </section>
-
-    <section class="py-8 border-t border-[#E2E8F0]">
-        <div class="flex items-center justify-between mb-5">
-            <h2 class="font-semibold text-[#1E293B]">Nouveautés</h2>
-            <a href="{{ route('search') }}" wire:navigate class="text-xs font-mono text-[#4A3B5C] hover:underline">
-                Tout voir
-            </a>
-        </div>
-
-        @php
-            $recentProducts = \App\Models\Product::with('images')->latest()->take(4)->get();
-        @endphp
-
-        @if($recentProducts->isNotEmpty())
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-                @foreach($recentProducts as $i => $product)
-                    <a href="{{ route('products.show', $product) }}" wire:navigate
-                        x-data="{ show: false }"
-                        x-init="setTimeout(() => show = true, {{ $i * 80 }})"
-                        :class="show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'"
-                        class="group rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:shadow-md">
-                        @if($product->images->isNotEmpty())
-                            <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}" class="aspect-square w-full object-cover">
-                        @else
-                            <div class="aspect-square bg-[#E2E8F0] flex items-center justify-center text-[#333333]/40 text-sm">
-                                Pas d'image
-                            </div>
-                        @endif
-                        <div class="p-3">
-                            <p class="text-sm font-medium text-[#1E293B] truncate">{{ $product->title }}</p>
-                            <p class="text-xs font-mono text-[#4A3B5C] mt-1">{{ number_format($product->price, 2) }} €</p>
-                        </div>
-                    </a>
+    {{-- Nouveau --}}
+    @if($newProducts->isNotEmpty())
+        <section class="space-y-4 py-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-[#1E293B] md:text-2xl">Nouveau</h2>
+                <a href="{{ route('search') }}" wire:navigate class="font-mono text-xs text-[#4A3B5C] hover:underline">
+                    Tout voir
+                </a>
+            </div>
+            <div class="hide-scrollbar flex snap-x gap-4 overflow-x-auto pb-2">
+                @foreach($newProducts as $product)
+                    @include('partials.product-card', ['product' => $product])
                 @endforeach
             </div>
-        @else
-            <p class="text-sm text-[#333333]/60">Aucun produit publié pour l'instant.</p>
-        @endif
-    </section>
+        </section>
+    @endif
 
-    <section class="py-8 border-t border-[#E2E8F0]">
-        <div class="flex items-center justify-between mb-5">
-            <h2 class="font-semibold text-[#1E293B]">Découvrir</h2>
-            <a href="{{ route('search', ['mode' => 'discover']) }}" wire:navigate class="text-xs font-mono text-[#4A3B5C] hover:underline">
-                Relancer
-            </a>
-        </div>
-
-        @php
-            $discoverProducts = \App\Models\Product::with('images')->inRandomOrder()->take(4)->get();
-        @endphp
-
-        @if($discoverProducts->isNotEmpty())
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-                @foreach($recentProducts as $i => $product)
-                        <a href="{{ route('products.show', $product) }}" wire:navigate
-                        x-data="{ show: false }"
-                        x-init="setTimeout(() => show = true, {{ $i * 80 }})"
-                        :class="show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'"
-                        class="group rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:shadow-md">
-                        @if($product->images->isNotEmpty())
-                            <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}" class="aspect-square w-full object-cover">
-                        @else
-                            <div class="aspect-square bg-[#E2E8F0] flex items-center justify-center text-[#333333]/40 text-sm">
-                                Pas d'image
-                            </div>
-                        @endif
-                        <div class="p-3">
-                            <p class="text-sm font-medium text-[#1E293B] truncate">{{ $product->title }}</p>
-                            <p class="text-xs font-mono text-[#4A3B5C] mt-1">{{ number_format($product->price, 2) }} €</p>
-                        </div>
-                    </a>
+    {{-- Recommandation --}}
+    @if($recommendedProducts->isNotEmpty())
+        <section class="space-y-4 border-t border-[#E2E8F0] py-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-[#1E293B] md:text-2xl">Recommandation</h2>
+            </div>
+            <div class="hide-scrollbar flex snap-x gap-4 overflow-x-auto pb-2">
+                @foreach($recommendedProducts as $product)
+                    @include('partials.product-card', ['product' => $product])
                 @endforeach
             </div>
-        @else
-            <p class="text-sm text-[#333333]/60">Aucun produit publié pour l'instant.</p>
-        @endif
-    </section>
+        </section>
+    @endif
+
+    {{-- À proximité --}}
+    @if($nearbyProducts->isNotEmpty())
+        <section class="space-y-4 border-t border-[#E2E8F0] py-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-[#1E293B] md:text-2xl">À proximité</h2>
+                <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="font-mono text-xs text-[#4A3B5C] hover:underline">
+                    Activer ma position
+                </a>
+            </div>
+            <div class="hide-scrollbar flex snap-x gap-4 overflow-x-auto pb-2">
+                @foreach($nearbyProducts as $product)
+                    @include('partials.product-card', ['product' => $product])
+                @endforeach
+            </div>
+        </section>
+    @endif
 </x-layouts::public>

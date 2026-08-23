@@ -1,0 +1,51 @@
+{{--
+    Carte produit utilisée dans les carrousels de la page d'accueil.
+
+    Variables attendues :
+    - $product : App\Models\Product (avec 'images', 'company', 'reviews' déjà chargés)
+--}}
+
+<a href="{{ route('products.show', $product) }}" wire:navigate
+   class="group min-w-[200px] w-[200px] sm:min-w-[240px] sm:w-[240px] shrink-0 snap-start rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+
+    {{-- Image au format portrait 2:3, cohérent avec le recadrage utilisé côté entreprise --}}
+    <div class="relative w-full aspect-[2/3] overflow-hidden rounded-xl bg-[#E2E8F0]">
+        @if($product->images->isNotEmpty())
+            <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}"
+                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+        @else
+            <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
+                Pas d'image
+            </div>
+        @endif
+
+        {{-- Cœur décoratif : le favori interactif se gère depuis la fiche produit --}}
+        <span class="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#FDFBF7]/90 text-[#333333]/50 backdrop-blur-sm">
+            ♡
+        </span>
+
+        @if($product->reviews->isNotEmpty())
+            <span class="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-[#FDFBF7]/90 px-2.5 py-1 text-xs font-semibold text-[#1E293B] backdrop-blur-sm">
+                <span class="text-[#4A3B5C]">★</span> {{ $product->averageRating() }}
+            </span>
+        @endif
+    </div>
+
+    <div class="mt-3 space-y-0.5 px-1">
+        <h3 class="truncate font-semibold text-[#1E293B]">{{ $product->title }}</h3>
+        <p class="truncate text-sm text-[#333333]/70">{{ $product->company->name }}</p>
+        <p class="flex items-center gap-1 text-xs text-[#333333]/60">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0 text-[#4A3B5C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="truncate">{{ $product->address }}</span>
+        </p>
+
+        <div class="mt-2 flex items-center justify-between border-t border-[#E2E8F0] pt-2">
+            <span class="rounded-full bg-[#1E3D59] px-3 py-1 font-mono text-xs font-semibold text-[#FDFBF7]">
+                {{ number_format($product->price, 2) }} €
+            </span>
+        </div>
+    </div>
+</a>
