@@ -35,7 +35,7 @@
                 @else
                     <li><a href="{{ route('login') }}" wire:navigate class="hover:text-ink-950 border-b border-transparent hover:border-accent-700 transition pb-0.5">Connexion</a></li>
                     <li>
-                        <a href="#" class="bg-accent-700 text-white px-4 py-2 rounded-md text-sm hover:bg-accent-600 transition">
+                        <a href="{{ route('login', ['tab' => 'company']) }}" wire:navigate class="bg-accent-700 text-white px-4 py-2 rounded-md text-sm hover:bg-accent-600 transition">
                             Espace entreprise
                         </a>
                     </li>
@@ -49,7 +49,9 @@
                 <li><a href="{{ route('dashboard') }}" wire:navigate class="block py-2">Mon compte</a></li>
             @else
                 <li><a href="{{ route('login') }}" wire:navigate class="block py-2">Connexion</a></li>
-                <li><a href="#" class="block py-2">Espace entreprise</a></li>
+                <li><a href="{{ route('login', ['tab' => 'company']) }}" wire:navigate class="bg-accent-700 text-white px-4 py-2 rounded-md text-sm hover:bg-accent-600 transition">
+                        Espace entreprise
+                    </a></li>
             @endauth
         </ul>
     </header>

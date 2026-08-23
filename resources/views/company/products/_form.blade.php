@@ -77,18 +77,5 @@
         <input type="hidden" name="longitude" data-role="longitude" value="{{ old('longitude', $product->longitude ?? '') }}">
     </div>
 
-    <div>
-        <label for="images" class="block text-sm font-medium text-[#1E293B] mb-1">Photos (jusqu'à 4)</label>
-        <input type="file" name="images[]" id="images" multiple accept="image/*"
-               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] file:mr-4 file:rounded-full file:border-0 file:bg-[#1E3D59] file:px-4 file:py-1.5 file:text-sm file:font-medium file:text-[#FDFBF7]">
 
-        @if(isset($product) && $product->images->isNotEmpty())
-            <div class="flex gap-2 mt-3">
-                @foreach($product->images as $image)
-                    <img src="{{ $image->url }}" alt="" class="w-16 h-16 rounded-lg object-cover border border-[#E2E8F0]">
-                @endforeach
-            </div>
-            <p class="text-xs text-[#333333]/60 mt-1">Photos actuelles. Ajouter de nouvelles photos les complète (gestion fine à venir).</p>
-        @endif
-    </div>
 </div>

@@ -4,6 +4,9 @@
             <a href="{{ route('company.products.index') }}" class="text-sm text-[#4A3B5C] hover:underline">&larr; Retour à mes produits</a>
             <h1 class="text-2xl font-semibold text-[#1E293B] mt-2">Modifier le produit</h1>
         </div>
+        <div class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm mb-4">
+            <livewire:company.product-image-manager :product="$product" />
+        </div>
 
         <form method="POST" action="{{ route('company.products.update', $product) }}" enctype="multipart/form-data" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
             @method('PUT')
