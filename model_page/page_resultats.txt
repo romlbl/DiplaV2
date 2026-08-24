@@ -1,0 +1,327 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Dipla - Search Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001d34",
+                        "on-background": "#1b1c1c",
+                        "on-surface-variant": "#43474d",
+                        "secondary-fixed-dim": "#d3bfe7",
+                        "on-secondary-fixed-variant": "#4f4062",
+                        "inverse-on-surface": "#f3f0f0",
+                        "secondary-container": "#ead5fe",
+                        "surface-variant": "#e4e2e1",
+                        "primary": "#022742",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "inverse-surface": "#303030",
+                        "outline-variant": "#c3c7ce",
+                        "primary-container": "#1e3d59",
+                        "surface-container-highest": "#e4e2e1",
+                        "primary-fixed": "#cfe5ff",
+                        "on-tertiary-container": "#a6a5a2",
+                        "secondary-fixed": "#eedbff",
+                        "surface-container-high": "#eae8e7",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#68587a",
+                        "tertiary": "#252623",
+                        "on-secondary-fixed": "#231534",
+                        "outline": "#73777e",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "on-secondary-container": "#6a5a7d",
+                        "surface": "#fbf9f8",
+                        "surface-bright": "#fbf9f8",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "on-primary-fixed-variant": "#2b4966",
+                        "inverse-primary": "#abc9ec",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#3b3b39",
+                        "on-primary-container": "#8aa8c9",
+                        "primary-fixed-dim": "#abc9ec",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container": "#f0eded",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-tint": "#43617f",
+                        "tertiary-fixed": "#e4e2de",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fbf9f8",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1b1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "48px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "margin-desktop": "64px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #FDFBF7; }
+        .surface-card { background-color: #FAFAFF; }
+        .shadow-ambient { box-shadow: 0 10px 25px -5px rgba(30, 61, 89, 0.05); }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 15px 30px -5px rgba(30, 61, 89, 0.1); }
+        
+        /* Range slider styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #1E3D59;
+            cursor: pointer;
+            margin-top: -8px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #E2E8F0;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm sticky top-0 w-full z-50">
+<div class="flex justify-between items-center px-margin-desktop py-md w-full max-w-[1600px] mx-auto">
+<div class="flex items-center gap-xl">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="#">Dipla</a>
+<!-- Search Bar -->
+<div class="hidden md:flex items-center surface-card border border-[#E2E8F0] rounded-full px-lg py-sm shadow-ambient">
+<span class="material-symbols-outlined text-outline mr-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface font-body-md w-32 outline-none" placeholder="Rechercher..." type="text" value="Boulangerie">
+<div class="w-px h-6 bg-[#E2E8F0] mx-md"></div>
+<span class="material-symbols-outlined text-outline mr-sm">location_on</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface font-body-md w-32 outline-none" placeholder="Lieu" type="text" value="Paris 11e">
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-lg font-body-md text-body-md">
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Explore</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 pb-1" href="#">Saved</a>
+
+</nav>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[1600px] mx-auto px-margin-mobile md:px-margin-desktop py-xl flex flex-col md:flex-row gap-xl">
+<!-- Sidebar (Filters) -->
+<aside class="w-full md:w-80 shrink-0">
+<div class="surface-card rounded-2xl border border-[#E2E8F0] p-lg sticky top-[100px] shadow-ambient flex flex-col gap-lg">
+<!-- Toggle -->
+<div class="flex bg-[#FDFBF7] rounded-full p-xs border border-[#E2E8F0]">
+<button class="flex-1 rounded-full py-sm text-center font-label-md text-on-primary bg-primary-container shadow-sm">Produits</button>
+<button class="flex-1 rounded-full py-sm text-center font-label-md text-on-surface-variant hover:text-primary transition-colors">Services</button>
+</div>
+<!-- Location -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-on-surface">Lieu</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
+<input class="w-full bg-[#FDFBF7] border border-[#E2E8F0] rounded-lg pl-10 pr-4 py-2 text-body-md focus:border-primary-container outline-none transition-colors" type="text" value="Paris 11e">
+</div>
+</div>
+<!-- Distance -->
+<div class="flex flex-col gap-sm">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-on-surface">Distance</label>
+<span class="text-label-sm text-on-surface-variant">2 km</span>
+</div>
+<input class="w-full" max="10" min="0" type="range" value="2">
+</div>
+<!-- Price Range -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-on-surface">Prix</label>
+<div class="flex gap-2">
+<button class="flex-1 py-2 border border-primary-container bg-primary-container/10 text-primary-container rounded-lg font-label-md">€</button>
+<button class="flex-1 py-2 border border-[#E2E8F0] text-on-surface-variant rounded-lg font-label-md hover:border-primary-container transition-colors">€€</button>
+<button class="flex-1 py-2 border border-[#E2E8F0] text-on-surface-variant rounded-lg font-label-md hover:border-primary-container transition-colors">€€€</button>
+</div>
+</div>
+<!-- Checkboxes -->
+<div class="flex flex-col gap-md pt-md border-t border-[#E2E8F0]">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 border border-[#E2E8F0] rounded bg-[#FDFBF7] flex items-center justify-center group-hover:border-primary-container transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary-container opacity-0">check</span>
+</div>
+<span class="font-body-md text-on-surface">Ouvert actuellement</span>
+</label>
+
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-sm mt-md">
+<button class="w-full py-3 bg-primary-container text-on-primary rounded-full font-label-md shadow-sm hover:opacity-90 transition-opacity">Appliquer les filtres</button>
+<button class="w-full py-3 border border-[#E2E8F0] text-on-surface-variant rounded-full font-label-md hover:text-primary-container transition-colors">Réinitialiser</button>
+</div>
+</div>
+</aside>
+<!-- Results Grid -->
+<section class="flex-1 flex flex-col gap-lg">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">142 résultats à proximité</h1>
+<div class="flex items-center gap-2 surface-card border border-[#E2E8F0] rounded-full px-4 py-2 shadow-sm cursor-pointer hover:border-primary-container transition-colors">
+<span class="font-label-md text-on-surface">Tri : Plus proches</span>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xl">
+<!-- Card 1 -->
+<div class="surface-card rounded-xl overflow-hidden shadow-ambient hover-lift transition-all duration-300 flex flex-col group cursor-pointer border border-[#E2E8F0]">
+<div class="w-full aspect-[2/3] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern electric bicycle displayed against a clean, minimalist off-white background. The lighting is soft and studio-quality, highlighting the sleek grey frame and premium details. The overall aesthetic is clean, high-end, and perfectly suited for a modern discovery platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYZ5B-mjqUVzjhG5Yec0E13SKRahsOGpDt2eUhsETiWutIb3hsFhkHjR9P4QQTUNfULhilhykaPIRGlxigcmlUNP0w_NyFGDDldisgzIQN72XajuftDW5K-idTwbH5G5VnrcxMLzPAPBPUir9Il9Wh68fAileFruyRIgdPndonZq9Y_N0MzPiuZJ3u4zxhLMIejx6cAnjIvOwNazsDj5jdVYVIyovIjQ1eeG-QBQq0Vn0TQL86Jb-wZg">
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm rounded-full p-2 shadow-sm">
+<span class="material-symbols-outlined text-outline hover:text-error transition-colors" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<div class="p-md flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface truncate pr-2">Vélo Électrique Urbain</h3>
+<div class="flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-on-surface">4.8</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Cyclo Pro • Paris 11e</p>
+<div class="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#4A3B5C]/10 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px] text-[#4A3B5C]">directions_walk</span>
+<span class="font-label-sm text-[#4A3B5C]">800 m · 10 min à pied</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="surface-card rounded-xl overflow-hidden shadow-ambient hover-lift transition-all duration-300 flex flex-col group cursor-pointer border border-[#E2E8F0]">
+<div class="w-full aspect-[2/3] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium silver laptop open on a modern wooden desk. The scene is softly lit by natural window light, creating a bright and airy atmosphere. A minimal notebook and ceramic coffee cup sit nearby, reinforcing a clean, editorial, and sophisticated workspace aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOTktB__2NHTjfDALKVxXnKGt6pte-oA6nPxLhrvxTK93BDCoBU34UDMHtm8l9yyH3ctxC0uEyD_DueRnwr4SOgPVoLbprZqf678eA6_zuvdiPFAiDqYTFHW9svxduqgABMmJH1TK54NjAFtjUi6kmnylYa9kOi0reJR5k9-hDFePmi3B2qn7o0ryWQlYjnzp8CD3fcBfsmNwrVeqIE5ufDlNgzBms5m20Mgn8QruEBz4bOGyONXsWOA">
+</div>
+<div class="p-md flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface truncate pr-2">Laptop Pro M2</h3>
+<div class="flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-on-surface">4.9</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Tech Store • Paris 11e</p>
+<div class="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#4A3B5C]/10 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px] text-[#4A3B5C]">directions_walk</span>
+<span class="font-label-sm text-[#4A3B5C]">1.2 km · 15 min à pied</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="surface-card rounded-xl overflow-hidden shadow-ambient hover-lift transition-all duration-300 flex flex-col group cursor-pointer border border-[#E2E8F0]">
+<div class="w-full aspect-[2/3] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High-end over-ear headphones resting on a textured stone table. The background features a softly blurred window and houseplant, establishing a calming, premium lifestyle context. The lighting is warm and directional, emphasizing the matte finish and minimalist design of the audio gear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFbZPqFrlhUK15zWe6BDzlJ-AfFc_vZV7cCJ7sCa96Em33crnX_6enJhWXexotEvUyy0wATqeL7HvHlxOsOPoD7Xj6KaJLcwfjjXTfv_WT3X-gCCF_IwBi7yxHR_Xr6m7rKAT7pB2tRI-2TgEFivE9gFTozJfA3Lrt13kTXUaEsCl-KFz412hGOFrPrTKqrZwBbWwo9jFfML79PkHT9Oo5ewNeU6K_bmXnA6zgxR8Dx9qX1ftFpukw2w">
+</div>
+<div class="p-md flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface truncate pr-2">Casque Audio ANC</h3>
+<div class="flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-on-surface">4.7</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Son &amp; Image • Paris 11e</p>
+<div class="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#4A3B5C]/10 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px] text-[#4A3B5C]">directions_walk</span>
+<span class="font-label-sm text-[#4A3B5C]">500 m · 6 min à pied</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-xl flex justify-center w-full">
+<button class="px-8 py-3 bg-[#FDFBF7] border border-[#E2E8F0] text-primary-container rounded-full font-label-md shadow-ambient hover:border-primary-container hover:bg-surface-card transition-all flex items-center gap-2">
+                    Charger plus de résultats
+                    <span class="material-symbols-outlined text-[20px]">expand_more</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-high w-full mt-xxl">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-xl px-margin-desktop py-xxl w-full max-w-[1600px] mx-auto">
+<div class="col-span-2 lg:col-span-2">
+<span class="font-headline-md text-headline-md font-extrabold text-primary block mb-4">Dipla</span>
+<p class="text-body-md text-on-surface-variant mb-4">Votre boussole locale pour découvrir les meilleurs produits et services autour de vous.</p>
+<p class="text-body-md text-on-surface-variant">© 2024 Dipla Discovery. All rights reserved.</p>
+</div>
+<div class="flex flex-col gap-md">
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Partners</a>
+</div>
+<div class="flex flex-col gap-md">
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Careers</a>
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Support</a>
+</div>
+<div class="flex flex-col gap-md">
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Terms</a>
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

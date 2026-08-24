@@ -1,20 +1,10 @@
 import L from 'leaflet';
-
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import './leaflet-default-icon.js';
 
 function setInputValue(input, value) {
     input.value = value;
     input.dispatchEvent(new Event('input', { bubbles: true }));
 }
-
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: markerIcon2x,
-    iconUrl: markerIcon,
-    shadowUrl: markerShadow,
-});
 
 export function initLocationPicker(container) {
     const addressInput = container.querySelector('[data-role="address-input"]');

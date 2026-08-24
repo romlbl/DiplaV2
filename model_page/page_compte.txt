@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espace Client - Dipla</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#8aa8c9",
+                        "primary-fixed": "#cfe5ff",
+                        "primary": "#022742",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#4f4062",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1b1c1c",
+                        "primary-container": "#1e3d59",
+                        "on-primary-fixed": "#001d34",
+                        "secondary-fixed-dim": "#d3bfe7",
+                        "inverse-primary": "#abc9ec",
+                        "tertiary": "#252623",
+                        "outline": "#73777e",
+                        "surface-container-high": "#eae8e7",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#a6a5a2",
+                        "outline-variant": "#c3c7ce",
+                        "surface-variant": "#e4e2e1",
+                        "surface-dim": "#dcd9d9",
+                        "background": "#fbf9f8",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "secondary": "#68587a",
+                        "tertiary-fixed": "#e4e2de",
+                        "inverse-on-surface": "#f3f0f0",
+                        "surface-bright": "#fbf9f8",
+                        "secondary-container": "#ead5fe",
+                        "inverse-surface": "#303030",
+                        "on-surface-variant": "#43474d",
+                        "surface-container": "#f0eded",
+                        "secondary-fixed": "#eedbff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#2b4966",
+                        "surface": "#fbf9f8",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "primary-fixed-dim": "#abc9ec",
+                        "surface-tint": "#43617f",
+                        "surface-container-highest": "#e4e2e1",
+                        "tertiary-container": "#3b3b39",
+                        "on-secondary-fixed": "#231534",
+                        "surface-container-low": "#f6f3f2",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#6a5a7d",
+                        "brand-accent": "#4A3B5C",
+                        "surface-card": "#FAFAFF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin-desktop": "64px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "xxl": "48px",
+                        "sm": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FDFBF7;
+            color: #1b1c1c;
+        }
+        .shadow-soft {
+            box-shadow: 0 10px 25px -5px rgba(30, 61, 89, 0.05);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -5px rgba(30, 61, 89, 0.08);
+        }
+        .aspect-2-3 {
+            aspect-ratio: 2 / 3;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col p-lg border-r border-outline-variant bg-surface-container-lowest shadow-sm h-full w-64 fixed left-0 top-0">
+<div class="font-display-lg text-display-lg text-primary mb-xl">Dipla</div>
+<div class="flex-1 space-y-sm">
+<a class="flex items-center gap-md px-md py-sm bg-primary-container text-on-primary-container rounded-full font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-label-md text-label-md">Compte</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">edit</span>
+<span class="font-label-md text-label-md">Modifier le profil</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Paramètres</span>
+</a>
+</div>
+<div class="mt-auto pt-lg border-t border-outline-variant">
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container rounded-full transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Déconnexion</span>
+</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-0 md:ml-64 p-margin-mobile md:p-margin-desktop bg-[#FDFBF7]">
+<!-- Header -->
+<header class="mb-xxl">
+<h1 class="font-headline-lg text-headline-lg text-primary">Mon Compte</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Gérez vos informations, vos retours et votre historique.</p>
+</header>
+<!-- 2 Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column (65%) -->
+<div class="lg:col-span-8 flex flex-col gap-lg">
+<!-- Profile Card -->
+<div class="bg-surface-card rounded-xl p-lg border border-outline-variant shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-lg">
+<div class="flex items-center gap-lg">
+<div class="w-24 h-24 rounded-full overflow-hidden shrink-0 shadow-sm border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a young man with short dark hair, smiling softly. Warm, bright light-mode aesthetic, shot against a neutral studio background. Soft cinematic lighting highlighting his features." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0O8Cq4QpYUZqj1G3Xx392W5q-zEe60DR3K6aX3R--ZWe2pM9BTGZdsIYP5eMcCYdh3UhKPBIeWg0QN3iXaq6fAvJSsg_8Oh_fS6TrDWYE71KyglPeA_67I6SkVirDqPKge8Mt8fwNZYbl89j-oO4xRIqQ45q_W1I3y2y3LVlWxVOBN0GzFMjsOAt9MWhCG3a1isHni6uGcmqPWqCwPN4VibaCrpP6BV8_pF3o9mXx4bi__plW6hUxFw"/>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Membre depuis le 12 Mars 2024</p>
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Alexandre Martin</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">alexandre.martin@example.com</p>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                12 Rue de la République, 75011 Paris
+                            </p>
+</div>
+</div>
+<button class="bg-surface border border-outline-variant text-primary font-label-md text-label-md px-lg py-sm rounded-full hover:bg-surface-variant transition-colors whitespace-nowrap">
+                        Modifier mon profil
+                    </button>
+</div>
+<!-- Stats Widget -->
+<div class="bg-brand-accent/5 border border-brand-accent/20 rounded-xl p-md flex items-center gap-md">
+<span class="material-symbols-outlined text-brand-accent" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<p class="font-label-md text-label-md text-brand-accent">18 Produits &amp; Services en favoris</p>
+</div>
+<!-- Recently Viewed -->
+<div class="mt-lg">
+<div class="flex justify-between items-end mb-lg">
+<h3 class="font-headline-md text-headline-md text-primary">Récemment consultés</h3>
+<a class="font-label-md text-label-md text-on-surface-variant underline hover:text-primary transition-colors" href="#">Effacer l'historique</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden shadow-soft card-hover transition-all duration-300">
+<div class="relative aspect-2-3 w-full">
+<img class="w-full h-full object-cover" data-alt="A beautifully crafted artisanal ceramic coffee mug resting on a raw wooden table. Soft morning sunlight filtering through a nearby window. Minimalist, modern light-mode aesthetic, warm inviting tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6D4qEOH5M2OlLqaE91lkr6VHBPWnZ0wb9HN2dnYUZ2qZC02EzYIqHE2jRXMK1ReA439ZfvtG5d7OcxE2Fyo6ZdzM-LpYyhfTH8Qwl_lDaCYZG_6Sz8c_GSY2TmHlDT0eK9BbPYeyJwLAQZlUbTRgUnOWtOLMA2sDl93-WPa5o6rExiCVlVQlYYSaTAyS0vG5syYW_j6DMTJFBT0mX919A2UJwPMk2o1_ttZ74URvX7NRFQfldxs5PiA"/>
+<button class="absolute top-sm right-sm bg-surface/80 backdrop-blur-md p-sm rounded-full text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<div class="absolute bottom-sm left-sm right-sm">
+<span class="bg-brand-accent/90 text-on-primary font-label-sm text-[10px] px-sm py-xs rounded-full shadow-sm backdrop-blur-md">0.5 km</span>
+</div>
+</div>
+<div class="p-md">
+<h4 class="font-label-md text-label-md text-primary truncate">Mug Artisanal Céramique</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm truncate">Atelier Terre &amp; Feu</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant mt-sm">Vu hier</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden shadow-soft card-hover transition-all duration-300">
+<div class="relative aspect-2-3 w-full">
+<img class="w-full h-full object-cover" data-alt="A perfectly baked, flaky butter croissant sitting on a white porcelain plate. Placed on a marble cafe table. High-key lighting, soft shadows, bright light-mode aesthetic highlighting the texture of the pastry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDotMzTNU04E6Zaji7Ab48b36BuIorCz7Pr7cJeFrjta4HYqZfKNc5DtRWbvO-J2lLPYybUzlz8sqzVq0Se6tsG1RRjaIAhrdp8GM7Sh6noVwU-0AinbhySMgUxvjjI6NvUA6AthiUGbIwpS5ic9iS42mM5Yw79IVoo-MC3L2XDUmM4qxRvSoI4TQeRManw_qXQQafdrCDCvTL40bqV9hlwrHaE7y4yeSAgKCwhGmJtTSJO05zDNXDh2g"/>
+<button class="absolute top-sm right-sm bg-surface/80 backdrop-blur-md p-sm rounded-full text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<div class="absolute bottom-sm left-sm right-sm">
+<span class="bg-brand-accent/90 text-on-primary font-label-sm text-[10px] px-sm py-xs rounded-full shadow-sm backdrop-blur-md">1.2 km</span>
+</div>
+</div>
+<div class="p-md">
+<h4 class="font-label-md text-label-md text-primary truncate">Croissant au Beurre AOP</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm truncate">Boulangerie Le Moulin</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant mt-sm">Vu hier</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden shadow-soft card-hover transition-all duration-300">
+<div class="relative aspect-2-3 w-full">
+<img class="w-full h-full object-cover" data-alt="A lush green Monstera Deliciosa plant in a modern minimalist terracotta pot. Placed in a bright, sunlit living room corner. Clean white walls, soft shadows, high-key light-mode aesthetic emphasizing vibrant natural greens." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Ec11-QDYPp8I2AKDW2LSgSP0alxR58WifHh71PXlBMV4rRRDf3XwE7Cgjo8AbunhQkBw-_Z5TjC66SPsRGIIkrv4swFEbPHA59oXi-ZigF6OEL6nmu2mxB63MWcc1KOd7mCWSN8uTJRGPsXhoZXMm27NnJYHc94h3epL-1UsWOJGlfZnIq3RqmYJbsC_CemP8s98ALLJrudGICZPbL46zqztBLhkyS7IEGfv2VEyZgPVRKY66wv_aw"/>
+<button class="absolute top-sm right-sm bg-surface/80 backdrop-blur-md p-sm rounded-full text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<div class="absolute bottom-sm left-sm right-sm">
+<span class="bg-brand-accent/90 text-on-primary font-label-sm text-[10px] px-sm py-xs rounded-full shadow-sm backdrop-blur-md">2.8 km</span>
+</div>
+</div>
+<div class="p-md">
+<h4 class="font-label-md text-label-md text-primary truncate">Monstera Deliciosa L</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm truncate">Jardinerie Urbaine</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant mt-sm">Vu hier</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (35%) - Activity Panel -->
+<div class="lg:col-span-4 bg-surface-card border border-outline-variant rounded-2xl shadow-soft p-md flex flex-col h-full">
+<!-- Tabs -->
+<div class="flex border-b border-outline-variant mb-md pb-sm">
+<button class="flex-1 pb-sm border-b-2 border-primary font-label-md text-label-md text-primary text-center">
+                        Mes Avis
+                    </button>
+<button class="flex-1 pb-sm border-b-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-primary text-center transition-colors">
+                        Mes Questions
+                    </button>
+</div>
+<!-- Reviews Content -->
+<div class="flex flex-col gap-md flex-1 overflow-y-auto">
+<!-- Review Item 1 -->
+<div class="bg-surface rounded-lg p-md border border-outline-variant">
+<div class="flex gap-md mb-sm">
+<div class="w-16 h-16 rounded-md overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A close up shot of a beautifully plated slice of cheesecake topped with fresh berries. Sitting on a rustic wooden board. Bright, clean light-mode aesthetic with soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADHfO8jQXGgCEOr9KaCUvF_wVcnCinuflz11iQdHTAWBXXwc_Z34u_k8T99FO5rvhtmXT2wv6RFuHtCYp2hlciQ6niprrzCxhKaQGjfM30uGxLA7rwrDK31HHKzSnTTBABsk89G8hCG22Zi138jqkBjylTKcQPNPF8qgkc2M0g7SPxVgGh5hAJ4eROwIrcFiPV1ASoYFTb_OwuHJMbMU9_PVsbxZ2RFQXB2LWQbmc5UgQ75mzKut0SRQ"/>
+</div>
+<div class="flex-1">
+<h5 class="font-label-md text-label-md text-primary">Cheesecake Maison</h5>
+<div class="flex items-center text-[#F59E0B] text-sm my-xs">
+                                    ★★★★★ <span class="text-on-surface-variant font-label-sm ml-xs">5.0</span>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface-variant">Le P'tit Bistrot</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm mb-md italic">"Vraiment le meilleur cheesecake que j'ai mangé dans le quartier. Texture parfaite et pas trop sucré !"</p>
+<div class="flex justify-end">
+<button class="bg-surface-container border border-error/20 text-error font-label-md text-label-md px-sm py-xs rounded-full hover:bg-error-container transition-colors flex items-center gap-xs text-xs">
+<span class="material-symbols-outlined text-[14px]">delete</span>
+                                Supprimer
+                            </button>
+</div>
+</div>
+<!-- Review Item 2 -->
+<div class="bg-surface rounded-lg p-md border border-outline-variant">
+<div class="flex gap-md mb-sm">
+<div class="w-16 h-16 rounded-md overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A minimalist black leather tote bag resting on a white display pedestal. Clean studio lighting, sharp details, high-end editorial light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBg9GPJianRI9US8lDIyLulgVOO77WQTK2OyNbRamKDqvTwcgD99X3hJk3LeRw4zdSkmfkAXrFy2NM0OoaD1VelYFTS7U_DIiFgO89KPRtTL6H3oBjbnSyzpQuiPVV-P2f3p0VT3JxbZdmhFu0knxyxrdlugx4rsRzwAH23u6aoFhMLfdfigg8CxXq3tWedgARZFCU4x5jWS0JAzINMQ07DE6Te1D5ULgp4AlOtZVtf4y1rkuN5Y0Srw"/>
+</div>
+<div class="flex-1">
+<h5 class="font-label-md text-label-md text-primary">Sac Cabas Cuir Noir</h5>
+<div class="flex items-center text-[#F59E0B] text-sm my-xs">
+                                    ★★★★☆ <span class="text-on-surface-variant font-label-sm ml-xs">4.0</span>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface-variant">Maroquinerie Legrand</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm mb-md italic">"Très beau cuir, finitions impeccables. Un peu lourd à vide cependant."</p>
+<div class="flex justify-end">
+<button class="bg-surface-container border border-error/20 text-error font-label-md text-label-md px-sm py-xs rounded-full hover:bg-error-container transition-colors flex items-center gap-xs text-xs">
+<span class="material-symbols-outlined text-[14px]">delete</span>
+                                Supprimer
+                            </button>
+</div>
+</div>
+</div>
+<!-- Hidden Questions Content (Mocking the state) -->
+<!-- 
+                <div class="hidden flex-col gap-md flex-1 overflow-y-auto">
+                    <div class="bg-surface rounded-lg p-md border border-outline-variant">
+                        <div class="flex justify-between items-start mb-sm">
+                            <h5 class="font-label-md text-label-md text-primary">Disponibilité taille M ?</h5>
+                            <span class="bg-[#FEF3C7] text-[#92400E] font-label-sm px-2 py-1 rounded-full text-[10px]">En attente</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface text-sm">Produit: Veste en jean vintage</p>
+                    </div>
+
+                    <div class="bg-surface rounded-lg p-md border border-outline-variant">
+                        <div class="flex justify-between items-start mb-sm">
+                            <h5 class="font-label-md text-label-md text-primary">Ingrédients allergènes ?</h5>
+                            <span class="bg-[#D1FAE5] text-[#065F46] font-label-sm px-2 py-1 rounded-full text-[10px]">Répondu</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface text-sm mb-sm">Produit: Gâteau aux noix</p>
+                        <div class="bg-[#FDFBF7] p-sm rounded border border-outline-variant ml-sm">
+                            <p class="font-label-sm text-primary mb-xs">Boulangerie Le Moulin a répondu:</p>
+                            <p class="font-body-md text-body-md text-on-surface-variant text-sm">Bonjour, ce gâteau contient des noix et des traces d'arachides. Garanti sans gluten.</p>
+                        </div>
+                    </div>
+                </div>
+                -->
+</div>
+</div>
+</main>
+</body></html>

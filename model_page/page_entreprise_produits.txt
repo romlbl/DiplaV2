@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dipla Pro - Catalogue Produits</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "primary-container": "#1e3d59",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0eded",
+                        "surface-tint": "#43617f",
+                        "surface-container-highest": "#e4e2e1",
+                        "on-primary-container": "#8aa8c9",
+                        "secondary-fixed-dim": "#d3bfe7",
+                        "on-secondary-fixed": "#231534",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2b4966",
+                        "on-tertiary-container": "#a6a5a2",
+                        "tertiary-fixed": "#e4e2de",
+                        "surface": "#fbf9f8",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#cfe5ff",
+                        "on-surface-variant": "#43474d",
+                        "on-background": "#1b1c1c",
+                        "surface-bright": "#fbf9f8",
+                        "primary": "#022742",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "inverse-surface": "#303030",
+                        "tertiary": "#252623",
+                        "surface-dim": "#dcd9d9",
+                        "on-secondary-fixed-variant": "#4f4062",
+                        "secondary": "#68587a",
+                        "tertiary-container": "#3b3b39",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e4e2e1",
+                        "background": "#fbf9f8",
+                        "on-primary-fixed": "#001d34",
+                        "primary-fixed-dim": "#abc9ec",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "surface-container-high": "#eae8e7",
+                        "on-surface": "#1b1c1c",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#eedbff",
+                        "outline": "#73777e",
+                        "on-secondary-container": "#6a5a7d",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#abc9ec",
+                        "secondary-container": "#ead5fe",
+                        "outline-variant": "#c3c7ce"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "xxl": "48px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .soft-shadow {
+            box-shadow: 0 10px 25px -5px rgba(30, 61, 89, 0.05);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -5px rgba(30, 61, 89, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-primary dark:bg-primary-container text-primary-fixed-dim font-label-md text-label-md h-screen w-64 fixed left-0 top-0 shadow-lg shadow-md flex-col py-xl px-md z-50">
+<div class="mb-xxl flex items-center gap-sm px-md">
+<span class="material-symbols-outlined fill text-primary-fixed text-3xl">storefront</span>
+<div>
+<div class="font-headline-md text-headline-md font-extrabold text-primary-fixed">Dipla Pro</div>
+<div class="text-xs opacity-70">Local Business Portal</div>
+</div>
+</div>
+<div class="flex-1 space-y-sm">
+<a class="flex items-center gap-md text-primary-fixed-dim p-md rounded-lg hover:bg-on-primary-fixed-variant hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">storefront</span>
+                Devanture &amp; Accueil
+            </a>
+<a class="flex items-center gap-md bg-primary-container text-on-primary-container rounded-lg p-md transition-colors opacity-80 duration-150" href="#">
+<span class="material-symbols-outlined fill">inventory_2</span>
+                Catalogue Produits
+            </a>
+<a class="flex items-center gap-md text-primary-fixed-dim p-md rounded-lg hover:bg-on-primary-fixed-variant hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+                Avis Clients
+            </a>
+<a class="flex items-center gap-md text-primary-fixed-dim p-md rounded-lg hover:bg-on-primary-fixed-variant hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">quiz</span>
+                Questions &amp; Réponses
+            </a>
+</div>
+<div class="mt-auto space-y-sm pt-xl border-t border-on-primary-fixed-variant/30">
+<a class="flex items-center gap-md text-primary-fixed-dim p-md rounded-lg hover:bg-on-primary-fixed-variant hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Paramètres
+            </a>
+<a class="flex items-center gap-md text-primary-fixed-dim p-md rounded-lg hover:bg-on-primary-fixed-variant hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">help_center</span>
+                Assistance
+            </a>
+<button class="w-full mt-md py-sm px-md bg-on-primary-fixed-variant text-primary-fixed rounded-full hover:bg-opacity-80 transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                View Live Shop
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 w-full h-full">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md h-16 bg-surface-container-low flex justify-between items-center px-lg z-40 sticky top-0 md:fixed md:right-0 md:left-64">
+<div class="flex items-center md:hidden">
+<span class="font-headline-md text-headline-md text-primary font-bold">Dipla Pro</span>
+</div>
+<div class="hidden md:flex items-center">
+<!-- Search could go here if search_bar: "on_left" wasn't slightly ambiguous in JSON context for a header, keeping it clean based on typical B2B layout -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors text-sm" placeholder="Rechercher..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="hidden md:flex items-center gap-sm text-sm font-label-md text-on-surface-variant hover:text-primary transition-colors">
+                    Store Selector
+                    <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="h-6 w-px bg-outline-variant hidden md:block"></div>
+<button class="hidden md:block py-1.5 px-4 bg-primary text-on-primary rounded-full text-sm font-label-md hover:opacity-90 transition-opacity">
+                    Boutique Ouverte
+                </button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-variant scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 transition-transform">
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a small business owner, warm lighting, off-white background, modern minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2xyFQtU5zo1CBRvSBtOykgwVn0WkXqoRGynVfqN_R-sgrLAEXnhh0BCnZI7Wk22vMbmM6L8QH_ULd6U_cX4nhHPkDmqobuE5x6P25k6HdPPj808gxsEa8ihabue88-ia9bINWOdSZscQ_sYmAHkyuf6rR0Se_mhN5VuYxfsAdCwBCPYkiavdJBf-xBcQt4hPcnz5c-80bMen2jOxe-RT8iV2kmYoz7RDkGSJ55_uSV5vJidoe7We5Tw"/>
+</button>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop md:pt-[100px] bg-surface pb-xxl">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-xl gap-md">
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-primary">Catalogue Produits</h1>
+<p class="font-body-lg text-on-surface-variant mt-sm">Gérez votre inventaire et vos offres locales.</p>
+</div>
+<button class="py-3 px-6 bg-primary-container text-on-primary rounded-full font-label-md flex items-center justify-center gap-sm hover:opacity-90 transition-opacity soft-shadow">
+<span class="material-symbols-outlined text-lg">add</span>
+                    Ajouter un produit
+                </button>
+</div>
+<!-- Filters & Controls -->
+<div class="flex flex-col md:flex-row gap-md mb-xl p-md bg-surface-container-lowest rounded-xl soft-shadow border border-outline-variant/30">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-3 rounded-full border border-outline-variant/50 bg-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-colors" placeholder="Rechercher un produit (ex: Baguette)..." type="text"/>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+<select class="py-3 pl-4 pr-10 rounded-full border border-outline-variant/50 bg-surface text-on-surface appearance-none focus:border-primary-container outline-none min-w-[140px]">
+<option>Toutes catégories</option>
+<option>Boulangerie</option>
+<option>Pâtisserie</option>
+<option>Viennoiserie</option>
+<option>Boissons</option>
+</select>
+<select class="py-3 pl-4 pr-10 rounded-full border border-outline-variant/50 bg-surface text-on-surface appearance-none focus:border-primary-container outline-none min-w-[140px]">
+<option>Tous les statuts</option>
+<option>En stock</option>
+<option>Stock faible</option>
+<option>Rupture</option>
+</select>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden soft-shadow card-hover transition-all duration-300 flex flex-col group border border-outline-variant/20">
+<div class="relative w-full pt-[150%]"> <!-- 2:3 Aspect Ratio roughly for product focus -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A beautifully baked traditional French baguette resting on a rustic wooden cutting board, soft natural morning light, high-end culinary photography, modern minimalist bakery aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBiCjdAvdOtW-w4L_biiU0O1aIW0qOmLbPAlWV5ONyQ_nopUK6cIrnKIjcpykFEaAM38amskZZNoTBQ3siJYxksDew8Kv3aYgYODAJcSTC1PkBHO7T2I97127uPrdeNcVz2cIt8y9hic-RocL9oUFggKMEcDYELttN7rMH0xNv1CVs7haIXS4KFSKwRzn9FOHDMaeQ6f6gbfUwPpKzY0G-1nR65VYxKWO3J9UFBdF_pWavvZ4D0HNyJ5g')"></div>
+<div class="absolute top-3 right-3 bg-secondary-fixed/90 text-on-secondary-fixed px-3 py-1 rounded-full font-label-sm flex items-center gap-1 backdrop-blur-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span> En stock
+                        </div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="text-xs font-label-sm text-secondary uppercase tracking-wider mb-xs">Boulangerie</div>
+<h3 class="font-headline-md text-primary mb-sm line-clamp-2">Baguette Tradition</h3>
+<div class="font-body-lg text-on-surface font-semibold mb-lg">1.20 €</div>
+<div class="mt-auto">
+<button class="w-full py-2 border border-outline-variant rounded-full text-primary-container font-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                                Éditer
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden soft-shadow card-hover transition-all duration-300 flex flex-col group border border-outline-variant/20">
+<div class="relative w-full pt-[150%]">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A flaky, golden-brown butter croissant on a white ceramic plate, delicate layers visible, bright natural light, luxury artisanal bakery style photography." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsm8l_USAuMKK2NuF-nKOTi4Ml2hcQLzUChaDmCt9aGopw_CSH5HQqyn4HAZydMSyRPmaW5SwnrS2eUfzBVO5WYbvIzEvUPZozBTppewxbf187f3_8yopibu1E6AisGK_YTcC207qkWDcVv2E1j-ifcS9TNpeHuwGstugQjh-SXdKOYXocXRMcFeqUGhIrq3bPVYMTTJnwPzAT3S3f6zdHyCZzoYupWRKcPv0rRekfTIV4OWIqOTGpvQ')"></div>
+<div class="absolute top-3 right-3 bg-secondary-fixed/90 text-on-secondary-fixed px-3 py-1 rounded-full font-label-sm flex items-center gap-1 backdrop-blur-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span> En stock
+                        </div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="text-xs font-label-sm text-secondary uppercase tracking-wider mb-xs">Viennoiserie</div>
+<h3 class="font-headline-md text-primary mb-sm line-clamp-2">Croissant au Beurre</h3>
+<div class="font-body-lg text-on-surface font-semibold mb-lg">1.40 €</div>
+<div class="mt-auto">
+<button class="w-full py-2 border border-outline-variant rounded-full text-primary-container font-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                                Éditer
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden soft-shadow card-hover transition-all duration-300 flex flex-col group border border-outline-variant/20">
+<div class="relative w-full pt-[150%]">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="An elegant chocolate eclair with glossy chocolate icing and delicate gold leaf flake, displayed on a clean slate surface, moody yet bright modern food photography." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgWimWFYJpcU4eqj1OiQV4PtYEfAY_9QjE4dN3Scsnno0VPMoe6jLEHyxvfLQRTNiGAHMj8i3wifed7U7Uw4CR2l2ubATZ9k7ss_SqCvV7tvLoxF_l4ZR14IRSgi1jnaaeB4OBLbaTX02ZVBAAcqBg7d5aPsoigKUoj1KcAY2PRUjUwVLFvPTvmmYpNcs5nTvirQtzkn4EEglm4I5cvLVVfv_YhST4oLUxLy8hFgN7jzXrlIk8nbrwiw')"></div>
+<div class="absolute top-3 right-3 bg-error-container/90 text-on-error-container px-3 py-1 rounded-full font-label-sm flex items-center gap-1 backdrop-blur-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-error"></span> Rupture
+                        </div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="text-xs font-label-sm text-secondary uppercase tracking-wider mb-xs">Pâtisserie</div>
+<h3 class="font-headline-md text-primary mb-sm line-clamp-2">Éclair au Chocolat Noir</h3>
+<div class="font-body-lg text-on-surface font-semibold mb-lg">3.50 €</div>
+<div class="mt-auto">
+<button class="w-full py-2 border border-outline-variant rounded-full text-primary-container font-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                                Éditer
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden soft-shadow card-hover transition-all duration-300 flex flex-col group border border-outline-variant/20">
+<div class="relative w-full pt-[150%]">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A rustic sourdough boule with beautiful scoring patterns on a marble countertop, light dusting of flour, soft warm lighting, premium artisanal bread aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHGgK2ThlAOLu_cbr211wzQTx-17r7BmRY6muNDUjLiaE3Z8hzYLLLeukmH49JGHRBJ_izyUYstt7FtiAYQndFlObkrxTQwo8IguIEhqoTV4vpO_uCKzoBoA_p0ZFWq6I-HLIJcRiDVXwouFCwFEbg42bpKJMUSxtCz1SxqFP5h_mWcpybu5U0kAYYk5NJe8-mAunxaBLJJ58qQ5rH3__TP7Fp8PQtXsYmBfsbg4muhE_yMqAAEJ7WDw')"></div>
+<div class="absolute top-3 right-3 bg-secondary-fixed/90 text-on-secondary-fixed px-3 py-1 rounded-full font-label-sm flex items-center gap-1 backdrop-blur-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Stock Faible (2)
+                        </div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="text-xs font-label-sm text-secondary uppercase tracking-wider mb-xs">Boulangerie</div>
+<h3 class="font-headline-md text-primary mb-sm line-clamp-2">Pain de Campagne Bio</h3>
+<div class="font-body-lg text-on-surface font-semibold mb-lg">4.20 €</div>
+<div class="mt-auto">
+<button class="w-full py-2 border border-outline-variant rounded-full text-primary-container font-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                                Éditer
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More (Simple representation) -->
+<div class="mt-xl flex justify-center">
+<button class="py-2 px-6 border border-outline-variant rounded-full font-label-md text-on-surface-variant hover:text-primary hover:border-primary transition-colors">
+                    Charger plus de produits
+                </button>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Nav (Visible only on md:hidden, simple representation based on rules) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant/20 flex justify-around items-center h-16 z-50 px-2 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-full h-full" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="text-[10px] font-label-sm mt-1">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary w-full h-full" href="#">
+<span class="material-symbols-outlined fill bg-primary-fixed rounded-full px-4 py-1">inventory_2</span>
+<span class="text-[10px] font-label-sm font-bold mt-1">Produits</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-full h-full" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+<span class="text-[10px] font-label-sm mt-1">Avis</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-full h-full" href="#">
+<span class="material-symbols-outlined">menu</span>
+<span class="text-[10px] font-label-sm mt-1">Plus</span>
+</a>
+</nav>
+<style>
+        /* Utility to hide scrollbar for horizontal scrolling filter area */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

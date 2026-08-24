@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dipla - Détail du produit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#8aa8c9",
+                      "on-primary-fixed": "#001d34",
+                      "primary-container": "#1e3d59",
+                      "surface-bright": "#fbf9f8",
+                      "on-tertiary-container": "#a6a5a2",
+                      "tertiary-container": "#3b3b39",
+                      "on-primary-fixed-variant": "#2b4966",
+                      "surface-tint": "#43617f",
+                      "primary": "#022742",
+                      "inverse-surface": "#303030",
+                      "surface-container-highest": "#e4e2e1",
+                      "secondary": "#68587a",
+                      "surface-container": "#f0eded",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#1b1c1c",
+                      "primary-fixed-dim": "#abc9ec",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1b1c1c",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "primary-fixed": "#cfe5ff",
+                      "surface-container-high": "#eae8e7",
+                      "on-surface-variant": "#43474d",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-low": "#f6f3f2",
+                      "inverse-primary": "#abc9ec",
+                      "on-secondary-container": "#6a5a7d",
+                      "inverse-on-surface": "#f3f0f0",
+                      "secondary-fixed-dim": "#d3bfe7",
+                      "tertiary-fixed": "#e4e2de",
+                      "on-tertiary": "#ffffff",
+                      "outline": "#73777e",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#231534",
+                      "on-secondary": "#ffffff",
+                      "background": "#fbf9f8",
+                      "secondary-fixed": "#eedbff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c6c3",
+                      "on-secondary-fixed-variant": "#4f4062",
+                      "surface": "#fbf9f8",
+                      "error": "#ba1a1a",
+                      "tertiary": "#252623",
+                      "secondary-container": "#ead5fe",
+                      "outline-variant": "#c3c7ce",
+                      "surface-variant": "#e4e2e1",
+                      "on-tertiary-fixed": "#1b1c1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "md": "16px",
+                      "margin-mobile": "20px",
+                      "gutter": "24px",
+                      "xs": "4px",
+                      "xxl": "48px",
+                      "xl": "32px",
+                      "margin-desktop": "64px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased font-body-md pb-24">
+<!-- Header: Compact -->
+<header class="bg-surface shadow-sm w-full sticky top-0 z-50 border-b border-surface-variant">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-16">
+<!-- Brand -->
+<a class="font-headline-md text-headline-md font-bold text-primary scale-95 transition-transform duration-200" href="#">
+                Dipla
+            </a>
+<!-- Navigation -->
+<nav class="hidden md:flex gap-lg font-body-md text-body-md items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Explorer</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Commerces</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Communauté</a>
+</nav>
+<!-- Trailing Action & Search -->
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="font-label-md text-label-md bg-primary-container text-on-primary px-4 py-2 rounded-lg hover:bg-primary transition-colors">
+                    Connexion
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<!-- Product Hero Section (50/50 Split) -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-xxl mb-xxl">
+<!-- Left: Image Gallery -->
+<div class="flex flex-col gap-sm">
+<div class="aspect-[4/5] lg:aspect-square w-full rounded-2xl overflow-hidden shadow-sm bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A high-quality, perfectly lit photograph of an artisan loaf of bread sitting on a rustic wooden table in a brightly lit bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6c2dTaGR9xqY-UDFZxYbGzGJUdJSKknqrGj2-RhrkZi2CXBIeuF7edwYQV6y3n7SFlJ3i7VC3cNXjSBAG944sJlNCpMiE8aIT6RWL3db2vV9TD_IPuyfdCJDfN_IwqveysjFYsvI_yuZTJDjVKfReuhgBpP1350ANrjcc9hgJJH6Rewlxja-OqkK1DtAj_Dho5rEUWSTdyXQyc40N9amB0FCvLgGSt_J7e8nPKPfFUsaW3jauAg9U8A"/>
+</div>
+<div class="grid grid-cols-4 gap-sm">
+<button class="aspect-square rounded-lg overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="A close-up photograph showing the detailed crumb texture of a freshly sliced loaf of artisan bread." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlGndHfijWUgXNABTGpMrZU47NJatemNwJIPSMVfXN5pylE12w0u8kIdfhWT_y5x9QJFYGXfPmgx-8RcZs5HNqfZSeaFlSilhJxUKqhszQyA80QTuy0ApYmalgI94tA6G0lgEwNA3QKmVNcHrP8vm4RwyKC-Vxgz--XLX-lJoUHkaboCXqGF5RaeEtUHsHQHD9cp4NzzE4DmIID-5pgfUp6KhDNKUdSbfZzJKM3AtA-xUA1gbcBE6QWg"/>
+</button>
+<button class="aspect-square rounded-lg overflow-hidden border border-surface-variant opacity-70 hover:opacity-100 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="A bright, airy photograph of a modern Parisian bakery interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4KsbE1CxkYh7J2WFH0hhYfdjk1s4Lu347EpqRe38BBOzJG1EbITubNHHkDOOzN00e9EhL7YTZjKoOVmI_DzqLY58qamyrApp_zLUI0z80rbW4PXkXZMb41dZKBLLi_UuKKKKDVw3LiNkByk6SYuA8no9D3Ol37F-xoLVCCzTdrDgeT3uMj9OXwWESVJGrxrbBO0axpdj92FFURJWlmebyBGaC22FPPikwZImGqjuz8ig0vS-yNNCLbg"/>
+</button>
+</div>
+</div>
+<!-- Right: Product Details & Conversion Area -->
+<div class="flex flex-col">
+<!-- Tag & Reviews -->
+<div class="flex justify-between items-start mb-sm">
+<div class="inline-flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-md px-2 py-1 w-max">
+<span class="font-label-sm text-label-sm">Artisanat Local</span>
+</div>
+<div class="flex items-center gap-1 cursor-pointer hover:underline">
+<span class="material-symbols-outlined text-yellow-500 text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md text-on-surface">4.9</span>
+<span class="text-on-surface-variant font-body-sm text-sm">(128 avis)</span>
+</div>
+</div>
+<!-- Title -->
+<h1 class="font-display-lg-mobile md:font-display-lg text-on-surface mb-md leading-tight">Pain de Campagne Traditionnel</h1>
+<!-- Price Box -->
+<div class="bg-surface-container-low rounded-xl p-md mb-xl border border-surface-variant">
+<div class="flex items-end gap-3 mb-2">
+<span class="font-display-lg text-[40px] font-bold text-primary leading-none">4,50 €</span>
+<span class="text-on-surface-variant font-body-sm text-sm mb-1">TTC</span>
+</div>
+<p class="text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-green-600">check_circle</span>
+                        En stock, disponible aujourd'hui
+                    </p>
+</div>
+<!-- Action Bar -->
+<div class="flex flex-col gap-sm mb-lg">
+<button class="bg-[#1E3D59] text-white font-label-md text-label-md px-6 py-4 rounded-xl w-full hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+                        Contacter le commerce
+                    </button>
+<button class="bg-surface text-[#1E3D59] border-2 border-[#1E3D59] font-label-md text-label-md px-6 py-3 rounded-xl w-full hover:bg-surface-variant transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">favorite_border</span>
+                        Ajouter aux favoris
+                    </button>
+</div>
+<!-- Trust Badges -->
+<div class="grid grid-cols-2 gap-sm mb-xl py-md border-y border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">storefront</span>
+<span class="font-label-sm text-sm text-on-surface-variant">Retrait en boutique</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<span class="font-label-sm text-sm text-on-surface-variant">Artisan vérifié</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">payments</span>
+<span class="font-label-sm text-sm text-on-surface-variant">Paiement sécurisé</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">eco</span>
+<span class="font-label-sm text-sm text-on-surface-variant">Production locale</span>
+</div>
+</div>
+<!-- Merchant Card -->
+<div class="bg-surface rounded-xl p-md flex items-center justify-between gap-md border border-outline-variant hover:border-primary transition-colors cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Boulangerie &amp; Artisanat Martin logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXD9Y80puut_OsymSDEG7xKRSt6Q9DiOd0kuMd4u11c_8oEODZaLfTxa3mk6qhAoOONO-f_Ej0m5piBjs0RrE41UoPawFGRlExI9gmy_oayFimzw-7fzhelxrl5uLvHu0mVyRLY56FweuePMzcJN2jSrjMrMxsNjbo8IPEEsNwKKvhVqAm6AVZeEx7wTRCQxH6Yg3S3aur2TBEU-hUT-ZpGpEokEmAAR0o9Zg6O3I0ivDrdP7aWOC5rA"/>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<h3 class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Boulangerie &amp; Artisanat Martin</h3>
+</div>
+<p class="text-on-surface-variant font-body-md text-body-md text-sm">Paris 11e · 500 m</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Information Tabs Section -->
+<section class="mb-xxl">
+<!-- Tabs Header -->
+<div class="flex gap-lg border-b border-outline-variant mb-md overflow-x-auto">
+<button class="pb-3 border-b-2 border-primary font-label-md text-label-md text-primary whitespace-nowrap">
+                    Description
+                </button>
+<button class="pb-3 border-b-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors">
+                    Avis (128)
+                </button>
+<button class="pb-3 border-b-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors">
+                    Questions (1)
+                </button>
+</div>
+<!-- Tab Content: Description -->
+<div class="py-md max-w-3xl">
+<p class="text-on-surface-variant font-body-lg text-body-lg mb-lg leading-relaxed">
+                    Un pain de campagne authentique, pétri à la main et cuit au feu de bois. Une croûte croustillante et une mie alvéolée parfaite pour accompagner tous vos repas ou pour de délicieuses tartines matinales. Farine issue de l'agriculture biologique locale.
+                </p>
+<h4 class="font-label-md text-on-surface mb-2">Caractéristiques :</h4>
+<ul class="list-disc list-inside text-on-surface-variant font-body-md space-y-1">
+<li>Poids : environ 500g</li>
+<li>Ingrédients : Farine de blé bio, levain naturel, eau, sel de Guérande</li>
+<li>Conservation : 3 à 4 jours dans un torchon sec</li>
+</ul>
+</div>
+</section>
+<!-- Map Section -->
+<section class="mb-xxl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">Venir chercher ce produit</h2>
+<div class="flex gap-sm mb-md overflow-x-auto pb-2">
+<button class="bg-[#1E3D59] text-white font-label-sm text-label-sm px-4 py-2 rounded-lg flex items-center gap-1 flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">directions_walk</span> 5 min
+                </button>
+<button class="bg-surface text-on-surface-variant border border-outline-variant font-label-sm text-label-sm px-4 py-2 rounded-lg flex items-center gap-1 hover:bg-surface-variant transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">pedal_bike</span> 2 min
+                </button>
+<button class="bg-surface text-on-surface-variant border border-outline-variant font-label-sm text-label-sm px-4 py-2 rounded-lg flex items-center gap-1 hover:bg-surface-variant transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">directions_bus</span> 10 min
+                </button>
+</div>
+<div class="w-full h-64 rounded-xl overflow-hidden bg-surface-variant relative shadow-sm border border-outline-variant">
+<div class="bg-cover bg-center w-full h-full" data-alt="A minimalist, stylized digital map of the 11th arrondissement in Paris." data-location="Paris" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbKww81tW381597WqbfJeqBBAEWQlXVfA89g2fJIz2zgBRZwHDpJQYL79ns7rIsTOAFA7ze_VoYtyFigA00nVH_BNcn0U2FfB9kNn7B5q5m7zqlH--hczvAcwN4LOSoouO-NTdVbmg88hWlM_hjF5cwSNZ-xeVrHuagpabFlM0bJXZzw9imQbzsdMen_XSzby5Wlvh8YDM9mvHy63lrLcp2CqF_vYwXv1-K3U887pBwzBdumWVBVGIxg')"></div>
+</div>
+</section>
+<!-- Similar Products -->
+<section class="mb-xxl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">Vous aimerez aussi</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="group cursor-pointer flex flex-col">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-sm relative bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Croissant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGI1sQpXCyi_WLU5X4m7niX5frtdBiOdIPZkXL7VtmVYA_hgG965CnHGSIzBgtI2rln_vWrJQqy5iKEIaglGcwvwub3hQke3NHrEh0C8D9L6rFU_taQycXOcCgBhWcCAtH0j42iioRs0LWm3KtTjtQI_AkCtpySaTXi3V0RDx-q9Aphd59e8dpphQJ6XPa-jT-04ydJiRuLwWcY7h7aBbSqJkkkH-09tfXXkMQgH9h-bGyM2q2EJCxTQ"/>
+<button class="absolute top-2 right-2 bg-surface p-1.5 rounded-full text-on-surface-variant hover:text-primary shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">Croissant au Beurre</h3>
+<p class="text-on-surface-variant font-body-md text-sm truncate">Café des Arts</p>
+<p class="font-label-md text-label-md text-on-surface mt-1">1,50 €</p>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer flex flex-col">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-sm relative bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Baguette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrsmanwVOBfFxH-jjwEt3ZwHZsztcdilDvibhd0i98aE0xuSyeQI0QaxoOM04esnwukdYvSsxYl6vUrHP2xxxaZRltAxW4gxqjdndMaroFA7GoFHGHgNYummNSqapr7GfKQ1ZvDguLTUlUJOJQ2rJg3McvOfPugofqeVgUHwDoQZnJLDG0moTadfJ9-yNbU9W8l1u8nwsDP8YN2vGas0LcKGj7f9c6g5qtqgVgDcdNFHDhifDFzELyIw"/>
+<button class="absolute top-2 right-2 bg-surface p-1.5 rounded-full text-on-surface-variant hover:text-primary shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">Baguette Tradition</h3>
+<p class="text-on-surface-variant font-body-md text-sm truncate">Le Fournil</p>
+<p class="font-label-md text-label-md text-on-surface mt-1">1,20 €</p>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer flex flex-col">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-sm relative bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Tarte" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKNOPbGl-GUuZTSfqA-CN8_l6XJ9qRqWQ6ay4P0QQGjDjDfChA5eGhHPMSmNApL5oMvoZZp8d3vEy2WYrJT56ofW3arv8PJ2jP08TwTJkXjzjIHlfuVxqunj22EIBanBdcCNtuG-0QVHl4E9O5AY11cTtgGbLaDfh5d7SHiWlJ0G_2pVk4hsyMeXbfWfnJl9i2dzObaloNUUH3KqCi-nd_r2V6BirwlUgLmhopl6s2GWvBAbvMOX1CcA"/>
+<button class="absolute top-2 right-2 bg-surface p-1.5 rounded-full text-on-surface-variant hover:text-primary shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">Tarte aux Fruits</h3>
+<p class="text-on-surface-variant font-body-md text-sm truncate">Pâtisserie Lemoine</p>
+<p class="font-label-md text-label-md text-on-surface mt-1">4,80 €</p>
+</div>
+<!-- Card 4 -->
+<div class="group cursor-pointer flex flex-col">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-sm relative bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Café" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlS9MwHDEvAgnIPFp4bGD2jgZD4FLyc2hTWcVEH9NZLG61oiOLjIGlw8YbipAtnMkYkGnxDR34KQS7lLeOWAboaFLFSppHQIUaxVVepbJ1iLMMkOPtfMcg5P5yxh9HASx_uWvu3oOzZzR-iB9aXa2eKwOAM40joKC465k3ba7zmB7i90ygBVJT9Ya46MxMh2mFUfuEubHWx_ODjHOKvR14reER7KpnDu8woe5uqS8Ns1JnqmI4j2lUnw"/>
+<button class="absolute top-2 right-2 bg-surface p-1.5 rounded-full text-on-surface-variant hover:text-primary shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">Café de Spécialité</h3>
+<p class="text-on-surface-variant font-body-md text-sm truncate">Roasters Paris</p>
+<p class="font-label-md text-label-md text-on-surface mt-1">3,50 €</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant p-md z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] transform translate-y-0 transition-transform duration-300">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-md px-4 md:px-0">
+<div class="hidden md:flex items-center gap-md">
+<img alt="Thumbnail" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6c2dTaGR9xqY-UDFZxYbGzGJUdJSKknqrGj2-RhrkZi2CXBIeuF7edwYQV6y3n7SFlJ3i7VC3cNXjSBAG944sJlNCpMiE8aIT6RWL3db2vV9TD_IPuyfdCJDfN_IwqveysjFYsvI_yuZTJDjVKfReuhgBpP1350ANrjcc9hgJJH6Rewlxja-OqkK1DtAj_Dho5rEUWSTdyXQyc40N9amB0FCvLgGSt_J7e8nPKPfFUsaW3jauAg9U8A"/>
+<div>
+<h4 class="font-label-md text-on-surface">Pain de Campagne Traditionnel</h4>
+<span class="font-label-md text-primary">4,50 €</span>
+</div>
+</div>
+<div class="flex items-center gap-sm w-full md:w-auto">
+<div class="md:hidden flex-col flex mr-auto">
+<span class="font-label-md text-on-surface">4,50 €</span>
+</div>
+<button class="bg-[#1E3D59] text-white font-label-md px-6 py-3 rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap flex-grow md:flex-grow-0">
+                    Contacter
+                </button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container w-full py-xl border-t border-surface-variant">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between gap-lg">
+<div class="font-headline-md text-primary opacity-80">
+                Dipla
+            </div>
+<div class="flex flex-col md:flex-row gap-lg">
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">À propos</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Devenir partenaire</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Aide</a>
+</div>
+<div class="font-label-sm text-on-surface-variant">
+                © 2024 Dipla. Tous droits réservés.
+            </div>
+</div>
+</footer>
+</body></html>

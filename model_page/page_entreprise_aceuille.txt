@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dipla Pro - Portail Commerçant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e1",
+                        "surface-container-low": "#f6f3f2",
+                        "tertiary-container": "#3b3b39",
+                        "on-primary-fixed": "#001d34",
+                        "surface": "#fbf9f8",
+                        "primary-fixed-dim": "#abc9ec",
+                        "inverse-primary": "#abc9ec",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "inverse-surface": "#303030",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#cfe5ff",
+                        "on-surface": "#1b1c1c",
+                        "surface-bright": "#fbf9f8",
+                        "on-secondary-fixed-variant": "#4f4062",
+                        "on-tertiary-container": "#a6a5a2",
+                        "on-secondary-container": "#6a5a7d",
+                        "inverse-on-surface": "#f3f0f0",
+                        "secondary": "#68587a",
+                        "surface-container": "#f0eded",
+                        "tertiary": "#252623",
+                        "primary-container": "#1e3d59",
+                        "secondary-container": "#ead5fe",
+                        "surface-variant": "#e4e2e1",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c3c7ce",
+                        "on-primary-container": "#8aa8c9",
+                        "surface-container-high": "#eae8e7",
+                        "secondary-fixed": "#eedbff",
+                        "background": "#fbf9f8",
+                        "secondary-fixed-dim": "#d3bfe7",
+                        "on-surface-variant": "#43474d",
+                        "surface-tint": "#43617f",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#2b4966",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#231534",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e4e2de",
+                        "on-background": "#1b1c1c",
+                        "primary": "#022742",
+                        "outline": "#73777e",
+                        "surface-dim": "#dcd9d9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "20px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "xxl": "48px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-shadow { box-shadow: 0 10px 25px -5px rgba(30, 61, 89, 0.05); }
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 15px 30px -5px rgba(30, 61, 89, 0.1); }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen w-full flex overflow-hidden">
+<!-- SIDEBAR -->
+<aside class="w-64 bg-tertiary flex flex-col justify-between shadow-xl z-20 shrink-0">
+<div>
+<!-- Brand Header -->
+<div class="px-lg py-xl flex items-center gap-md border-b border-tertiary-container">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center relative">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-secondary-container rounded-full border-2 border-tertiary"></span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-on-tertiary">Dipla Pro</h1>
+<span class="inline-block mt-1 px-2 py-0.5 bg-surface-container-highest/20 rounded-full font-label-sm text-label-sm text-tertiary-fixed">Boutique en ligne</span>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="p-md flex flex-col gap-sm mt-md" id="main-nav">
+<button class="nav-btn w-full flex items-center gap-md px-md py-sm rounded-lg bg-primary-container/20 text-on-tertiary font-label-md text-label-md transition-colors hover:bg-primary-container/40" data-target="view-accueil">
+<span class="material-symbols-outlined">dashboard</span>
+                    Devanture &amp; Accueil
+                </button>
+<button class="nav-btn w-full flex items-center gap-md px-md py-sm rounded-lg text-tertiary-fixed font-label-md text-label-md transition-colors hover:bg-surface-container-highest/10 hover:text-on-tertiary" data-target="view-catalogue">
+<span class="material-symbols-outlined">inventory_2</span>
+                    Catalogue Produits
+                </button>
+<button class="nav-btn w-full flex items-center gap-md px-md py-sm rounded-lg text-tertiary-fixed font-label-md text-label-md transition-colors hover:bg-surface-container-highest/10 hover:text-on-tertiary" data-target="view-questions">
+<span class="material-symbols-outlined flex-1 text-left flex items-center gap-md">4g_mobiledata</span>
+<span class="bg-error text-on-error font-label-sm text-label-sm px-2 py-0.5 rounded-full">2</span>
+</button>
+<button class="nav-btn w-full flex items-center gap-md px-md py-sm rounded-lg text-tertiary-fixed font-label-md text-label-md transition-colors hover:bg-surface-container-highest/10 hover:text-on-tertiary" data-target="view-avis">
+<span class="material-symbols-outlined">reviews</span>
+                    Avis Clients
+                </button>
+</nav>
+</div>
+<!-- Sidebar Footer (User) -->
+<div class="p-lg border-t border-tertiary-container bg-tertiary-container/30">
+<div class="flex items-center gap-md mb-md">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A macro shot of a freshly baked rustic artisanal baguette with a golden crust, resting on a clean marble countertop in a well-lit modern bakery setting, natural daylight, soft shadows, evoking a sense of premium quality and warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXZ4Tmb3WfpQJryy4kx4Ib1EXmkOY1J7n8d_kGW4Pr4Q1iZfq2YLAsZUtejLgDzwauvM0teGopzBmpTamD2gfQogtiKhgui7JuUZ-WNSyNVYuZ0wlw1TdWWyguRiRtuFsbT-yh6s5fG6P0_m5-hkb8GiQhc8_pFu0YnTeUD0aythZmXNjWim3HhQYecqWxjCWc1in3mQ_NUGkhpfmGtjCeFSVVIqHZ9ISW-_mI_CdfDt-Uc5Jlqh3gSQ"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-tertiary truncate">Boulangerie du Centre</p>
+<p class="font-label-sm text-label-sm text-tertiary-fixed truncate">Admin</p>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-sm py-sm rounded-full border border-error text-error hover:bg-error hover:text-on-error transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+                Déconnexion
+            </button>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TOP BAR -->
+<header class="h-20 bg-surface-container-lowest border-b border-surface-container flex items-center justify-between px-margin-desktop z-10 shrink-0">
+<!-- Store Selector -->
+<div class="flex items-center gap-sm bg-surface-container-low px-md py-sm rounded-full cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<span class="font-label-md text-label-md text-on-surface">Magasin : Paris Centre - 75001</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-lg">
+<!-- Search -->
+<div class="relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-full border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none font-body-md text-body-md transition-all" placeholder="Rechercher..." type="text"/>
+</div>
+<!-- Open Toggle -->
+<div class="flex items-center gap-sm bg-surface px-md py-sm rounded-full border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+<span class="font-label-md text-label-md text-on-surface">Ouvert aux clients</span>
+</div>
+<div class="w-px h-6 bg-outline-variant"></div>
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 bg-error text-on-error font-label-sm text-[10px] rounded-full flex items-center justify-center">3</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<!-- VIEWS CONTAINER -->
+<main class="flex-1 overflow-y-auto bg-background p-lg lg:p-margin-desktop relative hide-scroll">
+<!-- VIEW: ACCUEIL -->
+<section class="view-section active space-y-xl" id="view-accueil">
+<!-- Banner Bento -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg h-[300px]">
+<div class="lg:col-span-2 rounded-xl overflow-hidden relative custom-shadow hover-lift">
+<img class="w-full h-full object-cover" data-alt="A wide panoramic exterior shot of a modern, inviting boutique bakery in Paris on a sunny day. Large glass windows display fresh pastries. The facade is painted in a sophisticated dark navy. Warm sunlight hits the pavement. People are walking by." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIJAx7gjIOdNlHw5UKinycfrH1ukiqfPksF35bDlMVbUVkPbqyCcdj2V7UR_beGQs8AcqfhPn6sXkq7sgc6_eONCHp-0d7NTbL7bGTrm_chZ8kZFalGHjatIxuk_Awje3JbT3Pl4vMV7JaUeg_LV4fCRYNRY1LOSvkD4_B7IwEV7XqhNlPbAjtFBVKsOCmLk1H2Ki0juDTNT2EgEymJOMd3Z6--W5Xu09R3-iLnCtbkb3ZkRWPG4xfaA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 to-transparent flex flex-col justify-end p-xl text-on-tertiary">
+<h2 class="font-headline-lg text-headline-lg text-on-tertiary mb-sm">Boulangerie du Centre</h2>
+<p class="font-body-md text-body-md text-tertiary-fixed max-w-lg">Votre vitrine digitale est actuellement visible et optimisée. Pensez à mettre à jour vos horaires pour le jour férié à venir.</p>
+</div>
+</div>
+<div class="bg-primary-container rounded-xl p-lg text-on-primary flex flex-col justify-between custom-shadow">
+<div>
+<div class="flex items-center justify-between mb-md">
+<span class="font-headline-md text-headline-md">4.8</span>
+<div class="flex text-[#fbbf24]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+</div>
+<p class="font-label-md text-label-md text-primary-fixed">Note globale (128 avis)</p>
+</div>
+<div class="bg-on-primary/10 rounded-lg p-md">
+<p class="font-label-sm text-label-sm text-primary-fixed mb-xs">Horaires d'aujourd'hui</p>
+<p class="font-body-md text-body-md">07:00 - 19:30</p>
+</div>
+<button class="w-full py-sm bg-on-primary text-primary-container rounded-full font-label-md text-label-md hover:bg-surface transition-colors mt-auto">
+                            Gérer la devanture
+                        </button>
+</div>
+</div>
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow">
+<div class="flex items-center gap-sm text-on-surface-variant mb-md">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-md text-label-md">Vues profil (30j)</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface">12,450</span>
+<span class="font-label-sm text-label-sm text-[#10b981] mb-1">+12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow">
+<div class="flex items-center gap-sm text-on-surface-variant mb-md">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Produits actifs</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface">45</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">/ 50 ref.</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow">
+<div class="flex items-center gap-sm text-on-surface-variant mb-md">
+<span class="material-symbols-outlined">directions</span>
+<span class="font-label-md text-label-md">Clics Itinéraire</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface">342</span>
+<span class="font-label-sm text-label-sm text-[#10b981] mb-1">+5%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow">
+<div class="flex items-center gap-sm text-on-surface-variant mb-md">
+<span class="material-symbols-outlined">call</span>
+<span class="font-label-md text-label-md">Appels générés</span>
+</div>
+<div class="flex items-end gap-sm">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface">89</span>
+<span class="font-label-sm text-label-sm text-error mb-1">-2%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW: CATALOGUE -->
+<section class="view-section hidden space-y-lg" id="view-catalogue">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Catalogue Produits</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gérez votre inventaire et vos mises en avant.</p>
+</div>
+<button class="bg-primary-container text-on-primary px-lg py-md rounded-full font-label-md text-label-md flex items-center gap-sm hover:opacity-90 transition-opacity custom-shadow" onclick="switchView('view-editeur')">
+<span class="material-symbols-outlined">add</span>
+                        Ajouter un article
+                    </button>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-md bg-surface-container-lowest p-md rounded-xl custom-shadow">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-full border border-outline-variant focus:border-primary-container focus:ring-1 outline-none font-body-md text-body-md" placeholder="Chercher un produit..." type="text"/>
+</div>
+<select class="bg-surface py-sm px-md rounded-full border border-outline-variant font-body-md text-body-md outline-none">
+<option>Toutes catégories</option>
+<option>Pains</option>
+<option>Viennoiseries</option>
+<option>Pâtisseries</option>
+</select>
+<select class="bg-surface py-sm px-md rounded-full border border-outline-variant font-body-md text-body-md outline-none ml-auto">
+<option>Trier par: Récents</option>
+<option>Prix croissant</option>
+<option>Prix décroissant</option>
+</select>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow hover-lift flex flex-col">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="Close up studio photography of a perfectly baked traditional french baguette on a minimal light grey background. Sharp details on the crispy crust, elegant lighting highlighting the textures. Minimalist and premium presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn5rZfpurelJOKD_iQ5K5AyiCId6ZiPNuxHDKGskg9xDnSbl6wAw5nX8PmSk2HuY66AIq4ZQj6KMzypcmgutuSKmFGhuyJSqg-FjkmUavzK5yGZY8MJ9cEvisP-HcBtWYImLB7R-foreLwqSvAMPgXMygpk-4JMZeygwelbD02QA1NCV2GzjD_Zbc7U9rULH-b-2I3v2-Wb1BkkRNKJSLq10mLYp5bjwM4_8WoepWVKoPaPIcSlT_8XA"/>
+<span class="absolute top-md right-md bg-surface-container-lowest text-on-surface px-sm py-xs rounded-full font-label-sm text-label-sm custom-shadow flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span> En stock
+                            </span>
+</div>
+<div class="p-md flex flex-col flex-1">
+<span class="font-label-sm text-label-sm text-secondary mb-xs">Pains</span>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-sm line-clamp-1">Baguette Tradition Bio</h3>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-primary-container">1.30 €</span>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" onclick="switchView('view-editeur')" title="Éditer">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow hover-lift flex flex-col">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="Overhead shot of a flaky, golden-brown croissant resting on a white ceramic plate against a clean, light marble surface. Soft, diffused morning light creating subtle shadows. Elegant, appetizing, modern minimalist food styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiKXSE34bpj98jP0oiIRJ_UmmRKfar2G1mKT-APIOvxNU5n7qBuP1FxF55PnHBFgf-jGREzdKNWKW3mRHmCseyL5pGtlguTtJ28BK_CDPyOHAe-81TIAC2DSAlhJ17jPJITX2-j3wsggPJWvT_sMDxUdg8UONxjgzmgMJA4VufqUaUur5XYFwGuGiYyGn8Eib_GmlOe5of1ujZdlUCIP4wYJvcpFdXkAwTA6uaD8VeiEdlJ8sPTgGOoQ"/>
+<span class="absolute top-md right-md bg-surface-container-lowest text-on-surface px-sm py-xs rounded-full font-label-sm text-label-sm custom-shadow flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span> En stock
+                            </span>
+</div>
+<div class="p-md flex flex-col flex-1">
+<span class="font-label-sm text-label-sm text-secondary mb-xs">Viennoiseries</span>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-sm line-clamp-1">Croissant au Beurre AOP</h3>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-primary-container">1.20 €</span>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" onclick="switchView('view-editeur')" title="Éditer">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow hover-lift flex flex-col">
+<div class="h-48 relative opacity-60">
+<div class="absolute inset-0 bg-surface-variant/20 z-10 flex items-center justify-center">
+<span class="bg-inverse-surface text-inverse-on-surface px-md py-sm rounded-full font-label-md text-label-md">Rupture</span>
+</div>
+<img class="w-full h-full object-cover" data-alt="A decadent dark chocolate eclair with glossy icing on a slate rectangular plate. High contrast lighting emphasizing the sheen of the chocolate and the texture of the choux pastry. Modern patisserie presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgi1V6ZUGiQBHMQqfAbQWv5POl-kWA8QSafUdb7ldnDPfjbSrFEFs0G9HSZ93pKj0imj4xZCC9MGly3FzX61_WDzXSmUcM7lSetP5nY3tqGlzcRvhx27JzaJQrwugOIoFEcFq1FY1OcObe2fzcklLTlL7En-B2tnl-hERC7EXgpyQ99JtgMAfAvDH-UozhCV0eXtAgmu2ABEqFoAkwfusbk9beY0DevPSoLqlxwHN8HJEF042X0wF4hA"/>
+</div>
+<div class="p-md flex flex-col flex-1">
+<span class="font-label-sm text-label-sm text-secondary mb-xs">Pâtisseries</span>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-sm line-clamp-1">Éclair au Chocolat Noir</h3>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface-variant">3.50 €</span>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" onclick="switchView('view-editeur')" title="Éditer">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW: EDITEUR (Form) -->
+<section class="view-section hidden" id="view-editeur">
+<div class="max-w-4xl mx-auto">
+<button class="mb-lg flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" onclick="switchView('view-catalogue')">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Retour au catalogue
+                    </button>
+<div class="bg-surface-container-lowest rounded-xl custom-shadow overflow-hidden">
+<div class="p-lg border-b border-outline-variant bg-surface-container-low">
+<h2 class="font-headline-md text-headline-md text-on-surface">Éditer un Article</h2>
+</div>
+<div class="p-lg space-y-xl">
+<!-- Image Upload -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Photo du produit</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center text-center bg-surface hover:bg-surface-container-low transition-colors cursor-pointer relative overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center z-0 opacity-40 group-hover:opacity-20 transition-opacity" data-alt="A clean, brightly lit macro view of a rustic bread crust to serve as a subtle background texture for an image upload zone in a UI. Soft focus, neutral warm tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCYa7v4EZggz5hMYzlV0zKUxlBUVdAXr2533Nc-CrGixmioGYEmo7SOi4QOMWq2agCdYeN7-N732B6mUuXc5GivvuxWl6QMYvtXfGhxPBWISPefRkE74y5x0t9guDoggwj3mubuybuBnqex7cu6nCBR9eJ-dQLcymqh8jZYQDrkXylxJNhn0Y2_v4cIRel6WZ6RgUPFj_9ZEM7JWhnaliKLTPP4gHG_94lgb2mFAoZsoFIhuGc0-w2iIA')"></div>
+<span class="material-symbols-outlined text-display-lg text-outline mb-md relative z-10">add_photo_alternate</span>
+<p class="font-body-md text-body-md text-on-surface-variant relative z-10 mb-xs">Glissez-déposez ou cliquez pour importer</p>
+<p class="font-label-sm text-label-sm text-outline relative z-10">JPG, PNG (Max 5MB)</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Nom de l'article</label>
+<input class="w-full bg-surface py-md px-md rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 outline-none font-body-md text-body-md" type="text" value="Baguette Tradition Bio"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Catégorie</label>
+<select class="w-full bg-surface py-md px-md rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 outline-none font-body-md text-body-md">
+<option selected="">Pains</option>
+<option>Viennoiseries</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Description (Optionnelle)</label>
+<textarea class="w-full bg-surface py-md px-md rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 outline-none font-body-md text-body-md resize-none" rows="4">Baguette de tradition française préparée avec de la farine biologique locale. Croustillante à l'extérieur et alvéolée à l'intérieur.</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg p-lg bg-surface-container-low rounded-xl border border-outline-variant">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-sm">Prix unitaire (€)</label>
+<input class="w-full bg-surface py-md px-md rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 outline-none font-body-md text-body-md text-xl" type="text" value="1.30"/>
+</div>
+<div class="flex flex-col justify-center">
+<label class="flex items-center gap-md cursor-pointer">
+<div class="relative">
+<input checked="" class="sr-only" type="checkbox"/>
+<div class="block bg-primary-container w-14 h-8 rounded-full transition"></div>
+<div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6"></div>
+</div>
+<div class="font-label-md text-label-md text-on-surface">Article disponible en stock</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="p-lg bg-surface-container-lowest border-t border-outline-variant flex justify-end gap-md sticky bottom-0">
+<button class="px-xl py-md rounded-full border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors" onclick="switchView('view-catalogue')">
+                                Annuler
+                            </button>
+<button class="px-xl py-md rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity custom-shadow" onclick="showToast('Article mis à jour avec succès'); switchView('view-catalogue');">
+                                Enregistrer les modifications
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW: QUESTIONS -->
+<section class="view-section hidden space-y-lg max-w-5xl mx-auto" id="view-questions">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">Questions Clients <span class="bg-error text-on-error font-label-sm px-2 py-0.5 rounded-full">2 en attente</span></h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Répondez rapidement pour maximiser vos ventes.</p>
+</div>
+<div class="space-y-md">
+<!-- Q&A Card 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow border-l-4 border-error">
+<div class="flex items-center gap-sm mb-md">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-xs rounded-full font-label-sm text-label-sm">Baguette Tradition Bio</span>
+<span class="font-label-sm text-label-sm text-outline">Il y a 2 heures</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface font-bold mb-md">"Bonjour, vos baguettes bio sont-elles disponibles dès l'ouverture à 7h ?"</p>
+<div class="flex gap-sm">
+<img class="w-8 h-8 rounded-full bg-surface-container" data-alt="A small avatar showing a smiling female customer with short brown hair, brightly lit, generic lifestyle portrait suitable for a user profile icon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2ZRKXuVsQHPCeTT3aTfCrYp3mKVWmWwbPN8IZxLiwOb_UzlQQDy52JDd0WLjsGz1Gf8LKfN2OgjbRf9bDsG-oGgMPpL2TqyyCFkbGH-ZAKBpScRttVdf1XtFQSYjJsNDXW529cgaFsa94tq89F-E_mZmkiOkAcaW7rF0HZnPx69V2ijrju76WbGX0fKkc3NooivOYx6QCVdyrHmeZNrDr0eLA363dIuOJAERx_1_-A0ousxqi95-5Ag"/>
+<div class="flex-1 bg-surface-container-low rounded-xl p-sm flex items-end gap-sm border border-outline-variant focus-within:border-primary-container transition-colors">
+<textarea class="w-full bg-transparent border-none focus:ring-0 outline-none font-body-md text-body-md resize-none p-0" placeholder="Rédiger une réponse publique..." rows="2"></textarea>
+<button class="w-10 h-10 shrink-0 bg-primary-container text-on-primary rounded-full flex items-center justify-center hover:opacity-90 transition-opacity" onclick="showToast('Réponse publiée');">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Q&A Card 2 (Answered) -->
+<div class="bg-surface-container-lowest p-lg rounded-xl custom-shadow opacity-75">
+<div class="flex items-center gap-sm mb-md">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-xs rounded-full font-label-sm text-label-sm">Croissant au Beurre</span>
+<span class="font-label-sm text-label-sm text-outline">Hier</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface font-bold mb-md">"Faites-vous des lots de viennoiseries pour le dimanche ?"</p>
+<div class="ml-xl pl-md border-l-2 border-primary-container">
+<p class="font-label-md text-label-md text-primary-container mb-xs">Votre réponse</p>
+<p class="font-body-md text-body-md text-on-surface-variant">"Oui tout à fait ! Nous proposons des formules petit-déjeuner tous les week-ends. N'hésitez pas à passer commande la veille."</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- TOAST NOTIFICATION -->
+<div class="fixed bottom-margin-desktop left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-xl py-md rounded-full shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-md font-label-md text-label-md" id="toast">
+<span class="material-symbols-outlined text-[#10b981]">check_circle</span>
+<span id="toast-msg">Action réussie</span>
+</div>
+<script>
+        // View Switching Logic
+        function switchView(targetId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Show target
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+                targetEl.classList.add('block');
+            }
+
+            // Update Nav styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === targetId) {
+                    btn.classList.add('bg-primary-container/20', 'text-on-tertiary');
+                    btn.classList.remove('text-tertiary-fixed', 'hover:bg-surface-container-highest/10');
+                } else {
+                    btn.classList.remove('bg-primary-container/20', 'text-on-tertiary');
+                    btn.classList.add('text-tertiary-fixed', 'hover:bg-surface-container-highest/10');
+                }
+            });
+        }
+
+        // Initialize nav clicks
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            if(btn.dataset.target) {
+                btn.addEventListener('click', () => switchView(btn.dataset.target));
+            }
+        });
+
+        // Toast Logic
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body></html>
