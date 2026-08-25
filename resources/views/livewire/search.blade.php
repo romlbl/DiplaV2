@@ -1,19 +1,23 @@
 <div
     x-data="{ locating: false, locationError: false }"
     x-init="
-        locating = true;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    $wire.setUserLocation(position.coords.latitude, position.coords.longitude);
-                    locating = false;
-                },
-                () => { locationError = true; locating = false; },
-                { timeout: 8000 }
-            );
-        } else {
-            locationError = true;
+        if ($wire.userLat && $wire.userLng) {
             locating = false;
+        } else {
+            locating = true;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        $wire.setUserLocation(position.coords.latitude, position.coords.longitude);
+                        locating = false;
+                    },
+                    () => { locationError = true; locating = false; },
+                    { timeout: 8000 }
+                );
+            } else {
+                locationError = true;
+                locating = false;
+            }
         }
     "
 >

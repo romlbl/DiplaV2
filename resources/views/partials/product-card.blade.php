@@ -6,6 +6,21 @@
 --}}
 
 <a href="{{ route('products.show', $product) }}" wire:navigate
+   x-data="{
+       lat: {{ $product->latitude ?? 'null' }},
+       lng: {{ $product->longitude ?? 'null' }},
+       distanceLabel() {
+           const loc = this.$store.searchLocation;
+           if (!loc.hasLocation || this.lat === null || this.lng === null) return null;
+           const R = 6371;
+           const dLat = (this.lat - loc.lat) * Math.PI / 180;
+           const dLng = (this.lng - loc.lng) * Math.PI / 180;
+           const a = Math.sin(dLat / 2) ** 2
+               + Math.cos(loc.lat * Math.PI / 180) * Math.cos(this.lat * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+           const distanceKm = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+           return distanceKm < 1 ? `${Math.round(distanceKm * 1000)} m` : `${distanceKm.toFixed(1)} km`;
+       },
+   }"
    class="group min-w-[200px] w-[200px] sm:min-w-[240px] sm:w-[240px] shrink-0 snap-start rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
 
     {{-- Image au format portrait 2:3, cohérent avec le recadrage utilisé côté entreprise --}}
@@ -46,6 +61,8 @@
             <span class="rounded-full bg-[#1E3D59] px-3 py-1 font-mono text-xs font-semibold text-[#FDFBF7]">
                 {{ number_format($product->price, 2) }} €
             </span>
+            <span x-show="distanceLabel()" x-text="distanceLabel()" x-cloak
+                  class="font-mono text-xs text-[#333333]/60"></span>
         </div>
     </div>
 </a>

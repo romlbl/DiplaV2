@@ -16,7 +16,7 @@
     {{-- En-tête fixe : reproduit la nav de la maquette (logo, liens, position, bouton Connexion) --}}
     <header class="fixed top-0 inset-x-0 z-50 border-b border-[#E2E8F0]/60 bg-[#FBF9F8]/90 shadow-sm backdrop-blur-md">
         <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4 md:px-8">
-            <a href="{{ route('home') }}" wire:navigate class="text-xl font-extrabold tracking-tight text-[#1E293B]">
+            <a href="{{ route('home') }}" wire:navigate class="text-2xl font-extrabold tracking-tight text-[#1E293B] md:text-3xl">
                 Dipla
             </a>
 
@@ -41,28 +41,35 @@
             </ul>
 
             {{-- Actions desktop : position + connexion --}}
-            <div class="hidden md:flex items-center gap-3">
+            {{-- Actions : position + connexion (icônes seules sur mobile, texte à partir de md) --}}
+            <div class="flex items-center gap-1 md:gap-3">
                 @include('partials.location-modal')
 
                 @auth
-                    <a href="{{ route('dashboard') }}" wire:navigate
-                       class="rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                        Mon compte
+                    <a href="{{ route('dashboard') }}" wire:navigate aria-label="Mon compte"
+                       class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                        <span class="hidden text-sm font-semibold md:inline">Mon compte</span>
                     </a>
                 @else
-                    <a href="{{ route('login') }}" wire:navigate
-                       class="rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                        Connexion
+                    <a href="{{ route('login') }}" wire:navigate aria-label="Connexion"
+                       class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                        <span class="hidden text-sm font-semibold md:inline">Connexion</span>
                     </a>
                 @endauth
-            </div>
 
-            {{-- Bouton menu mobile --}}
-            <button id="menu-toggle" class="p-2 text-[#1E293B] md:hidden" aria-label="Ouvrir le menu">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+                {{-- Bouton menu mobile --}}
+                <button id="menu-toggle" class="p-2 text-[#1E293B] md:hidden" aria-label="Ouvrir le menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
         </nav>
 
         {{-- Menu mobile : en overlay pour ne jamais recouvrir/décaler le contenu de la page --}}

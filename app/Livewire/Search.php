@@ -28,7 +28,10 @@ class Search extends Component
     #[Url]
     public ?float $maxDistance = null;
 
+    #[Url(as: 'lat')]
     public ?float $userLat = null;
+
+    #[Url(as: 'lng')]
     public ?float $userLng = null;
 
     protected $paginationTheme = 'tailwind';

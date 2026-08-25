@@ -30,7 +30,7 @@
 
     {{-- Hero --}}
     <section class="flex flex-col items-center gap-6 py-10 text-center md:py-16">
-        <h1 class="max-w-3xl text-3xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
+        <h1 class="max-w-3xl text-2xl font-extrabold tracking-tight text-[#1E293B] md:text-4xl">
             Trouvez ce qu'il vous faut, près de chez vous.
         </h1>
         <p class="max-w-xl text-base text-[#333333]/80 md:text-lg">
@@ -48,13 +48,18 @@
                            class="w-full border-0 bg-transparent p-0 text-sm text-[#333333] placeholder-[#333333]/40 focus:outline-none focus:ring-0">
                 </div>
 
-                <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate
+                <a x-data
+                   :href="$store.searchLocation.hasLocation
+                            ? `{{ route('search', ['mode' => 'nearby']) }}?lat=${$store.searchLocation.lat}&lng=${$store.searchLocation.lng}`
+                            : '{{ route('search', ['mode' => 'nearby']) }}'"
+                   wire:navigate
                    class="mx-1 inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#FDFBF7] px-4 py-2.5 text-sm font-medium text-[#1E3D59] transition hover:bg-[#E2E8F0]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    À proximité
+                    <span x-text="$store.searchLocation.hasLocation ? $store.searchLocation.label : 'À proximité'"
+                          class="max-w-[9rem] truncate">À proximité</span>
                 </a>
 
                 <button type="submit"
