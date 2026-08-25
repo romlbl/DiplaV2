@@ -25,16 +25,23 @@ Route::middleware('auth:company')
             $company = auth('company')->user();
             $productIds = $company->products()->pluck('id');
 
+            $reviews = \App\Models\Review::whereIn('product_id', $productIds);
+
             $stats = [
                 'products_count' => $productIds->count(),
                 'total_views' => \App\Models\ViewHistory::whereIn('product_id', $productIds)->count(),
                 'total_favorites' => \App\Models\Favorite::whereIn('product_id', $productIds)->count(),
+                'avg_rating' => round($reviews->avg('rating') ?? 0, 1),
+                'reviews_count' => $reviews->count(),
             ];
 
-            return view('company.dashboard', compact('stats'));
+            return view('company.dashboard', compact('company', 'stats'));
         })->name('dashboard');
 
+        Route::get('produits', \App\Livewire\Company\ProductsIndex::class)->name('products.index');
+
         Route::resource('produits', \App\Http\Controllers\Company\ProductController::class)
+            ->except(['index'])
             ->parameters(['produits' => 'product'])
             ->names('products');
     });

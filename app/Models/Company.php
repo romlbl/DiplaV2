@@ -18,6 +18,9 @@ class Company extends Authenticatable
         'address',
         'latitude',
         'longitude',
+        'cover_image_url',
+        'description',
+        'opening_hours',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -28,11 +31,39 @@ class Company extends Authenticatable
             'password' => 'hashed',
             'latitude' => 'decimal:7',
             'longitude' => 'decimal:7',
+            'opening_hours' => 'array',
         ];
     }
 
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function isOpenNow(): ?bool
+    {
+        $hours = $this->opening_hours;
+
+        if (!$hours) {
+            return null;
+        }
+
+        $dayKey = strtolower(now()->format('D')); // mon, tue, wed...
+        $today = $hours[$dayKey] ?? null;
+
+        if (!$today || ($today['closed'] ?? true)) {
+            return false;
+        }
+
+        $open = $today['open'] ?? null;
+        $close = $today['close'] ?? null;
+
+        if (!$open || !$close) {
+            return null;
+        }
+
+        $now = now()->format('H:i');
+
+        return $now >= $open && $now <= $close;
     }
 }
