@@ -39,6 +39,8 @@ Route::middleware('auth:company')
         })->name('dashboard');
 
         Route::get('produits', \App\Livewire\Company\ProductsIndex::class)->name('products.index');
+        Route::get('avis', \App\Livewire\Company\ReviewsIndex::class)->name('reviews.index');
+        Route::get('questions', \App\Livewire\Company\QuestionsIndex::class)->name('questions.index');
 
         Route::resource('produits', \App\Http\Controllers\Company\ProductController::class)
             ->except(['index'])

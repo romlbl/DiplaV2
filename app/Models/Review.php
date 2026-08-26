@@ -16,12 +16,15 @@ class Review extends Model
         'subject',
         'content',
         'rating',
+        'company_reply',
+        'company_replied_at',
     ];
 
     protected function casts(): array
     {
         return [
             'rating' => 'integer',
+            'company_replied_at' => 'datetime',
         ];
     }
 
