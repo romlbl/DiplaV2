@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Company;
 use App\Models\Product;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -20,7 +21,7 @@ class Search extends Component
     public string $q = '';
 
     #[Url]
-    public string $type = ''; // '' | produit | service
+    public string $type = ''; // '' | produit | service | commerce
 
     #[Url]
     public ?float $maxPrice = null;
@@ -38,7 +39,6 @@ class Search extends Component
 
     public function updated($property): void
     {
-        // Toute modification de filtre revient à la page 1
         if (in_array($property, ['mode', 'q', 'type', 'maxPrice', 'maxDistance'])) {
             $this->resetPage();
         }
@@ -58,8 +58,22 @@ class Search extends Component
 
     public function render()
     {
-        $query = Product::query()->ofType($this->type ?: null)->maxPrice($this->maxPrice);
+        // "Commerces" cherche des entreprises, pas des produits/services.
+        if ($this->type === 'commerce') {
+            return view('livewire.search', [
+                'products' => null,
+                'companies' => $this->searchCompanies(),
+            ]);
+        }
 
+        return view('livewire.search', [
+            'products' => $this->searchProducts(),
+            'companies' => null,
+        ]);
+    }
+
+    protected function applyModeScopes($query, string $table)
+    {
         switch ($this->mode) {
             case 'nearby':
                 if ($this->userLat && $this->userLng) {
@@ -92,8 +106,20 @@ class Search extends Component
                 break;
         }
 
-        $products = $query->with('images')->paginate(12);
+        return $query;
+    }
 
-        return view('livewire.search', compact('products'));
+    protected function searchProducts()
+    {
+        $query = Product::query()->ofType($this->type ?: null)->maxPrice($this->maxPrice);
+
+        return $this->applyModeScopes($query, 'products')
+            ->with('images')
+            ->paginate(12);
+    }
+
+    protected function searchCompanies()
+    {
+        return $this->applyModeScopes(Company::query(), 'companies')->paginate(12);
     }
 }

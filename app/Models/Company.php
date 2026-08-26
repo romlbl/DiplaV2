@@ -66,4 +66,37 @@ class Company extends Authenticatable
 
         return $now >= $open && $now <= $close;
     }
+
+    public function scopeSearch(\Illuminate\Database\Eloquent\Builder $query, ?string $term): \Illuminate\Database\Eloquent\Builder
+    {
+        if (blank($term)) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($term) {
+            $q->where('name', 'like', "%{$term}%")
+              ->orWhere('address', 'like', "%{$term}%");
+        });
+    }
+
+    public function scopeNearby(\Illuminate\Database\Eloquent\Builder $query, float $lat, float $lng, ?float $radiusKm = null): \Illuminate\Database\Eloquent\Builder
+    {
+        $haversine = "(
+            6371 * acos(
+                cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?))
+                + sin(radians(?)) * sin(radians(latitude))
+            )
+        )";
+
+        $query
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->selectRaw("companies.*, {$haversine} AS distance", [$lat, $lng, $lat]);
+
+        if ($radiusKm !== null) {
+            $query->whereRaw("{$haversine} <= ?", [$lat, $lng, $lat, $radiusKm]);
+        }
+
+        return $query;
+    }
 }
