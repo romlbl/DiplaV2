@@ -114,7 +114,7 @@ class Search extends Component
         $query = Product::query()->ofType($this->type ?: null)->maxPrice($this->maxPrice);
 
         return $this->applyModeScopes($query, 'products')
-            ->with('images')
+            ->with(['images', 'company', 'reviews'])
             ->paginate(12);
     }
 

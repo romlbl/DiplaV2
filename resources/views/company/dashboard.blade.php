@@ -110,7 +110,7 @@
              style="display: none;">
             <div @click.outside="showDevantureModal = false"
                  class="my-auto w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-[#FDFBF7] p-6 shadow-lg">
-                <div class="sticky -top-6 -mx-6 -mt-6 mb-4 flex items-center justify-between border-b border-[#E2E8F0] bg-[#FDFBF7] px-6 py-4">
+                <div class="sticky z-[10000] -top-6 -mx-6 -mt-6 mb-4 flex items-center justify-between border-b border-[#E2E8F0] bg-[#FDFBF7] px-6 py-4">
                     <h2 class="text-base font-semibold text-[#1E293B]">Gérer la devanture</h2>
                     <button type="button" @click="showDevantureModal = false" aria-label="Fermer" class="text-[#333333]/50 hover:text-[#333333]">✕</button>
                 </div>

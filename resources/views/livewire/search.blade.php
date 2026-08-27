@@ -22,6 +22,18 @@
                 locating = false;
             }
         }
+
+        $watch('$store.searchLocation.lat', () => {
+            if ($store.searchLocation.hasLocation) {
+                $wire.setUserLocation($store.searchLocation.lat, $store.searchLocation.lng);
+            }
+        });
+
+        $watch('$store.searchLocation.lng', () => {
+            if ($store.searchLocation.hasLocation) {
+                $wire.setUserLocation($store.searchLocation.lat, $store.searchLocation.lng);
+            }
+        });
     "
 >
     {{-- Bascule des modes --}}
@@ -227,39 +239,9 @@
                         {{ $products->total() }} résultat{{ $products->total() > 1 ? 's' : '' }}
                     </p>
 
-                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="flex flex-wrap gap-4 sm:gap-6">
                         @foreach($products as $product)
-                            <a href="{{ route('products.show', $product) }}" wire:navigate
-                               class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
-                                <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
-                                    @if($product->images->isNotEmpty())
-                                        <img src="{{ $product->images->first()->url }}" alt="{{ $product->title }}"
-                                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                    @else
-                                        <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
-                                            Pas d'image
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="flex flex-1 flex-col p-4">
-                                    <p class="font-medium text-[#1E293B] line-clamp-2">{{ $product->title }}</p>
-                                    <p class="mt-1 text-xs text-[#333333]/60 line-clamp-1">{{ $product->address }}</p>
-
-                                    <div class="mt-3 flex items-center justify-between">
-                                        <span class="font-mono text-sm font-semibold text-[#1E3D59]">
-                                            {{ number_format($product->price, 2) }} €
-                                        </span>
-                                        <span class="text-xs text-[#333333]/50">{{ ucfirst($product->type) }}</span>
-                                    </div>
-
-                                    @if(isset($product->distance))
-                                        <p class="mt-2 text-xs font-mono text-[#333333]/60">
-                                            {{ number_format($product->distance, 1) }} km 
-                                        </p>
-                                    @endif
-                                </div>
-                            </a>
+                            @include('partials.product-card', ['product' => $product])
                         @endforeach
                     </div>
 
