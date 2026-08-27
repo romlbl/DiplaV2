@@ -3,6 +3,9 @@
     x-init="
         if ($wire.userLat && $wire.userLng) {
             locating = false;
+        } else if ($store.searchLocation.hasLocation) {
+            $wire.setUserLocation($store.searchLocation.lat, $store.searchLocation.lng);
+            locating = false;
         } else {
             locating = true;
             if (navigator.geolocation) {
@@ -26,10 +29,6 @@
         <button wire:click="setMode('keyword')"
                 class="shrink-0 rounded-full px-5 py-2 text-sm font-medium transition {{ $mode === 'keyword' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-[#FAFAFF]' }}">
             Recherche
-        </button>
-        <button wire:click="setMode('nearby')"
-                class="shrink-0 rounded-full px-5 py-2 text-sm font-medium transition {{ $mode === 'nearby' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-[#FAFAFF]' }}">
-            À proximité
         </button>
         <button wire:click="setMode('discover')"
                 class="shrink-0 rounded-full px-5 py-2 text-sm font-medium transition {{ $mode === 'discover' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-[#FAFAFF]' }}">
@@ -59,56 +58,105 @@
                     </div>
                 @endif
 
-                {{-- Catégorie --}}
-                <div>
-                    <label class="block text-sm font-medium text-[#1E293B] mb-2">Catégorie</label>
-                    <div class="flex flex-wrap gap-2">
-                        <button wire:click="$set('type', '')"
-                                class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === '' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
-                            Tout
-                        </button>
-                        <button wire:click="$set('type', 'produit')"
-                                class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'produit' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
-                            Produits
-                        </button>
-                        <button wire:click="$set('type', 'service')"
-                                class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'service' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
-                            Services
-                        </button>
-                        <button wire:click="$set('type', 'commerce')"
-                                class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'commerce' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
-                            Commerces
+                {{-- Lieu de recherche : autocomplete Nominatim, synchronisé avec le store partagé --}}
+                <div x-data="locationInlineSearch()" class="relative">
+                    <label for="location-inline" class="block text-sm font-medium text-[#1E293B] mb-1">Lieu de recherche</label>
+
+                    <div class="relative">
+                        <input type="text" id="location-inline" x-model="query" @input="onQueryInput()" autocomplete="off"
+                               placeholder="Ville, adresse, quartier..."
+                               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] pl-4 pr-8 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+
+                        <button type="button" x-show="query" x-cloak @click="clearLocation()"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#333333]/40 hover:text-[#333333]">
+                            ✕
                         </button>
                     </div>
+
+                    <div x-show="suggestions.length > 0" x-cloak
+                         class="absolute z-20 mt-1 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-lg max-h-60 overflow-y-auto">
+                        <template x-for="suggestion in suggestions" :key="suggestion.place_id">
+                            <button type="button" @click="selectSuggestion(suggestion)"
+                                    class="block w-full px-4 py-2 text-left text-sm text-[#333333] hover:bg-[#FDFBF7] transition"
+                                    x-text="suggestion.display_name"></button>
+                        </template>
+                    </div>
+
+                    <button type="button" @click="useMyPosition()"
+                            class="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[#1E3D59] hover:underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Utiliser ma position actuelle
+                    </button>
                 </div>
 
-                {{-- Distance max (mode mot-clé/découvrir, "à proximité" a un rayon fixe 20km) --}}
-                @if($mode !== 'nearby')
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label for="maxDistance" class="text-sm font-medium text-[#1E293B]">Distance max</label>
-                            <span class="text-sm font-mono text-[#1E293B]">
-                                {{ $maxDistance ? $maxDistance.' km' : 'Aucune' }}
-                            </span>
-                        </div>
-                        <input type="range" id="maxDistance" wire:model.live="maxDistance" min="1" max="200" step="1"
-                               class="accent-[#1E3D59] w-full">
-                    </div>
-                @endif
+                {{-- Catégorie / Distance / Prix : un seul groupe déroulable en mobile --}}
+                <div x-data="{ filtersOpen: false }" class="border-t border-[#E2E8F0] pt-5">
+                    <button type="button" @click="filtersOpen = !filtersOpen"
+                            class="flex w-full items-center justify-between md:pointer-events-none">
+                        <span class="text-sm font-medium text-[#1E293B]">Filtres</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#333333]/50 transition-transform md:hidden"
+                             :class="filtersOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </button>
 
-                {{-- Prix max (curseur, non pertinent pour les commerces) --}}
-                @if($type !== 'commerce')
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label for="maxPrice" class="text-sm font-medium text-[#1E293B]">Prix max</label>
-                            <span class="text-sm font-mono text-[#1E293B]">
-                                {{ $maxPrice ? $maxPrice.' €' : 'Aucun' }}
-                            </span>
+                    <div :class="filtersOpen ? '' : 'hidden md:block'" class="mt-4 flex flex-col gap-5">
+
+                        {{-- Catégorie --}}
+                        <div>
+                            <span class="block text-sm font-medium text-[#1E293B] mb-2">Catégorie</span>
+                            <div class="flex flex-wrap gap-2">
+                                <button wire:click="$set('type', '')"
+                                        class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === '' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
+                                    Tout
+                                </button>
+                                <button wire:click="$set('type', 'produit')"
+                                        class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'produit' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
+                                    Produits
+                                </button>
+                                <button wire:click="$set('type', 'service')"
+                                        class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'service' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
+                                    Services
+                                </button>
+                                <button wire:click="$set('type', 'commerce')"
+                                        class="rounded-full px-4 py-1.5 text-sm font-medium transition {{ $type === 'commerce' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#1E293B] hover:bg-white' }}">
+                                    Commerces
+                                </button>
+                            </div>
                         </div>
-                        <input type="range" id="maxPrice" wire:model.live="maxPrice" min="5" max="1000" step="5"
-                               class="accent-[#1E3D59] w-full">
+
+                        {{-- Distance max --}}
+                        @if($mode !== 'nearby')
+                            <div class="border-t border-[#E2E8F0] pt-5">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-[#1E293B]">Distance max</span>
+                                    <span class="text-sm font-mono text-[#1E293B]">
+                                        {{ $maxDistance ? $maxDistance.' km' : 'Aucune' }}
+                                    </span>
+                                </div>
+                                <input type="range" id="maxDistance" wire:model.live="maxDistance" min="1" max="200" step="1"
+                                       class="accent-[#1E3D59] w-full">
+                            </div>
+                        @endif
+
+                        {{-- Prix max --}}
+                        @if($type !== 'commerce')
+                            <div class="border-t border-[#E2E8F0] pt-5">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-[#1E293B]">Prix max</span>
+                                    <span class="text-sm font-mono text-[#1E293B]">
+                                        {{ $maxPrice ? $maxPrice.' €' : 'Aucun' }}
+                                    </span>
+                                </div>
+                                <input type="range" id="maxPrice" wire:model.live="maxPrice" min="5" max="1000" step="5"
+                                       class="accent-[#1E3D59] w-full">
+                            </div>
+                        @endif
                     </div>
-                @endif
+                </div>
             </div>
         </aside>
 
@@ -130,7 +178,7 @@
                         {{ $companies->total() }} commerce{{ $companies->total() > 1 ? 's' : '' }}
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         @foreach($companies as $company)
                             <a href="{{ route('search', ['q' => $company->name]) }}" wire:navigate
                                class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
@@ -151,7 +199,7 @@
 
                                     @if(isset($company->distance))
                                         <p class="mt-auto pt-3 text-xs font-mono text-[#333333]/60">
-                                            {{ number_format($company->distance, 1) }} km à vol d'oiseau
+                                            {{ number_format($company->distance, 1) }} km 
                                         </p>
                                     @endif
                                 </div>
@@ -179,7 +227,7 @@
                         {{ $products->total() }} résultat{{ $products->total() > 1 ? 's' : '' }}
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         @foreach($products as $product)
                             <a href="{{ route('products.show', $product) }}" wire:navigate
                                class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
@@ -197,11 +245,7 @@
                                 <div class="flex flex-1 flex-col p-4">
                                     <p class="font-medium text-[#1E293B] line-clamp-2">{{ $product->title }}</p>
                                     <p class="mt-1 text-xs text-[#333333]/60 line-clamp-1">{{ $product->address }}</p>
-                                    @if(isset($product->distance))
-                                        <p class="mt-2 text-xs font-mono text-[#333333]/60">
-                                            {{ number_format($product->distance, 1) }} km à vol d'oiseau
-                                        </p>
-                                    @endif
+
                                     <div class="mt-3 flex items-center justify-between">
                                         <span class="font-mono text-sm font-semibold text-[#1E3D59]">
                                             {{ number_format($product->price, 2) }} €
@@ -209,6 +253,11 @@
                                         <span class="text-xs text-[#333333]/50">{{ ucfirst($product->type) }}</span>
                                     </div>
 
+                                    @if(isset($product->distance))
+                                        <p class="mt-2 text-xs font-mono text-[#333333]/60">
+                                            {{ number_format($product->distance, 1) }} km 
+                                        </p>
+                                    @endif
                                 </div>
                             </a>
                         @endforeach
