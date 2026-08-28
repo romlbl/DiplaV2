@@ -139,6 +139,7 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="mb-4"></div>
 
                         {{-- Distance max --}}
                         @if($mode !== 'nearby')

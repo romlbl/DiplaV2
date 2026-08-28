@@ -6,50 +6,82 @@
         {{-- ============================= --}}
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
 
-            {{-- Colonne gauche : image principale, taille réduite --}}
+            {{-- Colonne gauche : image principale + miniatures --}}
+            {{--
+                Mobile  : image en haut, miniatures en dessous, côte à côte
+                Desktop : miniatures à gauche empilées, image à droite
+            --}}
             <div class="lg:col-span-2">
-                <div class="max-w-[260px] mx-auto lg:mx-0 aspect-[2/3] overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0]">
-                    @if($product->images->isNotEmpty())
-                        <img id="main-product-image"
-                             src="{{ $product->images->first()->url }}"
-                             alt="{{ $product->title }}"
-                             class="h-full w-full object-cover">
-                    @else
-                        <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
-                            Pas d'image
+                <div class="flex flex-col lg:flex-row gap-3">
+
+                    {{-- Miniatures --}}
+                    @if($product->images->count() > 1)
+                        <div class="order-2 lg:order-1 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto lg:max-h-[380px] lg:w-20 shrink-0 pb-1 lg:pb-0">
+                            @foreach($product->images as $image)
+                                <button type="button"
+                                        onclick="document.getElementById('main-product-image').src = '{{ $image->url }}'"
+                                        class="w-16 lg:w-full shrink-0 aspect-[2/3] overflow-hidden rounded-lg border-2 border-[#E2E8F0] opacity-70 hover:opacity-100 hover:border-[#1E3D59] transition">
+                                    <img src="{{ $image->url }}" alt="" class="h-full w-full object-cover">
+                                </button>
+                            @endforeach
                         </div>
                     @endif
+
+                    {{-- Image principale --}}
+                    <div class="order-1 lg:order-2 relative flex-1 max-w-[260px] mx-auto lg:mx-0 aspect-[2/3] overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0]">
+                        @if($product->images->isNotEmpty())
+                            <img id="main-product-image"
+                                 src="{{ $product->images->first()->url }}"
+                                 alt="{{ $product->title }}"
+                                 class="h-full w-full object-cover">
+                        @else
+                            <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
+                                Pas d'image
+                            </div>
+                        @endif
+
+                        {{-- Badge note, positionné comme sur la maquette --}}
+                        @if($product->reviews->isNotEmpty())
+                            <span class="absolute top-2 right-2 inline-flex items-center gap-1 rounded-full bg-[#FDFBF7]/90 px-2.5 py-1 text-xs font-semibold text-[#1E293B] backdrop-blur-sm">
+                                <span class="text-amber-500">★</span> {{ $product->averageRating() }}
+                            </span>
+                        @endif
+                    </div>
                 </div>
             </div>
 
-            {{-- Colonne droite : titre, prix, actions, commerce, miniatures --}}
+            {{-- Colonne droite : titre, prix, actions, commerce --}}
             <div class="lg:col-span-3 flex flex-col">
-                {{-- Note --}}
-                <div class="flex items-center gap-1 mb-2">
-                    @if($product->reviews->isNotEmpty())
-                        <span class="text-amber-500">★</span>
-                        <span class="text-sm font-medium text-[#1E293B]">{{ $product->averageRating() }}</span>
-                        <button type="button" @click="tab = 'avis'"
-                                class="text-sm text-[#333333]/60 hover:underline">
-                            ({{ $product->reviews->count() }} avis)
-                        </button>
-                    @else
-                        <span class="text-sm text-[#333333]/50">Aucun avis pour l'instant</span>
-                    @endif
-                </div>
-
                 {{-- Titre --}}
-                <h1 class="text-xl md:text-2xl font-bold text-[#1E293B] leading-tight mb-3">
+                <h1 class="text-xl md:text-2xl font-bold text-[#1E293B] leading-tight mb-1">
                     {{ $product->title }}
                 </h1>
 
-                {{-- Prix, taille réduite --}}
-                <div class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] px-4 py-2.5 mb-4 w-fit">
+                @if($product->reviews->isNotEmpty())
+                    <button type="button" @click="tab = 'avis'"
+                            class="text-sm text-[#333333]/60 hover:underline text-left mb-3">
+                        {{ $product->reviews->count() }} avis
+                    </button>
+                @else
+                    <p class="text-sm text-[#333333]/50 mb-3">Aucun avis pour l'instant</p>
+                @endif
+
+                {{-- Prix --}}
+                <div class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] px-4 py-2.5 mb-1 w-fit">
                     <span class="text-xl md:text-2xl font-mono font-bold text-[#1E3D59]">
                         {{ number_format($product->price, 2) }} €
                     </span>
+                    {{-- Disponibilité du commerce --}}
+                    @if($product->company->isOpenNow() === true)
+                        <p class="flex items-center gap-1.5 text-sm text-emerald-700 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Actuellement disponible
+                        </p>
+                    @endif
                 </div>
-
+                <div class="mb-4"></div>
                 {{-- Actions : Contacter puis Favoris en dessous --}}
                 <div class="flex flex-col gap-3 mb-5">
                     <button type="button"
@@ -92,19 +124,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                 </a>
-
-                {{-- Miniatures : sous la fiche entreprise --}}
-                @if($product->images->count() > 1)
-                    <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 mt-4 max-w-md">
-                        @foreach($product->images as $image)
-                            <button type="button"
-                                    onclick="document.getElementById('main-product-image').src = '{{ $image->url }}'"
-                                    class="aspect-[2/3] overflow-hidden rounded-lg border-2 border-[#E2E8F0] opacity-70 hover:opacity-100 hover:border-[#1E3D59] transition">
-                                <img src="{{ $image->url }}" alt="" class="h-full w-full object-cover">
-                            </button>
-                        @endforeach
-                    </div>
-                @endif
             </div>
         </div>
 
