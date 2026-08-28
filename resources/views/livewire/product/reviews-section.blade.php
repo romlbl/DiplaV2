@@ -9,13 +9,22 @@
     </div>
 
     @forelse($reviews as $review)
-        <div class="border-b border-[#E2E8F0] py-3">
-            <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-[#1E293B]">{{ $review->user->name ?? 'Utilisateur' }}</p>
-                <span class="text-sm font-mono text-[#1E3D59]">★ {{ $review->rating }}</span>
+        <div class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-4 mb-3 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold text-[#1E293B]">{{ $review->user->name ?? 'Utilisateur' }}</p>
+                <span class="shrink-0 inline-flex items-center gap-1 rounded-full bg-[#1E3D59]/10 px-2.5 py-1 text-xs font-mono font-semibold text-[#1E3D59]">
+                    ★ {{ $review->rating }}
+                </span>
             </div>
-            <p class="text-sm font-medium text-[#333333] mt-1">{{ $review->subject }}</p>
+            <p class="text-sm font-medium text-[#1E293B] mt-2">{{ $review->subject }}</p>
             <p class="text-sm text-[#333333]/80 mt-1">{{ $review->content }}</p>
+
+            @if($review->company_reply)
+                <div class="mt-3 rounded-lg border-l-4 border-[#1E3D59] bg-white p-3">
+                    <p class="text-xs font-semibold text-[#1E3D59] mb-1">Réponse du commerce</p>
+                    <p class="text-sm text-[#333333]/80">{{ $review->company_reply }}</p>
+                </div>
+            @endif
         </div>
     @empty
         <p class="text-sm text-[#333333]/60 mb-4">Sois le premier à laisser un avis.</p>
