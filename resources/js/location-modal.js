@@ -147,6 +147,10 @@ document.addEventListener('alpine:init', () => {
 
             this.$store.searchLocation.set(label, this.selectedLat, this.selectedLng);
             this.closeModal();
+
+            // Recharge pour que tout ce qui dépend de la position (notamment
+            // l'itinéraire sur la fiche produit) se recalcule proprement.
+            window.location.reload();
         },
 
         clearLocation() {

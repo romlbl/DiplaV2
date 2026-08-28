@@ -7,31 +7,6 @@
 
     <form wire:submit="save" class="flex flex-col gap-5">
 
-        {{-- Photo de couverture --}}
-        <div>
-            <label class="block text-sm font-medium text-[#1E293B] mb-2">Photo de devanture</label>
-
-            <div class="relative aspect-[16/7] w-full overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#E2E8F0]">
-                @if($newCoverImage)
-                    <img src="{{ $newCoverImage->temporaryUrl() }}" alt="" class="h-full w-full object-cover">
-                @elseif($company->cover_image_url)
-                    <img src="{{ $company->cover_image_url }}" alt="" class="h-full w-full object-cover">
-                @else
-                    <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
-                        Aucune photo pour l'instant
-                    </div>
-                @endif
-            </div>
-
-            <label class="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#1E293B] transition hover:bg-[#FDFBF7]">
-                Changer la photo
-                <input type="file" wire:model="newCoverImage" accept="image/*" class="hidden">
-            </label>
-
-            <div wire:loading wire:target="newCoverImage" class="text-sm text-[#333333]/60 mt-1">Envoi...</div>
-            @error('newCoverImage') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
-        </div>
-
         {{-- Nom --}}
         <div>
             <label for="storefront-name" class="block text-sm font-medium text-[#1E293B] mb-1">Nom de l'entreprise</label>
@@ -39,6 +14,42 @@
                    class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
             @error('name') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
         </div>
+
+        {{-- Photos de la devanture --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="sm:col-span-2">
+                @include('partials.storefront-image-picker', [
+                    'label' => 'Photo de couverture',
+                    'help' => "Affichée en bannière sur la page devanture.",
+                    'previewUrl' => $company->cover_image_url,
+                    'wireModel' => 'newCoverImage',
+                    'aspectClass' => 'aspect-[16/7]',
+                    'round' => false,
+                    'cropAspectRatio' => '16 / 7',
+                ])
+            </div>
+
+            @include('partials.storefront-image-picker', [
+                'label' => 'Photo carte (résultats)',
+                'help' => "Utilisée quand votre commerce apparaît dans les résultats de recherche.",
+                'previewUrl' => $company->card_image_url,
+                'wireModel' => 'newCardImage',
+                'aspectClass' => 'aspect-[2/3]',
+                'round' => false,
+                'cropAspectRatio' => '2 / 3',
+            ])
+
+            @include('partials.storefront-image-picker', [
+                'label' => 'Photo ronde (fiche produit)',
+                'help' => "Utilisée comme icône de votre commerce sur les fiches produit.",
+                'previewUrl' => $company->avatar_image_url,
+                'wireModel' => 'newAvatarImage',
+                'aspectClass' => 'aspect-square max-w-[9rem]',
+                'round' => true,
+                'cropAspectRatio' => '1',
+            ])
+        </div>
+
 
         {{-- Adresse avec carte --}}
         <div wire:ignore>

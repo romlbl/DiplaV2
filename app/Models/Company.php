@@ -19,6 +19,8 @@ class Company extends Authenticatable
         'latitude',
         'longitude',
         'cover_image_url',
+        'card_image_url',
+        'avatar_image_url',
         'description',
         'opening_hours',
     ];

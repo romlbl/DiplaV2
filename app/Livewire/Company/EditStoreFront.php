@@ -21,6 +21,8 @@ class EditStorefront extends Component
     public string $description = '';
 
     public $newCoverImage = null;
+    public $newCardImage = null;
+    public $newAvatarImage = null;
 
     public array $openingHours = [];
 
@@ -68,6 +70,8 @@ class EditStorefront extends Component
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'description' => ['nullable', 'string', 'max:2000'],
             'newCoverImage' => ['nullable', 'image', 'max:5120'],
+            'newCardImage' => ['nullable', 'image', 'max:5120'],
+            'newAvatarImage' => ['nullable', 'image', 'max:5120'],
             'openingHours.*.closed' => ['boolean'],
             'openingHours.*.open' => ['nullable', 'string'],
             'openingHours.*.close' => ['nullable', 'string'],
@@ -82,20 +86,33 @@ class EditStorefront extends Component
             'opening_hours' => $this->openingHours,
         ];
 
-        if ($this->newCoverImage) {
-            $cloudinary = app(CloudinaryService::class);
+        $cloudinary = app(CloudinaryService::class);
 
-            if ($this->company->cover_image_url) {
-                $publicId = pathinfo(parse_url($this->company->cover_image_url, PHP_URL_PATH), PATHINFO_FILENAME);
-                $cloudinary->delete('dipla/companies/'.$publicId);
-            }
-
-            $data['cover_image_url'] = $cloudinary->upload($this->newCoverImage->getRealPath(), 'dipla/companies');
-        }
+        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newCoverImage, $this->company->cover_image_url, 'dipla/companies', 'cover_image_url'));
+        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newCardImage, $this->company->card_image_url, 'dipla/companies/cards', 'card_image_url'));
+        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newAvatarImage, $this->company->avatar_image_url, 'dipla/companies/avatars', 'avatar_image_url'));
 
         $this->company->update($data);
 
         $this->dispatch('storefront-saved');
+    }
+
+    /**
+     * Remplace une photo de devanture : supprime l'ancienne sur Cloudinary si besoin,
+     * envoie la nouvelle, et retourne le tableau à fusionner dans les données à sauvegarder.
+     */
+    protected function uploadIfPresent(CloudinaryService $cloudinary, $newFile, ?string $existingUrl, string $folder, string $column): array
+    {
+        if (!$newFile) {
+            return [];
+        }
+
+        if ($existingUrl) {
+            $publicId = pathinfo(parse_url($existingUrl, PHP_URL_PATH), PATHINFO_FILENAME);
+            $cloudinary->delete($folder.'/'.$publicId);
+        }
+
+        return [$column => $cloudinary->upload($newFile->getRealPath(), $folder)];
     }
 
     public function render()

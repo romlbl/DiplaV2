@@ -4,14 +4,15 @@
         {{-- ============================= --}}
         {{-- Hero : galerie + infos produit --}}
         {{-- ============================= --}}
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
 
             {{-- Colonne gauche : image principale + miniatures --}}
             {{--
                 Mobile  : image en haut, miniatures en dessous, côte à côte
-                Desktop : miniatures à gauche empilées, image à droite
+                Tablette (md) : même grille 2 colonnes que desktop, miniatures encore en dessous de l'image
+                Desktop (lg+) : miniatures empilées à gauche, image à droite
             --}}
-            <div class="lg:col-span-2">
+            <div class="md:col-span-2">
                 <div class="flex flex-col lg:flex-row gap-3">
 
                     {{-- Miniatures --}}
@@ -28,7 +29,7 @@
                     @endif
 
                     {{-- Image principale --}}
-                    <div class="order-1 lg:order-2 relative flex-1 max-w-[260px] mx-auto lg:mx-0 aspect-[2/3] overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0]">
+                    <div class="order-1 lg:order-2 relative flex-1 max-w-[260px] mx-auto md:mx-0 aspect-[2/3] overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0]">
                         @if($product->images->isNotEmpty())
                             <img id="main-product-image"
                                  src="{{ $product->images->first()->url }}"
@@ -39,49 +40,41 @@
                                 Pas d'image
                             </div>
                         @endif
-
-                        {{-- Badge note, positionné comme sur la maquette --}}
-                        @if($product->reviews->isNotEmpty())
-                            <span class="absolute top-2 right-2 inline-flex items-center gap-1 rounded-full bg-[#FDFBF7]/90 px-2.5 py-1 text-xs font-semibold text-[#1E293B] backdrop-blur-sm">
-                                <span class="text-amber-500">★</span> {{ $product->averageRating() }}
-                            </span>
-                        @endif
                     </div>
                 </div>
             </div>
 
             {{-- Colonne droite : titre, prix, actions, commerce --}}
-            <div class="lg:col-span-3 flex flex-col">
-                {{-- Titre --}}
-                <h1 class="text-xl md:text-2xl font-bold text-[#1E293B] leading-tight mb-1">
-                    {{ $product->title }}
-                </h1>
+            <div class="md:col-span-3 flex flex-col">
+                {{-- Titre + note, sur la même ligne, chacun à un bout --}}
+                <div class="flex items-start justify-between gap-3 mb-1">
+                    <h1 class="text-xl md:text-2xl font-bold text-[#1E293B] leading-tight">
+                        {{ $product->title }}
+                    </h1>
 
-                @if($product->reviews->isNotEmpty())
-                    <button type="button" @click="tab = 'avis'"
-                            class="text-sm text-[#333333]/60 hover:underline text-left mb-3">
-                        {{ $product->reviews->count() }} avis
-                    </button>
-                @else
+                    @if($product->reviews->isNotEmpty())
+                        <button type="button" @click="tab = 'avis'"
+                                class="shrink-0 flex items-center gap-1 text-sm hover:underline">
+                            <span class="text-amber-500">★</span>
+                            <span class="font-medium text-[#1E293B]">{{ $product->averageRating() }}</span>
+                            <span class="text-[#333333]/60">({{ $product->reviews->count() }})</span>
+                        </button>
+                    @endif
+                </div>
+
+                @if($product->reviews->isEmpty())
                     <p class="text-sm text-[#333333]/50 mb-3">Aucun avis pour l'instant</p>
+                @else
+                    <div class="mb-3"></div>
                 @endif
 
-                {{-- Prix --}}
-                <div class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] px-4 py-2.5 mb-1 w-fit">
+                {{-- Prix, sans fond ni bordure --}}
+                <div class="mb-5">
                     <span class="text-xl md:text-2xl font-mono font-bold text-[#1E3D59]">
                         {{ number_format($product->price, 2) }} €
                     </span>
-                    {{-- Disponibilité du commerce --}}
-                    @if($product->company->isOpenNow() === true)
-                        <p class="flex items-center gap-1.5 text-sm text-emerald-700 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Actuellement disponible
-                        </p>
-                    @endif
                 </div>
-                <div class="mb-4"></div>
+
                 {{-- Actions : Contacter puis Favoris en dessous --}}
                 <div class="flex flex-col gap-3 mb-5">
                     <button type="button"
@@ -102,27 +95,46 @@
                     <livewire:product.favorite-button :product="$product" />
                 </div>
 
-                {{-- Carte commerce --}}
+                {{-- Carte commerce, avec la disponibilité en dessous des infos, dans le même bloc --}}
                 <a href="{{ route('search', ['q' => $product->company->name]) }}" wire:navigate
-                   class="flex items-center justify-between gap-4 rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-3 transition hover:border-[#1E3D59] group">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E2E8F0] overflow-hidden">
-                            @if($product->company->cover_image_url)
-                                <img src="{{ $product->company->cover_image_url }}" alt="" class="h-full w-full object-cover">
-                            @else
-                                <span class="text-[#1E3D59] font-semibold text-sm">{{ mb_substr($product->company->name, 0, 1) }}</span>
-                            @endif
+                   class="flex flex-col gap-2 rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-3 transition hover:border-[#1E3D59] group">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 min-w-0">
+                                @php($avatarImage = $product->company->avatar_image_url ?? $product->company->cover_image_url)
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E2E8F0] overflow-hidden">
+                                    @if($avatarImage)
+                                        <img src="{{ $avatarImage }}" alt="" class="h-full w-full object-cover">
+                                    @else
+                                        <span class="text-[#1E3D59] font-semibold text-sm">{{ mb_substr($product->company->name, 0, 1) }}</span>
+                                    @endif
+                                </div>
+                            <div class="min-w-0">
+                                <h3 class="font-medium text-[#1E293B] text-sm truncate group-hover:text-[#1E3D59] transition">
+                                    {{ $product->company->name }}
+                                </h3>
+                                <p class="text-xs text-[#333333]/60 truncate">{{ $product->address }}</p>
+                            </div>
                         </div>
-                        <div class="min-w-0">
-                            <h3 class="font-medium text-[#1E293B] text-sm truncate group-hover:text-[#1E3D59] transition">
-                                {{ $product->company->name }}
-                            </h3>
-                            <p class="text-xs text-[#333333]/60 truncate">{{ $product->address }}</p>
-                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-[#333333]/40 group-hover:text-[#1E3D59] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-[#333333]/40 group-hover:text-[#1E3D59] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
+
+                    @if($product->company->isOpenNow() === true)
+                        <p class="flex items-center gap-1.5 text-sm text-emerald-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Actuellement disponible
+                        </p>
+                    @elseif($product->company->isOpenNow() === false)
+                        <p class="flex items-center gap-1.5 text-sm text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Actuellement fermé
+                        </p>
+                    @endif
                 </a>
             </div>
         </div>

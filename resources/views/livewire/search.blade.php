@@ -197,8 +197,17 @@
                                class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
                                 <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
                                     @if($company->cover_image_url)
-                                        <img src="{{ $company->cover_image_url }}" alt="{{ $company->name }}"
-                                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                        @php($cardImage = $company->card_image_url ?? $company->cover_image_url)
+                                        <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
+                                            @if($cardImage)
+                                                <img src="{{ $cardImage }}" alt="{{ $company->name }}"
+                                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                            @else
+                                                <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
+                                                    Pas d'image
+                                                </div>
+                                            @endif
+                                        </div>
                                     @else
                                         <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
                                             Pas d'image
