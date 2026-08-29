@@ -42,6 +42,14 @@ class Company extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+    public function pendingQuestionsCount(): int
+    {
+        return \App\Models\Discussion::whereIn('product_id', $this->products()->pluck('id'))
+            ->whereNull('parent_id')
+            ->doesntHave('replies')
+            ->count();
+    }
+
     public function isOpenNow(): ?bool
     {
         $hours = $this->opening_hours;

@@ -25,15 +25,15 @@
             ->take(8)
             ->get();
 
-        $categories = ['Artisans', 'Boulangeries', 'Fleuristes', 'Épiceries'];
+        $categories = ['Artisans', 'Fleurs', 'Librairies', 'Bijoux'];
     @endphp
 
     {{-- Hero --}}
-    <section class="flex flex-col items-center gap-6 py-10 text-center md:py-5">
+    <section class="flex flex-col items-center gap-6 py-2 text-center md:py-5">
         <h1 class="max-w-3xl text-2xl font-extrabold tracking-tight text-[#1E293B] md:text-4xl">
             Trouvez ce qu'il vous faut, près de chez vous.
         </h1>
-        <p class="max-w-xl text-base text-[#333333]/80 md:text-lg">
+        <p class="hidden max-w-xl text-base text-[#333333]/80 md:block md:text-lg">
             Découvrez les meilleurs artisans, commerces et produits locaux autour de vous en un instant.
         </p>
 
