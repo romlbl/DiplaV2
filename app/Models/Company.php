@@ -50,7 +50,9 @@ class Company extends Authenticatable
             return null;
         }
 
-        $dayKey = strtolower(now()->format('D')); // mon, tue, wed...
+        $localNow = now('Europe/Paris');
+
+        $dayKey = strtolower($localNow->format('D')); // mon, tue, wed...
         $today = $hours[$dayKey] ?? null;
 
         if (!$today || ($today['closed'] ?? true)) {
@@ -64,9 +66,9 @@ class Company extends Authenticatable
             return null;
         }
 
-        $now = now()->format('H:i');
+        $currentTime = $localNow->format('H:i');
 
-        return $now >= $open && $now <= $close;
+        return $currentTime >= $open && $currentTime <= $close;
     }
 
     public function scopeSearch(\Illuminate\Database\Eloquent\Builder $query, ?string $term): \Illuminate\Database\Eloquent\Builder

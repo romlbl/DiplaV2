@@ -62,7 +62,7 @@
         <input type="text" name="address" id="address" required autocomplete="off"
             data-role="address-input"
             placeholder="Commence à taper une adresse..."
-            value="{{ old('address', $product->address ?? '') }}"
+            value="{{ old('address', $product->address ?? auth('company')->user()->address) }}"
             class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
 
         <div data-role="suggestions" style="z-index: 9999;"
@@ -73,8 +73,8 @@
 
         <p class="text-xs text-[#333333]/60 mt-1">Ajuste le repère sur la carte si besoin, ou glisse-le à la bonne position.</p>
 
-        <input type="hidden" name="latitude" data-role="latitude" value="{{ old('latitude', $product->latitude ?? '') }}">
-        <input type="hidden" name="longitude" data-role="longitude" value="{{ old('longitude', $product->longitude ?? '') }}">
+        <input type="hidden" name="latitude" data-role="latitude" value="{{ old('latitude', $product->latitude ?? auth('company')->user()->latitude) }}">
+        <input type="hidden" name="longitude" data-role="longitude" value="{{ old('longitude', $product->longitude ?? auth('company')->user()->longitude) }}">
     </div>
 
 

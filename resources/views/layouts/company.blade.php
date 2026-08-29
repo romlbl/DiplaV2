@@ -120,7 +120,7 @@
             </div>
         </header>
 
-        <main class="px-4 py-6 md:px-8 md:py-10 mt-14 md:mt-0">
+        <main class="px-4 pt-3 pb-6 md:px-8 md:pt-4 md:pb-10 mt-14 md:mt-0">
             {{ $slot }}
         </main>
     </div>
