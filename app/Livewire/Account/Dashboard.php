@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Account;
 
-use App\Models\ViewHistory;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -44,10 +43,9 @@ class Dashboard extends Component
 
         $data = match ($this->tab) {
             'favorites' => $user->favorites()->with('images')->get(),
-            'reviews' => $user->reviews()->with('product.images')->latest()->get(),
             'questions' => $user->discussions()->whereNull('parent_id')->with(['product.images', 'replies.user'])->latest()->get(),
             'history' => $user->viewHistory()->with('product.images')->latest('viewed_at')->get(),
-            default => collect(),
+            default => $user->reviews()->with('product.images')->latest()->get(),
         };
 
         return view('livewire.account.dashboard', compact('data'));

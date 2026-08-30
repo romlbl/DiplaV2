@@ -12,6 +12,7 @@ Route::view('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', AccountDashboard::class)->name('dashboard');
+    Route::get('compte/parametres', \App\Livewire\Account\Settings::class)->name('account.settings');
 });
 
 Route::get('/recherche', Search::class)->name('search');
