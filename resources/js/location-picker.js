@@ -35,6 +35,12 @@ export function initLocationPicker(container) {
         : null;
 
     async function reverseGeocode(lat, lng) {
+        // Désactive le bouton d'envoi pendant la recherche d'adresse : sans ça,
+        // un clic rapide sur "Enregistrer" peut soumettre le formulaire avant
+        // que l'adresse n'ait eu le temps de se remplir automatiquement.
+        const submitButton = container.closest('form')?.querySelector('[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+
         try {
             const response = await fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`
@@ -46,6 +52,8 @@ export function initLocationPicker(container) {
             }
         } catch (error) {
             console.error('Erreur de géocodage inverse', error);
+        } finally {
+            if (submitButton) submitButton.disabled = false;
         }
     }
 

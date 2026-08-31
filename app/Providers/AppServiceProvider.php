@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,15 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceScheme('https');
         }
         $this->configureDefaults();
+
+        // Marque la requête suivante comme "juste après connexion" (particuliers
+        // uniquement) : ça permet au JS de forcer l'adresse du compte comme
+        // position de recherche, même si une autre position traînait déjà.
+        Event::listen(Login::class, function (Login $event): void {
+            if ($event->guard === 'web') {
+                session()->flash('just_logged_in', true);
+            }
+        });
     }
 
     /**

@@ -1,4 +1,11 @@
-<div>
+<div x-data
+     @user-location-updated.window="
+         if ($event.detail.latitude && $event.detail.longitude) {
+             $store.searchLocation.set($event.detail.address, parseFloat($event.detail.latitude), parseFloat($event.detail.longitude));
+         } else if (!$event.detail.address) {
+             $store.searchLocation.clear();
+         }
+     ">
     <div class="mb-6">
         <h1 class="text-2xl font-semibold text-[#1E293B]">Paramètres</h1>
         <p class="text-sm text-[#333333]/70 mt-1">Gère ton profil, ton adresse email et ton mot de passe.</p>

@@ -45,6 +45,15 @@ class Settings extends Component
 
         auth()->user()->update($validated);
 
+        // Notifie le store JS partagé : une adresse modifiée dans les paramètres
+        // doit immédiatement remplacer toute position déjà utilisée pour la recherche.
+        $this->dispatch(
+            'user-location-updated',
+            address: $validated['address'],
+            latitude: $validated['latitude'],
+            longitude: $validated['longitude'],
+        );
+
         session()->flash('settings-status', 'Profil mis à jour.');
     }
 

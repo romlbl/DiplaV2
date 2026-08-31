@@ -12,16 +12,31 @@ document.addEventListener('alpine:init', () => {
         lng: null,
 
         init() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+            // Juste après une connexion, l'adresse du compte doit prendre le
+            // dessus même sur une position déjà en mémoire (héritée d'avant la
+            // connexion). Dans tous les autres cas, une position déjà choisie
+            // reste prioritaire (voir layouts/public.blade.php pour le flag).
+            if (!window.diplaJustLoggedIn) {
+                try {
+                    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
 
-                if (saved && saved.lat && saved.lng) {
-                    this.label = saved.label;
-                    this.lat = saved.lat;
-                    this.lng = saved.lng;
+                    if (saved && saved.lat && saved.lng) {
+                        this.label = saved.label;
+                        this.lat = saved.lat;
+                        this.lng = saved.lng;
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Impossible de lire la position enregistrée', error);
                 }
-            } catch (error) {
-                console.warn('Impossible de lire la position enregistrée', error);
+            }
+
+            // Aucune position à garder : si l'utilisateur connecté a une
+            // adresse enregistrée, on l'utilise (par défaut, ou en écrasement
+            // juste après connexion).
+            const userLocation = window.diplaUserLocation;
+            if (userLocation && userLocation.lat && userLocation.lng) {
+                this.set(userLocation.label, userLocation.lat, userLocation.lng);
             }
         },
 

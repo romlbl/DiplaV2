@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $address
+ * @property float|null $latitude
+ * @property float|null $longitude
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
@@ -30,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'address', 'latitude', 'longitude'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -47,6 +50,8 @@ class User extends Authenticatable implements PasskeyUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'latitude' => 'decimal:7',
+            'longitude' => 'decimal:7',
         ];
     }
 

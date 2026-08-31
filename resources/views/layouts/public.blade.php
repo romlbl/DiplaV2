@@ -9,6 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
+    @auth
+        <script>
+            // Position par défaut pour la recherche : l'adresse enregistrée du
+            // compte (voir resources/js/location-store.js).
+            window.diplaUserLocation = {
+                label: @js(auth()->user()->address),
+                lat: @js(auth()->user()->latitude ? (float) auth()->user()->latitude : null),
+                lng: @js(auth()->user()->longitude ? (float) auth()->user()->longitude : null),
+            };
+
+            // true uniquement sur la toute première page vue juste après une
+            // connexion : force l'adresse du compte à écraser une éventuelle
+            // position déjà en mémoire (choisie avant connexion, ou par défaut).
+            window.diplaJustLoggedIn = @json(session('just_logged_in', false));
+        </script>
+    @endauth
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col bg-[#FBF9F8] text-[#333333] font-sans antialiased">
