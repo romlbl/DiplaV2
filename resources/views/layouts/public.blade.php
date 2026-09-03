@@ -10,19 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     @auth
+        @php
+            // On lit puis on efface immédiatement : seule la toute première page
+            // publique vue après la connexion doit écraser une position déjà en
+            // mémoire (localStorage). Les visites suivantes n'y touchent plus.
+            $justLoggedIn = session('just_logged_in', false);
+            session()->forget('just_logged_in');
+        @endphp
         <script>
-            // Position par défaut pour la recherche : l'adresse enregistrée du
-            // compte (voir resources/js/location-store.js).
             window.diplaUserLocation = {
                 label: @js(auth()->user()->address),
                 lat: @js(auth()->user()->latitude ? (float) auth()->user()->latitude : null),
                 lng: @js(auth()->user()->longitude ? (float) auth()->user()->longitude : null),
             };
 
-            // true uniquement sur la toute première page vue juste après une
-            // connexion : force l'adresse du compte à écraser une éventuelle
-            // position déjà en mémoire (choisie avant connexion, ou par défaut).
-            window.diplaJustLoggedIn = @json(session('just_logged_in', false));
+            window.diplaJustLoggedIn = @json($justLoggedIn);
         </script>
     @endauth
 

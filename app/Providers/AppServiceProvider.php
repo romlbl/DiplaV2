@@ -35,12 +35,12 @@ class AppServiceProvider extends ServiceProvider
         }
         $this->configureDefaults();
 
-        // Marque la requête suivante comme "juste après connexion" (particuliers
-        // uniquement) : ça permet au JS de forcer l'adresse du compte comme
-        // position de recherche, même si une autre position traînait déjà.
         Event::listen(Login::class, function (Login $event): void {
             if ($event->guard === 'web') {
-                session()->flash('just_logged_in', true);
+                // session()->put (pas flash) : le flag doit survivre à la redirection
+                // vers /dashboard et rester disponible jusqu'à la première page
+                // publique réellement affichée, où il sera consommé.
+                session()->put('just_logged_in', true);
             }
         });
     }
