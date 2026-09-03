@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L'Artisan Local - Storefront</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected from Design System -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "secondary-fixed-dim": "#d3bfe7",
+                        "on-surface": "#1b1c1c",
+                        "primary-fixed": "#cfe5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#abc9ec",
+                        "on-tertiary-container": "#a6a5a2",
+                        "surface-tint": "#43617f",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#3b3b39",
+                        "on-primary-fixed-variant": "#2b4966",
+                        "secondary-container": "#ead5fe",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "surface-variant": "#e4e2e1",
+                        "primary": "#022742",
+                        "surface-bright": "#fbf9f8",
+                        "outline": "#73777e",
+                        "primary-container": "#1e3d59",
+                        "inverse-on-surface": "#f3f0f0",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary-fixed": "#001d34",
+                        "on-secondary-fixed-variant": "#4f4062",
+                        "surface-container-high": "#eae8e7",
+                        "surface-container": "#f0eded",
+                        "tertiary-fixed": "#e4e2de",
+                        "outline-variant": "#c3c7ce",
+                        "tertiary": "#252623",
+                        "secondary-fixed": "#eedbff",
+                        "surface": "#fbf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#231534",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "inverse-surface": "#303030",
+                        "on-primary-container": "#8aa8c9",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#43474d",
+                        "secondary": "#68587a",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#abc9ec",
+                        "surface-container-highest": "#e4e2e1",
+                        "background": "#fbf9f8",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#dcd9d9",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#6a5a7d",
+                        "on-background": "#1b1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xxl": "48px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FDFBF7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1b1c1c;
+        }
+        .surface-card {
+            background-color: #FAFAFF;
+        }
+        .shadow-ambient {
+            box-shadow: 0 10px 25px -5px rgba(30, 61, 89, 0.05);
+        }
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -5px rgba(30, 61, 89, 0.08);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-safe">
+<!-- Main Content Canvas -->
+<main class="w-full max-w-7xl mx-auto md:px-margin-desktop px-margin-mobile pt-lg pb-xxl flex flex-col gap-xl">
+<!-- 1. Hero Section -->
+<section class="relative w-full h-[320px] md:h-[400px] rounded-2xl overflow-hidden shadow-ambient">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAa0Y4R0IwTwH9x1bmWKayeYIzAf0TEWAqWGdUbxB1RIKJ6otHSBn1gSdwtFcY0UmCKc1EeIygonRZw9uQTpxv_dgn2YKozstFgWiOCj71_CPPZr8_9r4HeXxHcmk_Mdgl-tTM1JdsUid8gWyUM60urGUt7J6r77rfVjdlVQ8bcL1OnLxHelaXjDG3gqmaPrjzcA6jiagO1L_IZGGMGrBtxOM0HXzuz80c2yCrXVk2jI6v1P0uAq96jog')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-xl flex flex-col justify-end">
+<h1 class="text-on-primary font-display-lg md:font-display-lg font-extrabold mb-sm">L'Artisan Local</h1>
+<p class="text-on-primary font-body-lg text-body-lg max-w-2xl">Le meilleur de nos terroirs, à deux pas de chez vous.</p>
+</div>
+</section>
+<!-- 2. Product Search Zone -->
+<section class="w-full flex flex-col gap-md">
+<div class="relative w-full shadow-ambient hover-lift rounded-full">
+<span class="material-symbols-outlined absolute left-lg top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-16 pl-[72px] pr-lg rounded-full border border-surface-variant bg-surface-card text-on-surface font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Rechercher un produit en magasin..." type="text"/>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md mt-sm">
+<div class="surface-card rounded-xl overflow-hidden shadow-sm hover-lift">
+<div class="h-32 bg-surface-container-high"></div>
+<div class="p-3">
+<h4 class="font-label-md text-on-surface">Baguette Tradition</h4>
+<p class="text-label-sm text-primary">1,20 €</p>
+</div>
+</div>
+<div class="surface-card rounded-xl overflow-hidden shadow-sm hover-lift">
+<div class="h-32 bg-surface-container-high"></div>
+<div class="p-3">
+<h4 class="font-label-md text-on-surface">Croissant Pur Beurre</h4>
+<p class="text-label-sm text-primary">1,10 €</p>
+</div>
+</div>
+<div class="surface-card rounded-xl overflow-hidden shadow-sm hover-lift">
+<div class="h-32 bg-surface-container-high"></div>
+<div class="p-3">
+<h4 class="font-label-md text-on-surface">Pain au Chocolat</h4>
+<p class="text-label-sm text-primary">1,20 €</p>
+</div>
+</div>
+<div class="surface-card rounded-xl overflow-hidden shadow-sm hover-lift">
+<div class="h-32 bg-surface-container-high"></div>
+<div class="p-3">
+<h4 class="font-label-md text-on-surface">Brioche Maison</h4>
+<p class="text-label-sm text-primary">4,50 €</p>
+</div>
+</div>
+</div></section>
+<!-- 3. Practical Info Block (Grid of Cards) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full">
+<!-- Opening Hours Card -->
+<div class="surface-card rounded-2xl p-xl shadow-ambient hover-lift flex flex-col gap-md">
+<div class="flex justify-between items-center border-b border-surface-variant pb-sm">
+<h2 class="text-primary font-headline-md text-headline-md flex items-center gap-sm">
+<span class="material-symbols-outlined">schedule</span>
+                        Horaires
+                    </h2>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Ouvert actuellement
+                    </span>
+</div>
+<ul class="flex flex-col gap-sm font-body-md text-body-md text-on-surface-variant">
+<li class="flex justify-between"><span>Lundi</span> <span>Fermé</span></li>
+<li class="flex justify-between font-bold text-primary"><span>Mardi</span> <span>09:00 - 19:30</span></li>
+<li class="flex justify-between"><span>Mercredi</span> <span>09:00 - 19:30</span></li>
+<li class="flex justify-between"><span>Jeudi</span> <span>09:00 - 19:30</span></li>
+<li class="flex justify-between"><span>Vendredi</span> <span>09:00 - 20:00</span></li>
+<li class="flex justify-between"><span>Samedi</span> <span>09:00 - 20:00</span></li>
+<li class="flex justify-between"><span>Dimanche</span> <span>09:00 - 13:00</span></li>
+</ul>
+</div>
+<!-- Contact Details Card -->
+<div class="surface-card rounded-2xl p-xl shadow-ambient hover-lift flex flex-col gap-md">
+<div class="border-b border-surface-variant pb-sm">
+<h2 class="text-primary font-headline-md text-headline-md flex items-center gap-sm">
+<span class="material-symbols-outlined">info</span>
+                        Informations pratiques
+                    </h2>
+</div>
+<div class="flex flex-col gap-lg mt-sm">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Adresse</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">12 Rue de la Roquette<br/>75011 Paris, France</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Téléphone</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">+33 1 23 45 67 89</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Email</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">contact@artisan-local.fr</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Map & Itinerary Section -->
+<section class="w-full relative h-[400px] rounded-2xl overflow-hidden shadow-ambient group">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full" data-alt="A clean, minimalist vector map illustration centered on a specific location pin in Paris. The map uses a light-mode color palette with soft greys, off-whites, and subtle blue accents to denote roads and parks. The design is sleek, uncluttered, and highly professional, fitting perfectly within a premium digital UI." data-location="Paris" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmPZkeMKL1YjQ7OslQ4t5fxuzmqZsEK1ZIiStujkFBpxacznzmkJ2_W-KqL0Iricxr1G3VldFT9UBsYJ5NzowZ5XEkO4o6F2ML8n85I11lXu7AugVGP27pgr59QnwG09BGggOQY6gtn4owSSjF1i3yawC-omn8wsj3NLogeyf249D_AA_aW66NF9qMbKyVl1_r5RCEYM2M5YmoI8XYhmee281zQjlN7YuXKwCDHWrGmbr0up0s_Kp5qw')"></div>
+<!-- Map Overlay Card -->
+<div class="absolute bottom-md left-md right-md md:left-xl md:right-auto md:w-96 surface-card p-lg rounded-xl shadow-lg border border-surface-variant flex flex-col gap-md transition-transform transform group-hover:-translate-y-2">
+<h3 class="font-headline-md text-headline-md text-primary">Venir en boutique</h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">my_location</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-surface-variant bg-surface text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Saisissez votre point de départ" type="text"/>
+</div>
+<button class="w-full py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors flex justify-center items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions</span>
+                    Calculer l'itinéraire
+                </button>
+</div>
+</section>
+</main>
+<!-- 5. Footer (From JSON) -->
+<footer class="bg-surface-container-low w-full px-margin-mobile md:px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-center gap-md mt-xxl border-t border-surface-variant">
+<div class="font-headline-md text-headline-md text-primary">LocalDiscovery</div>
+<div class="flex flex-wrap justify-center gap-md font-label-sm text-label-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="hover:text-primary transition-colors" href="#">Partner with Us</a>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-center md:text-right">
+            © 2024 LocalDiscovery Platform. All rights reserved.
+        </div>
+</footer>
+</body></html>

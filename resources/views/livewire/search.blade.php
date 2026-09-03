@@ -174,92 +174,100 @@
         </aside>
 
         {{-- Résultats --}}
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 flex flex-col gap-10">
 
-            @if($type === 'commerce')
-                {{-- Commerces --}}
-                @if($mode === 'nearby' && !$userLat)
-                    <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
-                        <p class="text-[#333333]">Active ta position pour voir les commerces autour de toi.</p>
-                    </div>
-                @elseif($companies->isEmpty())
-                    <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
-                        <p class="text-[#333333]">Aucun commerce ne correspond à cette recherche.</p>
-                    </div>
-                @else
-                    <p class="text-sm text-[#333333]/60 mb-4">
-                        {{ $companies->total() }} commerce{{ $companies->total() > 1 ? 's' : '' }}
-                    </p>
+            {{-- Produits / Services --}}
+            @if($products !== null)
+                <div>
+                    @if($type === '')
+                        <h2 class="text-lg font-semibold text-[#1E293B] mb-4">Produits &amp; Services</h2>
+                    @endif
 
-                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        @foreach($companies as $company)
-                            <a href="{{ route('search', ['q' => $company->name]) }}" wire:navigate
-                               class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
-                                <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
-                                    @if($company->cover_image_url)
-                                        @php($cardImage = $company->card_image_url ?? $company->cover_image_url)
-                                        <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
-                                            @if($cardImage)
-                                                <img src="{{ $cardImage }}" alt="{{ $company->name }}"
-                                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                            @else
-                                                <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
-                                                    Pas d'image
-                                                </div>
-                                            @endif
-                                        </div>
-                                    @else
-                                        <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
-                                            Pas d'image
-                                        </div>
-                                    @endif
-                                </div>
+                    @if($mode === 'nearby' && !$userLat)
+                        <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
+                            <p class="text-[#333333]">Active ta position pour voir ce qu'il y a autour de toi.</p>
+                        </div>
+                    @elseif($products->isEmpty())
+                        <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
+                            <p class="text-[#333333]">Aucun résultat pour cette recherche.</p>
+                        </div>
+                    @else
+                        <p class="text-sm text-[#333333]/60 mb-4">
+                            {{ $products->total() }} résultat{{ $products->total() > 1 ? 's' : '' }}
+                        </p>
 
-                                <div class="flex flex-1 flex-col p-4">
-                                    <h3 class="font-semibold text-[#1E293B] line-clamp-2">{{ $company->name }}</h3>
-                                    <p class="mt-1 text-xs text-[#333333]/60 line-clamp-2">{{ $company->address }}</p>
+                        <div class="flex flex-wrap gap-4 sm:gap-6">
+                            @foreach($products as $product)
+                                @include('partials.product-card', ['product' => $product])
+                            @endforeach
+                        </div>
 
-                                    @if(isset($company->distance))
-                                        <p class="mt-auto pt-3 text-xs font-mono text-[#333333]/60">
-                                            {{ number_format($company->distance, 1) }} km 
-                                        </p>
-                                    @endif
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-8">
-                        {{ $companies->links() }}
-                    </div>
-                @endif
-
-            @else
-                {{-- Produits / Services --}}
-                @if($mode === 'nearby' && !$userLat)
-                    <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
-                        <p class="text-[#333333]">Active ta position pour voir ce qu'il y a autour de toi.</p>
-                    </div>
-                @elseif($products->isEmpty())
-                    <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
-                        <p class="text-[#333333]">Aucun résultat pour cette recherche.</p>
-                    </div>
-                @else
-                    <p class="text-sm text-[#333333]/60 mb-4">
-                        {{ $products->total() }} résultat{{ $products->total() > 1 ? 's' : '' }}
-                    </p>
-
-                    <div class="flex flex-wrap gap-4 sm:gap-6">
-                        @foreach($products as $product)
-                            @include('partials.product-card', ['product' => $product])
-                        @endforeach
-                    </div>
-
-                    <div class="mt-8">
-                        {{ $products->links() }}
-                    </div>
-                @endif
+                        <div class="mt-8">
+                            {{ $products->links() }}
+                        </div>
+                    @endif
+                </div>
             @endif
+
+            {{-- Commerces : affichés dès que $companies est chargé (type "commerce" OU "Tout") --}}
+            @if($companies !== null)
+                <div>
+                    @if($type === '')
+                        <h2 class="text-lg font-semibold text-[#1E293B] mb-4">Commerces</h2>
+                    @endif
+
+                    @if($mode === 'nearby' && !$userLat)
+                        <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
+                            <p class="text-[#333333]">Active ta position pour voir les commerces autour de toi.</p>
+                        </div>
+                    @elseif($companies->isEmpty())
+                        @if($type === 'commerce')
+                            <div class="rounded-2xl border border-dashed border-[#E2E8F0] p-10 text-center">
+                                <p class="text-[#333333]">Aucun commerce ne correspond à cette recherche.</p>
+                            </div>
+                        @endif
+                    @else
+                        <p class="text-sm text-[#333333]/60 mb-4">
+                            {{ $companies->total() }} commerce{{ $companies->total() > 1 ? 's' : '' }}
+                        </p>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            @foreach($companies as $company)
+                                <a href="{{ route('company.storefront', $company) }}" wire:navigate
+                                   class="group flex flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-sm transition hover:shadow-md">
+                                    <div class="relative aspect-[2/3] w-full bg-[#E2E8F0]">
+                                        @php($cardImage = $company->card_image_url ?? $company->cover_image_url)
+                                        @if($cardImage)
+                                            <img src="{{ $cardImage }}" alt="{{ $company->name }}"
+                                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                        @else
+                                            <div class="flex h-full w-full items-center justify-center text-sm text-[#333333]/40">
+                                                Pas d'image
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex flex-1 flex-col p-4">
+                                        <h3 class="font-semibold text-[#1E293B] line-clamp-2">{{ $company->name }}</h3>
+                                        <p class="mt-1 text-xs text-[#333333]/60 line-clamp-2">{{ $company->address }}</p>
+
+                                        @if(isset($company->distance))
+                                            <p class="mt-auto pt-3 text-xs font-mono text-[#333333]/60">
+                                                {{ number_format($company->distance, 1) }} km
+                                            </p>
+                                        @endif
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+
+                        <div class="mt-8">
+                            {{ $companies->links() }}
+                        </div>
+                    @endif
+                </div>
+            @endif
+
         </div>
     </div>
 </div>

@@ -58,7 +58,7 @@ class Search extends Component
 
     public function render()
     {
-        // "Commerces" cherche des entreprises, pas des produits/services.
+        // "Commerces" cherche uniquement des entreprises.
         if ($this->type === 'commerce') {
             return view('livewire.search', [
                 'products' => null,
@@ -66,9 +66,12 @@ class Search extends Component
             ]);
         }
 
+        // "Tout" (type vide) : produits/services ET commerces, affichés
+        // dans deux sections distinctes. Les autres types (produit/service)
+        // ne cherchent que des produits.
         return view('livewire.search', [
             'products' => $this->searchProducts(),
-            'companies' => null,
+            'companies' => $this->type === '' ? $this->searchCompanies() : null,
         ]);
     }
 
@@ -108,18 +111,18 @@ class Search extends Component
 
         return $query;
     }
-
+    
     protected function searchProducts()
     {
         $query = Product::query()->ofType($this->type ?: null)->maxPrice($this->maxPrice);
 
         return $this->applyModeScopes($query, 'products')
             ->with(['images', 'company', 'reviews'])
-            ->paginate(12);
+            ->paginate(12, ['*'], 'productsPage');
     }
 
     protected function searchCompanies()
     {
-        return $this->applyModeScopes(Company::query(), 'companies')->paginate(12);
+        return $this->applyModeScopes(Company::query(), 'companies')->paginate(12, ['*'], 'companiesPage');
     }
 }

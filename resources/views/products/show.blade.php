@@ -96,7 +96,7 @@
                 </div>
 
                 {{-- Carte commerce, avec la disponibilité en dessous des infos, dans le même bloc --}}
-                <a href="{{ route('search', ['q' => $product->company->name]) }}" wire:navigate
+                <a href="{{ route('company.storefront', $product->company) }}" wire:navigate
                    class="flex flex-col gap-2 rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-3 transition hover:border-[#1E3D59] group">
                     <div class="flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3 min-w-0">
