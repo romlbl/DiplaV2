@@ -1,0 +1,10 @@
+- enlever categoris acceuile telephone
+- prix et distance mieux sur carte produit telephone
+- revoir page connexion mdp oublié + bouton
+- police a revoir
+- changer mise en page avis/question/favo compte user telephone
+- page création comtpe user
+- barre de chargement nulle
+- cursor pointer
+- ouverture dans nouvel onglet
+- bouton "utilise ma position" page recherche 
