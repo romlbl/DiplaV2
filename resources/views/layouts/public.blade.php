@@ -31,7 +31,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col bg-[#FBF9F8] text-[#333333] font-sans antialiased">
-
+    @stack('body-top')
     {{-- En-tête fixe : reproduit la nav de la maquette (logo, liens, position, bouton Connexion) --}}
     <header class="fixed top-0 inset-x-0 z-50 border-b border-[#E2E8F0]/60 bg-[#FBF9F8]/90 shadow-sm backdrop-blur-md">
         <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4 md:px-8">
@@ -109,11 +109,11 @@
         </ul>
     </header>
 
-    <main class="mx-auto w-full max-w-6xl flex-1 px-4 pb-10 pt-28">
+    <main class="relative z-10 mx-auto w-full max-w-6xl flex-1 px-4 pb-10 pt-28">
         {{ $slot }}
     </main>
 
-    <footer class="border-t border-[#E2E8F0] py-8 text-center text-sm text-[#333333]/50">
+    <footer class="relative z-10 border-t border-[#E2E8F0] py-8 text-center text-sm text-[#333333]/50">
         &copy; {{ date('Y') }} Dipla — Tous droits réservés
     </footer>
 

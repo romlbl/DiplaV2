@@ -5,5 +5,6 @@ import './route-preview.js';
 import './image-crop.js';
 import './location-modal.js';
 import './single-image-crop.js';
+import './neat-background.js';
 import Sortable from 'sortablejs';
 window.Sortable = Sortable;

@@ -1,3 +1,12 @@
+@push('body-top')
+    {{-- Fond Neat : fixe, couvre tout le viewport en permanence (donc aussi visible
+         au niveau du footer une fois scrollé), uniquement sur la page d'accueil. --}}
+    <canvas id="neat-home-background"
+            class="fixed inset-0 z-0 h-screen w-screen"
+            style="pointer-events: none;"
+            aria-hidden="true"></canvas>
+@endpush
+
 <x-layouts::public>
     @php
         $companiesCount = \App\Models\Company::count();
@@ -29,7 +38,10 @@
     @endphp
 
     {{-- Hero --}}
-    <section class="flex flex-col items-center gap-6 py-2 text-center md:py-5">
+    <section class="wave-hero relative flex flex-col items-center gap-6 py-2 text-center md:py-5">
+
+
+        <div class="relative z-10 flex w-full flex-col items-center gap-6">
         <h1 class="max-w-3xl text-2xl font-extrabold tracking-tight text-[#1E293B] md:text-4xl">
             Trouvez ce qu'il vous faut, près de chez vous.
         </h1>
