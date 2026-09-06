@@ -81,8 +81,8 @@
             </div>
         </form>
 
-        {{-- Filtres rapides --}}
-        <div class="flex flex-wrap justify-center gap-2">
+        {{-- Filtres rapides (cachés sur mobile) --}}
+        <div class="hidden md:flex flex-wrap justify-center gap-2">
             @foreach($categories as $category)
                 <a href="{{ route('search', ['q' => $category]) }}" wire:navigate
                    class="rounded-full bg-[#4A3B5C]/10 px-4 py-2 text-xs font-semibold text-[#4A3B5C] transition hover:bg-[#4A3B5C]/20">

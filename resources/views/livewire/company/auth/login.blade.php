@@ -26,7 +26,7 @@
 
         <flux:checkbox wire:model="remember" label="Se souvenir de moi" />
 
-        <flux:button type="submit" variant="primary" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! font-semibold!">
+        <flux:button type="submit" variant="primary" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
             Se connecter
         </flux:button>
     </form>

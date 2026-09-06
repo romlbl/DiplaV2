@@ -57,7 +57,7 @@
 
                     <flux:checkbox name="remember" label="Se souvenir de moi" :checked="old('remember')" />
 
-                    <flux:button variant="primary" type="submit" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! font-semibold!">
+                    <flux:button variant="primary" type="submit" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
                         Se connecter
                     </flux:button>
                 </form>

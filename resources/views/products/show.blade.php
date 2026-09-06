@@ -53,7 +53,13 @@
                     </h1>
 
                     @if($product->reviews->isNotEmpty())
-                        <button type="button" @click="tab = 'avis'"
+                        <button type="button" 
+                        @click="
+                        tab = 'avis'
+                        $nextTick(() => {
+                            document.getElementById('interaction-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        })
+                        "
                                 class="shrink-0 flex items-center gap-1 text-sm hover:underline">
                             <span class="text-amber-500">★</span>
                             <span class="font-medium text-[#1E293B]">{{ $product->averageRating() }}</span>
@@ -142,7 +148,7 @@
         {{-- ============================= --}}
         {{-- Onglets : Description / Avis / Questions --}}
         {{-- ============================= --}}
-        <section class="mb-12">
+        <section id="interaction-section" class="mb-12">
             <div class="flex gap-6 border-b border-[#E2E8F0] mb-6 overflow-x-auto">
                 <button @click="tab = 'description'"
                         :class="tab === 'description' ? 'border-[#1E3D59] text-[#1E3D59]' : 'border-transparent text-[#333333]/60 hover:text-[#1E293B]'"
@@ -202,9 +208,6 @@
                         <button type="button" @click="setMode('walking')"
                                 :class="mode === 'walking' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 5.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM8 21l1.5-6.5L7 13l2-5 3-1 3 2 2 4-2 1-1.5-2.5L12 15l2 6" />
-                            </svg>
                             À pied
                             <span x-show="durations.walking" x-text="durations.walking" class="font-mono text-xs opacity-80"></span>
                         </button>
@@ -212,9 +215,6 @@
                         <button type="button" @click="setMode('cycling')"
                                 :class="mode === 'cycling' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM5.25 19.5a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5zM18.75 19.5a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5zM5.25 17.25l4.5-8.25h4.5l4.5 8.25M9.75 9l3 4.5" />
-                            </svg>
                             Vélo
                             <span x-show="durations.cycling" x-text="durations.cycling" class="font-mono text-xs opacity-80"></span>
                         </button>
@@ -222,9 +222,6 @@
                         <button type="button" @click="setMode('driving')"
                                 :class="mode === 'driving' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125v-4.5c0-.621.504-1.125 1.125-1.125h1.5m0 0h13.5m-13.5 0v-2.25a1.5 1.5 0 013 0v2.25m10.5-2.25v2.25m0-2.25a1.5 1.5 0 013 0v2.25m-3-2.25h.375c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125H18.75m-9 0a1.5 1.5 0 013 0m-3 0a1.5 1.5 0 00-3 0m9 0a1.5 1.5 0 01-3 0" />
-                            </svg>
                             Voiture
                             <span x-show="durations.driving" x-text="durations.driving" class="font-mono text-xs opacity-80"></span>
                         </button>

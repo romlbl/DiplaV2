@@ -52,7 +52,7 @@
             @if($tab === 'favorites')
                 @forelse($data as $product)
                     <div class="flex items-center justify-between gap-4 rounded-xl border border-[#E2E8F0] bg-white p-4">
-                        <a href="{{ route('products.show', $product) }}" wire:navigate class="flex items-center gap-4 min-w-0">
+                        <a href="{{ route('products.show', $product) }}" target="_blank" rel="noopener" class="flex items-center gap-4 min-w-0">
                             <div class="w-14 aspect-[2/3] shrink-0 overflow-hidden rounded-lg border border-[#E2E8F0] bg-[#E2E8F0]">
                                 @if($product->images->isNotEmpty())
                                     <img src="{{ $product->images->first()->url }}" alt="" class="h-full w-full object-cover">
@@ -95,7 +95,7 @@
                         </a>
                         <div class="flex-1 min-w-0 flex flex-col">
                             <div class="flex items-start justify-between gap-3">
-                                <a href="{{ route('products.show', $review->product) }}" wire:navigate class="font-medium text-[#1E293B] hover:underline truncate">
+                                <a href="{{ route('products.show', $review->product) }}" target="_blank" rel="noopener" class="font-medium text-[#1E293B] hover:underline truncate">
                                     {{ $review->product->title }}
                                 </a>
                                 <span class="shrink-0 text-sm font-mono text-[#1E3D59]">★ {{ $review->rating }}</span>
@@ -119,7 +119,7 @@
             @if($tab === 'questions')
                 @forelse($data as $question)
                     <div class="flex gap-4 rounded-xl border border-[#E2E8F0] bg-white p-4">
-                        <a href="{{ route('products.show', $question->product) }}" wire:navigate class="shrink-0">
+                        <a href="{{ route('products.show', $question->product) }}" target="_blank" rel="noopener" class="shrink-0">
                             <div class="w-16 aspect-[2/3] overflow-hidden rounded-lg border border-[#E2E8F0] bg-[#E2E8F0]">
                                 @if($question->product->images->isNotEmpty())
                                     <img src="{{ $question->product->images->first()->url }}" alt="" class="h-full w-full object-cover">
@@ -127,7 +127,7 @@
                             </div>
                         </a>
                         <div class="flex-1 min-w-0 flex flex-col">
-                            <a href="{{ route('products.show', $question->product) }}" wire:navigate class="font-medium text-[#1E293B] hover:underline truncate">
+                            <a href="{{ route('products.show', $question->product) }}" target="_blank" rel="noopener" class="font-medium text-[#1E293B] hover:underline truncate">
                                 {{ $question->product->title }}
                             </a>
                             <p class="text-sm text-[#333333] mt-1 break-words">{{ $question->content }}</p>
@@ -169,7 +169,7 @@
 
                 @forelse($data as $entry)
                     @if($entry->product)
-                        <a href="{{ route('products.show', $entry->product) }}" wire:navigate
+                        <a href="{{ route('products.show', $entry->product) }}" target="_blank" rel="noopener"
                            class="flex items-center gap-4 rounded-xl border border-[#E2E8F0] bg-white p-4">
                             <div class="w-14 aspect-[2/3] shrink-0 overflow-hidden rounded-lg border border-[#E2E8F0] bg-[#E2E8F0]">
                                 @if($entry->product->images->isNotEmpty())

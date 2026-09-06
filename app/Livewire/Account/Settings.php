@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Account;
 
+use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -22,6 +23,8 @@ class Settings extends Component
     public string $current_password = '';
     public string $password = '';
     public string $password_confirmation = '';
+
+    public string $delete_password = '';
 
     public function mount(): void
     {
@@ -83,6 +86,22 @@ class Settings extends Component
         $this->reset('current_password', 'password', 'password_confirmation');
 
         session()->flash('settings-status', 'Mot de passe mis à jour.');
+    }
+
+    public function deleteAccount(Logout $logout): void
+    {
+        $this->validate([
+            'delete_password' => ['required', 'current_password'],
+        ]);
+
+        $user = auth()->user();
+
+        // Les avis, questions, favoris et historique liés à l'utilisateur partent
+        // automatiquement en cascade au niveau base de données (cascadeOnDelete).
+        $logout();
+        $user->delete();
+
+        $this->redirect('/', navigate: false);
     }
 
     public function render()
