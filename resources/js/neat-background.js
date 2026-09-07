@@ -36,7 +36,7 @@ function initNeatBackground() {
     secondaryWaveAngle: 1,
     shadows: 0,
     highlights: 7,
-    colorBrightness: 1.1,
+    colorBrightness: 1.05,
     colorSaturation: 0,
     wireframe: false,
     antialias: false,
@@ -120,6 +120,33 @@ function initNeatBackground() {
     cameraRotationZ: 0,
     cameraZoom: 1,
     });
+    hideNeatWatermark();
+}
+
+function hideNeatWatermark() {
+    let attempts = 0;
+
+    const tryHide = () => {
+        attempts++;
+
+        // Cible large : tout élément lien/texte pointant vers le site/repo de la lib,
+        // ou portant un attribut/classe évoquant "neat" en dehors du <canvas> lui-même.
+        const candidates = document.querySelectorAll(
+            'a[href*="neat"], a[href*="firecms"], [class*="neat-"], [class*="Neat"]'
+        );
+
+        candidates.forEach((el) => {
+            if (el.id !== 'neat-home-background') {
+                el.style.display = 'none';
+            }
+        });
+
+        if (attempts < 10) {
+            requestAnimationFrame(tryHide);
+        }
+    };
+
+    requestAnimationFrame(tryHide);
 }
 
 function destroyNeatBackground() {

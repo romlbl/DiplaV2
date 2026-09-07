@@ -1,4 +1,12 @@
-<div class="max-w-md mx-auto">
+@push('body-top')
+    {{-- Fond Neat : fixe, couvre tout le viewport en permanence (donc aussi visible
+         au niveau du footer une fois scrollé), uniquement sur la page d'accueil. --}}
+    <canvas id="neat-home-background"
+            class="fixed inset-0 z-0 h-screen w-screen"
+            style="pointer-events: none;"
+            aria-hidden="true"></canvas>
+@endpush
+<div class="max-w-md z-10 mx-auto">
     <div class="text-center">
         <h1 class="text-2xl font-semibold text-[#1E293B]">Connexion entreprise</h1>
     </div>
@@ -24,7 +32,6 @@
             class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
         />
 
-        <flux:checkbox wire:model="remember" label="Se souvenir de moi" />
 
         <flux:button type="submit" variant="primary" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
             Se connecter

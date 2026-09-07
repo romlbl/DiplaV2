@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center bg-[#FBF9F8] text-[#333333] font-sans antialiased px-4 py-12">
-
+    @stack('body-top')
     {{ $slot }}
 
     <footer class="mt-8 text-center text-sm text-[#333333]/50">

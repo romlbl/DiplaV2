@@ -1,5 +1,14 @@
+@push('body-top')
+    {{-- Fond Neat : fixe, couvre tout le viewport en permanence (donc aussi visible
+         au niveau du footer une fois scrollé), uniquement sur la page d'accueil. --}}
+    <canvas id="neat-home-background"
+            class="fixed inset-0 z-0 h-screen w-screen"
+            style="pointer-events: none;"
+            aria-hidden="true"></canvas>
+@endpush
+
 <x-layouts::guest>
-    <div class="w-full max-w-md">
+    <div class="w-full z-10 max-w-md">
         {{-- Logo Dipla centré --}}
         <div class="mb-0.5 text-center">
             <a href="{{ route('home') }}" wire:navigate class="text-4xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
@@ -58,14 +67,8 @@
                                 viewable
                                 class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
                             />
-                            @if (Route::has('password.request'))
-                                <flux:link class="absolute top-0 right-0 text-sm" :href="route('password.request')" wire:navigate>
-                                    Mot de passe oublié ?
-                                </flux:link>
-                            @endif
                         </div>
 
-                        <flux:checkbox name="remember" label="Se souvenir de moi" :checked="old('remember')" />
 
                         <flux:button variant="primary" type="submit" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
                             Se connecter

@@ -91,7 +91,7 @@
             @endforeach
         </div>
 
-        <p class="font-mono text-xs text-[#333333]/50">
+        <p class="font-sans text-xs text-[#333333]/50">
             {{ $companiesCount }} commerces · {{ $productsCount }} produits
         </p>
     </section>
@@ -101,7 +101,7 @@
         <section class="space-y-4 py-6">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold text-[#1E293B] md:text-2xl">Nouveau</h2>
-                <a href="{{ route('search') }}" wire:navigate class="font-mono text-xs text-[#4A3B5C] hover:underline">
+                <a href="{{ route('search') }}" wire:navigate class="font-sans text-xs text-[#4A3B5C] hover:underline">
                     Tout voir
                 </a>
             </div>
@@ -132,7 +132,7 @@
         <section class="space-y-4 border-t border-[#E2E8F0] py-6">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold text-[#1E293B] md:text-2xl">À proximité</h2>
-                <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="font-mono text-xs text-[#4A3B5C] hover:underline">
+                <a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="font-sans text-xs text-[#4A3B5C] hover:underline">
                     Activer ma position
                 </a>
             </div>

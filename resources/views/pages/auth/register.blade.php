@@ -1,5 +1,13 @@
+@push('body-top')
+    {{-- Fond Neat : fixe, couvre tout le viewport en permanence (donc aussi visible
+         au niveau du footer une fois scrollé), uniquement sur la page d'accueil. --}}
+    <canvas id="neat-home-background"
+            class="fixed inset-0 z-0 h-screen w-screen"
+            style="pointer-events: none;"
+            aria-hidden="true"></canvas>
+@endpush
 <x-layouts::guest>
-    <div class="w-full max-w-md">
+    <div class="w-full z-10 max-w-md">
         {{-- Logo Dipla centré --}}
         <div class="mb-6 text-center">
             <a href="{{ route('home') }}" wire:navigate class="text-4xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
