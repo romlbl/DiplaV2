@@ -1,5 +1,11 @@
-<x-layouts::public>
-    <div class="max-w-md mx-auto py-12">
+<x-layouts::guest>
+    <div class="w-full max-w-md">
+        {{-- Logo Dipla centré --}}
+        <div class="mb-6 text-center">
+            <a href="{{ route('home') }}" wire:navigate class="text-4xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
+                Dipla
+            </a>
+        </div>
         <div class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
 
             <div class="text-center mb-6">
@@ -93,4 +99,4 @@
             </div>
         </div>
     </div>
-</x-layouts::public>
+</x-layouts::guest>

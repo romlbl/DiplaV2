@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6">
+<div class="max-w-md mx-auto">
     <div class="text-center">
         <h1 class="text-2xl font-semibold text-[#1E293B]">Connexion entreprise</h1>
     </div>
@@ -31,8 +31,9 @@
         </flux:button>
     </form>
 
-    <div class="text-center text-sm text-[#333333]">
+    <div class="text-center text-sm text-[#333333] mt-4">
         Pas encore de compte ?
         <flux:link :href="route('company.register')" wire:navigate class="text-[#1E3D59]!">Créer un compte entreprise</flux:link>
     </div>
+
 </div>

@@ -9,7 +9,7 @@ use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('layouts.public')]
+#[Layout('layouts.guest')]
 class Register extends Component
 {
     public string $name = '';

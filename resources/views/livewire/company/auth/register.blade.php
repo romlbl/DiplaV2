@@ -1,5 +1,11 @@
 
-<div class="max-w-md mx-auto py-12">
+  <div class="w-full max-w-md">
+        {{-- Logo Dipla centré --}}
+        <div class="mb-6 text-center">
+            <a href="{{ route('home') }}" wire:navigate class="text-4xl font-extrabold tracking-tight text-[#1E293B] md:text-5xl">
+                Dipla
+            </a>
+        </div>
     <div class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
 
         <div class="text-center">
@@ -76,9 +82,9 @@
             </flux:button>
         </form>
 
-        <div class="text-center text-sm text-[#333333]">
+        <div class="text-center text-sm text-[#333333] mt-4">
             Déjà un compte ?
-            <flux:link :href="route('company.login')" wire:navigate class="text-[#1E3D59]!">Se connecter</flux:link>
+            <flux:link :href="route('login', ['tab' => 'company'])" wire:navigate class="text-[#1E3D59]!">Se connecter</flux:link>
         </div>
     </div>
 </div>

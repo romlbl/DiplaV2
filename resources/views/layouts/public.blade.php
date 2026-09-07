@@ -32,6 +32,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#FBF9F8] text-[#333333] font-sans antialiased">
     @stack('body-top')
+    
     {{-- En-tête fixe : reproduit la nav de la maquette (logo, liens, position, bouton Connexion) --}}
     <header class="fixed top-0 inset-x-0 z-50 border-b border-[#E2E8F0]/60 bg-[#FBF9F8]/90 shadow-sm backdrop-blur-md">
         <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4 md:px-8">

@@ -5,4 +5,7 @@
 - cursor pointer
 - bouton "utilise ma position" page recherche
 - couleur bouton se connecter 
-- réduir taille champs création compte
+- mettre en francais qd erreur de connexion
+- enlever topbar page connexion, mettre "Dipla au dessus
+- stocker l'image cropper pas toutes l'image
+-lenteur des photos
