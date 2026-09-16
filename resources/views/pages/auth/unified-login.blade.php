@@ -39,8 +39,6 @@
                         <h1 class="text-2xl font-semibold text-[#1E293B]">Connexion</h1>
                     </div>
 
-                    <x-auth-session-status class="mb-4" :status="session('status')" />
-                    <x-passkey-verify />
 
                     <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-4">
                         @csrf

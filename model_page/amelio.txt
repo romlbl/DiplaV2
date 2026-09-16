@@ -2,3 +2,5 @@
 - bouton "utilise ma position" page recherche 
 - mettre en francais qd erreur de connexion
 - lenteur des photos
+
+postgresql://neondb_owner:npg_Lo1A7bEzalfd@ep-wild-fire-b24v4goa-pooler.c-6.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
