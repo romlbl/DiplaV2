@@ -12,21 +12,33 @@ Deux types de comptes cohabitent :
 ---
 
 ## Sommaire
-
+- [Accès au site](#acces-au-site)
 - [Pourquoi cette refonte](#pourquoi-cette-refonte)
 - [Utilisation de l'IA dans ce projet](#utilisation-de-lia-dans-ce-projet)
 - [Stack technique](#stack-technique)
 - [Architecture du projet](#architecture-du-projet)
 - [Modèle de données](#modèle-de-données)
 - [Fonctionnalités](#fonctionnalités)
-- [Design system](#design-system)
-- [Installation en local](#installation-en-local)
 - [Déploiement](#déploiement)
-- [Historique de développement (phases)](#historique-de-développement-phases)
 - [Limites connues / reste à faire](#limites-connues--reste-à-faire)
 - [Licence](#licence)
 
 ---
+
+## Accès au site
+
+> **Remarque :** Le site est hébergé sur l'offre gratuite de Render. En raison de la mise en veille automatique après une période d'inactivité, le premier chargement peut prendre entre 30 secondes et 1 minute.
+
+Des comptes de démonstration ont été créés pour vous permettre d'explorer l'ensemble des fonctionnalités de Dipla :
+
+| Type de compte | Adresse e-mail | Mot de passe |
+| :--- | :--- | :--- |
+| **Commerçant** | `commerce<N>@exemple.com` | `mdpcommerce<N>` |
+| **Utilisateur** | `user<N>@exemple.com` | `mdpuser<N>` |
+
+*(Remplacer `<N>` par le numéro de compte souhaité)*
+
+Connectez-vous avec ces identifiants pour accéder aux différents tableaux de bord.
 
 ## Pourquoi cette refonte
 
@@ -141,15 +153,6 @@ Toutes les relations sont définies avec suppression en cascade (`cascadeOnDelet
 - Produits similaires (suggestion par mots-clés partagés)
 - Ajout automatique à l'historique de consultation
 - Indicateur "ouvert / fermé actuellement" calculé à partir des horaires
-
-## Design system
-
-- **Palette** : navy `#1E3D59`, prune `#4A3B5C`, blanc chaud `#FDFBF7`, blanc froid `#FAFAFF`
-- **Typographies** : Plus Jakarta Sans (texte), Roboto Mono (prix / valeurs numériques)
-- **Formes** : boutons en pilule (`rounded-full`), cartes arrondies (`rounded-2xl`)
-- **Style** : traits fins plutôt qu'ombres marquées, icônes SVG inline (aucune dépendance à un CDN d'icônes)
-- **Images produit** : ratio `aspect-[2/3]` systématique sur l'ensemble du site
-- Design **mobile-first**, vérifié sur mobile / tablette / desktop pour chaque composant
 
 
 ## Déploiement
