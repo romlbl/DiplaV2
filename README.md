@@ -1,13 +1,13 @@
 # Dipla — Plateforme de découverte de commerces locaux
 
-Dipla est une plateforme qui permet à des **particuliers** de trouver des **produits et services** proposés par des **commerces de proximité**, avec une logique de recherche géolocalisée (distance, itinéraire) plutôt qu'un simple annuaire.
+Dipla est une plateforme qui permet à des particuliers de trouver des produits et services proposés par des commerces de proximité, avec une logique de recherche géolocalisée (distance, itinéraire) plutôt qu'un simple annuaire.
 
 Deux types de comptes cohabitent :
 - **Utilisateur (particulier)** : cherche, consulte, met en favoris, pose des questions, laisse des avis.
 - **Entreprise (commerce)** : publie des produits/services, répond aux questions et avis, suit ses statistiques.
 
 > ⚠️ **Statut du projet : site vitrine / démonstration technique.**
-> Ce dépôt est une reconstruction complète et personnelle du projet Dipla, réalisée à des fins d'apprentissage et de portfolio. **Le site n'est pas ouvert à de vrais commerces ni à de vrais utilisateurs** : il n'y a pas de données réelles, pas de transactions, et aucune entreprise n'y est actuellement référencée en production. C'est une démonstration de ce que l'application peut faire, pas un service commercial actif.
+> Ce dépôt est une reconstruction complète et personnelle du projet Dipla, réalisée à des fins d'apprentissage et de portfolio. **Le site n'est pour l'instant pas ouvert à de vrais commerces ni à de vrais utilisateurs** : il n'y a pas de données réelles et aucune entreprise n'y est actuellement référencée en production. C'est une démonstration de ce que le site peut faire, pas un service commercial actif.
 
 ---
 
@@ -30,24 +30,21 @@ Deux types de comptes cohabitent :
 
 ## Pourquoi cette refonte
 
-Le tout premier Dipla (dépôt `romlbl/Dipla`) était un projet en **PHP procédural pur**, sans framework, avec une base MySQL en accès direct par PDO, du jQuery pour l'interactivité, une recherche via TNTSearch/TNTGeoSearch, et HERE Maps pour la cartographie. Le site fonctionnait, mais accumulait une dette technique importante :
+Le tout premier Dipla (dépôt `romlbl/Dipla`) était un projet en PHP procédural pur, sans framework, avec une base MySQL en accès direct par PDO, du jQuery pour l'interactivité, une recherche via TNTSearch/TNTGeoSearch, et HERE Maps pour la cartographie. Le site fonctionnait, mais accumulait une dette technique importante :
 
 - connexions à la base de données codées en dur dans plusieurs fichiers ;
-- mots de passe hashés en **MD5** non salé (faille de sécurité) ;
-- incohérences de casse dans les chemins de fichiers (cassant la compatibilité Linux) ;
+- mots de passe hashés en MD5 ;
 - pas de responsive réellement pensé (CSS non mobile-first) ;
-- port Apache figé (incompatible avec le binding dynamique `$PORT` de Render) ;
-- stockage d'images en local sur un disque **éphémère** (perdu à chaque redéploiement sur Render).
+- stockage d'images en local sur un disque éphémère (perdu à chaque redéploiement sur Render).
 
-Plutôt que de corriger ces problèmes un par un sur l'existant, le choix a été fait de **repartir de zéro** avec une stack moderne, documentée, testable, et pensée dès le départ pour un déploiement cloud propre. Le comportement fonctionnel du site d'origine (double type de compte, recherche géolocalisée, fiches produits, avis, questions/réponses, favoris, historique) a été analysé en détail avant la reconstruction pour ne perdre aucune fonctionnalité utile.
+Plutôt que de corriger ces problèmes un par un sur l'existant, le choix a été fait de repartir de zéro avec une stack moderne, documentée, testable, et pensée dès le départ pour un déploiement cloud propre. Le comportement fonctionnel du site d'origine (double type de compte, recherche géolocalisée, fiches produits, avis, questions/réponses, favoris, historique) a été analysé en détail avant la reconstruction pour ne perdre aucune fonctionnalité utile.
 
 ## Utilisation de l'IA dans ce projet
 
-Ce projet a été développé avec l'aide d'un assistant IA (Claude, d'Anthropic) utilisé comme **outil de génération de code assistée**, dans un rôle similaire à de la pair-programmation :
+Dans un soucis de rapidité et d'efficacité ce projet a été développé avec l'aide d'un assistant IA (Claude, d'Anthropic) utilisé comme outil de génération de code assistée, dans un rôle similaire à de la pair-programmation. **Le site n'a pas été créé « à l'aveugle » en déléguant tout à l'IA.** :
 
-- L'IA a été utilisée pour générer des **blocs de code ciblés** : composants Livewire, migrations, méthodes de modèles Eloquent, requêtes SQL (Haversine, full-text), scripts Alpine.js, gabarits Blade, configuration Docker, etc.
+- L'IA a été utilisée pour générer des blocs de code ciblés : composants Livewire, migrations, méthodes de modèles Eloquent, requêtes SQL, scripts Alpine.js, gabarits Blade, configuration Docker, etc.
 - **Chaque bloc de code généré a été relu, compris et vérifié manuellement** avant d'être intégré au projet — aucun code n'a été copié-collé aveuglément. Les choix d'architecture (guards d'authentification séparés, structure des tables, organisation des dossiers, politique de sécurité) ont été discutés et validés au fil de l'eau plutôt que délégués intégralement.
-- La documentation de conception (`DIPLA_ANALYSE_EXISTANT.md`, `plan_etapes.md`) a également été co-rédigée avec l'IA à partir de l'analyse du code source original, pour garder une trace claire des décisions prises.
 
 L'objectif de cette mention est la transparence : ce dépôt reflète un travail de développement personnel assisté par IA, pas un projet généré automatiquement sans supervision.
 
@@ -69,7 +66,7 @@ L'objectif de cette mention est la transparence : ce dépôt reflète un travail
 
 ### Pourquoi pas une stack full JS (Next.js, etc.) ?
 
-C'était une option envisagée, mais elle impliquait de réapprendre un écosystème complet (React/Vue, TypeScript, Prisma…) en plus de refaire tout le site. Laravel + Livewire donne un résultat tout aussi moderne avec une courbe d'apprentissage plus douce en partant de PHP. Si le projet devait un jour grossir significativement, une migration vers une architecture API + frontend séparé reste possible sans tout jeter (Laravel peut servir d'API pure derrière un frontend JS).
+C'était une option envisagée, mais elle impliquait de réapprendre un écosystème complet (React/Vue, TypeScript, Prisma…) en plus de refaire tout le site. Laravel + Livewire donne un résultat tout aussi moderne avec une courbe d'apprentissage plus douce en partant de PHP. Si le projet devait un jour grossir significativement, une migration vers une architecture API + frontend séparé reste possible sans tout jeter.
 
 ## Architecture du projet
 
@@ -96,10 +93,6 @@ DiplaV2/
 ├── Dockerfile                → build multi-stage (Node pour les assets, PHP 8.4 + Apache)
 └── .env.example
 ```
-
-### Authentification à deux guards
-
-Le projet utilise **deux guards Laravel distincts** (`web` pour les utilisateurs particuliers, `company` pour les entreprises), chacun avec son propre provider Eloquent, ses propres tables de sessions et ses propres routes protégées. Cela évite de mélanger les permissions entre les deux types de comptes et reproduit fidèlement la séparation stricte qui existait dans la v1.
 
 ## Modèle de données
 
@@ -158,77 +151,18 @@ Toutes les relations sont définies avec suppression en cascade (`cascadeOnDelet
 - **Images produit** : ratio `aspect-[2/3]` systématique sur l'ensemble du site
 - Design **mobile-first**, vérifié sur mobile / tablette / desktop pour chaque composant
 
-## Installation en local
-
-Prérequis : PHP 8.3+, Composer, Node 18+, une base PostgreSQL (ou SQLite pour un démarrage rapide en dev).
-
-```bash
-git clone https://github.com/<votre-compte>/DiplaV2.git
-cd DiplaV2
-
-composer install
-npm install
-
-cp .env.example .env
-php artisan key:generate
-
-# Configurer .env : DB_*, CLOUDINARY_*, APP_URL...
-
-php artisan migrate
-
-npm run build   # ou npm run dev en développement
-php artisan serve
-```
-
-### Variables d'environnement principales
-
-```
-DB_CONNECTION=pgsql
-DB_HOST=...
-DB_DATABASE=...
-DB_USERNAME=...
-DB_PASSWORD=...
-
-CLOUDINARY_CLOUD_NAME=...
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-```
-
-Les cartes et la recherche d'adresse (Leaflet, Nominatim, OSRM) ne nécessitent **aucune clé API**.
-
-> Note : la géolocalisation navigateur nécessite une connexion HTTPS (ou `localhost`). Pour tester sur mobile en local, utilisez un tunnel HTTPS (ex. Herd, ngrok...).
 
 ## Déploiement
 
-Le projet est configuré pour un déploiement Docker sur **Render** :
+Le projet n'étant actuellement utilisé que comme portfolio, il est configuré pour un déploiement Docker sur Render, ce qui fournit une solution gratuite et suffisante. Cependant, pour une utilisation réelle, un changement d'hébergeur serait nécessaire.
 
-- `Dockerfile` multi-stage : build des assets front (Node) puis image PHP 8.4 + Apache
-- `docker/apache-port.sh` : adapte dynamiquement le port d'écoute Apache à la variable `$PORT` fournie par Render, puis exécute les migrations au démarrage
-- `URL::forceScheme('https')` forcé en production (`AppServiceProvider::boot()`) pour éviter le contenu mixte derrière le proxy Render
-- Base de données PostgreSQL externe (Neon) : les données survivent aux redéploiements, contrairement à un stockage sur le disque éphémère du conteneur
-
-## Historique de développement (phases)
-
-Le projet a été construit en 8 phases (voir `plan_etapes.md` pour le détail complet) :
-
-1. **Socle technique** — projet Laravel, Tailwind, layouts, déploiement Render "hello world"
-2. **Données & authentification** — migrations, modèles, guards `web` / `company`
-3. **Espace entreprise** — CRUD produits, upload Cloudinary, dashboard, gestion des photos
-4. **Recherche & fiche produit** — géolocalisation, recherche full-text + Haversine, itinéraire
-5. **Interactions sociales** — avis, questions/réponses, favoris, dashboard utilisateur
-6. **Finitions responsive & accessibilité** *(en cours)*
-7. **Sécurité, RGPD, durcissement production** *(à venir)*
-8. **Recette finale** *(à venir)*
 
 ## Limites connues / reste à faire
 
-- Migration complète de la base de production de SQLite vers Neon PostgreSQL
-- Harmonisation du ratio `aspect-[2/3]` sur toutes les vignettes restantes
-- Nettoyage de tokens de couleurs résiduels d'une itération précédente du design system
 - Audit RGPD (mentions légales, politique de confidentialité, bandeau cookies) avant toute mise en production réelle
-- Tests de bout en bout et CI (GitHub Actions actuellement exclue faute de scope PAT `workflow`)
+- Page et fonctionnalité manquante (récupération de mot de passe, page de contact,...)
 
-Tant que ces points ne sont pas finalisés, **le site reste une démonstration technique** et n'a pas vocation à héberger de vrais commerces.
+Tant que ces points ne sont pas finalisés, le site reste une démonstration technique et n'a pas vocation à héberger de vrais commerces.
 
 ## Licence
 
