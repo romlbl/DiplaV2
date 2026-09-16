@@ -33,8 +33,8 @@ Des comptes de démonstration ont été créés pour vous permettre d'explorer l
 
 | Type de compte | Adresse e-mail | Mot de passe |
 | :--- | :--- | :--- |
-| **Commerçant** | `commerce<N>@exemple.com` | `mdpcommerce<N>` |
-| **Utilisateur** | `user<N>@exemple.com` | `mdpuser<N>` |
+| **Commerçant** | `commerce<N>@exemple.com` | `mdpCommerceDemo.<N>` |
+| **Utilisateur** | `user<N>@exemple.com` | `mdpUserDemo.<N>` |
 
 *(Remplacer `<N>` par le numéro de compte souhaité)*
 
