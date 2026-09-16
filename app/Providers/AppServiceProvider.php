@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Product;
 use App\Policies\ProductPolicy;
+use App\Livewire\Company\EditStorefront;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+    {   Livewire::component('company.edit-storefront', EditStorefront::class);
         Gate::policy(Product::class, ProductPolicy::class);
 
         if (config('app.env') === 'production') {
