@@ -26,6 +26,8 @@ class CloudinaryService
     {
         $result = $this->cloudinary->uploadApi()->upload($filePath, [
             'folder' => $folder,
+            'quality' => 'auto',
+            'fetch_format' => 'auto', // sert du WebP/AVIF selon le navigateur
         ]);
 
         return $result['secure_url'];

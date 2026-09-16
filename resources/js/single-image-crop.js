@@ -50,11 +50,20 @@ document.addEventListener('alpine:init', () => {
         confirmCrop() {
             if (!this.cropper) return;
 
-            this.cropper.getCroppedCanvas().toBlob((blob) => {
+            // Cible une largeur max raisonnable, hauteur calculée selon le ratio propre
+            // à ce champ (16/7 pour la couverture, 2/3 pour la carte, 1 pour l'avatar).
+            const maxWidth = 1200;
+            const targetHeight = Math.round(maxWidth / aspectRatio);
+
+            this.cropper.getCroppedCanvas({
+                width: maxWidth,
+                height: targetHeight,
+                imageSmoothingQuality: 'high',
+            }).toBlob((blob) => {
                 const croppedFile = new File([blob], this.pendingFile.name, { type: 'image/jpeg' });
                 this.previewUrl = URL.createObjectURL(blob);
                 this.finishCropping(croppedFile);
-            }, 'image/jpeg', 0.9);
+            }, 'image/jpeg', 0.85);
         },
 
         cancelCropping() {

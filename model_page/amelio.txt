@@ -1,11 +1,4 @@
-- revoir page connexion mdp oublié + bouton
-- se souvenir de moi
-- police a revoir
-- changer mise en page avis/question/favo compte user telephone
 - cursor pointer
-- bouton "utilise ma position" page recherche
-- couleur bouton se connecter 
+- bouton "utilise ma position" page recherche 
 - mettre en francais qd erreur de connexion
-- enlever topbar page connexion, mettre "Dipla au dessus
-- stocker l'image cropper pas toutes l'image
--lenteur des photos
+- lenteur des photos

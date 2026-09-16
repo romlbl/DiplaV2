@@ -36,9 +36,13 @@ function createCropRunner({ aspectRatio, imgEl }) {
         confirm(originalName, onCropped) {
             if (!cropper) return;
 
-            cropper.getCroppedCanvas().toBlob((blob) => {
+            cropper.getCroppedCanvas({
+                width: 1000,
+                height: 1500, // 2:3, fixe pour ce fichier (photos produit uniquement)
+                imageSmoothingQuality: 'high',
+            }).toBlob((blob) => {
                 onCropped(new File([blob], originalName, { type: 'image/jpeg' }));
-            }, 'image/jpeg', 0.9);
+            }, 'image/jpeg', 0.85);
         },
 
         destroy() {
