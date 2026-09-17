@@ -12,7 +12,7 @@ Deux types de comptes cohabitent :
 ---
 
 ## Sommaire
-- [Accès au site](#acces-au-site)
+- [Accès a Dipla](#acces-a-dipla)
 - [Pourquoi cette refonte](#pourquoi-cette-refonte)
 - [Utilisation de l'IA dans ce projet](#utilisation-de-lia-dans-ce-projet)
 - [Stack technique](#stack-technique)
@@ -25,7 +25,7 @@ Deux types de comptes cohabitent :
 
 ---
 
-## Accès au site
+## Accès a Dipla
 
 > **Remarque :** Le site est hébergé sur l'offre gratuite de Render. En raison de la mise en veille automatique après une période d'inactivité, le premier chargement peut prendre entre 30 secondes et 1 minute.
 
@@ -39,7 +39,7 @@ Des comptes de démonstration ont été créés pour vous permettre d'explorer l
 *(Remplacer `<N>` par le numéro de compte souhaité)*
 
 Connectez-vous avec ces identifiants pour accéder aux différents tableaux de bord.
-
+Lien vers Dipla : https://diplav2.onrender.com
 ## Pourquoi cette refonte
 
 Le tout premier Dipla (dépôt `romlbl/Dipla`) était un projet en PHP procédural pur, sans framework, avec une base MySQL en accès direct par PDO, du jQuery pour l'interactivité, une recherche via TNTSearch/TNTGeoSearch, et HERE Maps pour la cartographie. Le site fonctionnait, mais accumulait une dette technique importante :
