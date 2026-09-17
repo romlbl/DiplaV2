@@ -76,7 +76,7 @@
 
                 {{-- Prix, sans fond ni bordure --}}
                 <div class="mb-5">
-                    <span class="text-xl md:text-2xl font-mono font-bold text-[#1E3D59]">
+                    <span class="text-xl md:text-2xl font-sans font-bold text-[#1E3D59]">
                         {{ number_format($product->price, 2) }} €
                     </span>
                 </div>
@@ -209,21 +209,21 @@
                                 :class="mode === 'walking' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
                             À pied
-                            <span x-show="durations.walking" x-text="durations.walking" class="font-mono text-xs opacity-80"></span>
+                            <span x-show="durations.walking" x-text="durations.walking" class="font-sans text-xs opacity-80"></span>
                         </button>
 
                         <button type="button" @click="setMode('cycling')"
                                 :class="mode === 'cycling' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
                             Vélo
-                            <span x-show="durations.cycling" x-text="durations.cycling" class="font-mono text-xs opacity-80"></span>
+                            <span x-show="durations.cycling" x-text="durations.cycling" class="font-sans text-xs opacity-80"></span>
                         </button>
 
                         <button type="button" @click="setMode('driving')"
                                 :class="mode === 'driving' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
                             Voiture
-                            <span x-show="durations.driving" x-text="durations.driving" class="font-mono text-xs opacity-80"></span>
+                            <span x-show="durations.driving" x-text="durations.driving" class="font-sans text-xs opacity-80"></span>
                         </button>
                     </div>
 
@@ -268,7 +268,7 @@
                             </div>
                             <div class="p-3">
                                 <p class="text-sm font-medium text-[#1E293B] truncate">{{ $relatedProduct->title }}</p>
-                                <p class="text-xs font-mono text-[#333333]/70 mt-1">{{ number_format($relatedProduct->price, 2) }} €</p>
+                                <p class="text-xs font-sans text-[#333333]/70 mt-1">{{ number_format($relatedProduct->price, 2) }} €</p>
                             </div>
                         </a>
                     @endforeach
