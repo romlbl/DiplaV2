@@ -15,6 +15,7 @@ class EditStorefront extends Component
     public Company $company;
 
     public string $name = '';
+    public string $phone = '';
     public string $address = '';
     public ?float $latitude = null;
     public ?float $longitude = null;
@@ -40,6 +41,7 @@ class EditStorefront extends Component
     {
         $this->company = $company;
         $this->name = $company->name;
+         $this->phone = $company->phone ?? '';
         $this->address = $company->address;
         $this->latitude = $company->latitude ? (float) $company->latitude : null;
         $this->longitude = $company->longitude ? (float) $company->longitude : null;
@@ -65,6 +67,7 @@ class EditStorefront extends Component
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
@@ -79,6 +82,7 @@ class EditStorefront extends Component
 
         $data = [
             'name' => $validated['name'],
+            'phone' => $validated['phone'] ?: null,
             'address' => $validated['address'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],

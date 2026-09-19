@@ -50,6 +50,17 @@
             ])
         </div>
 
+        {{-- Téléphone (facultatif) --}}
+        <div>
+            <label for="storefront-phone" class="block text-sm font-medium text-[#1E293B] mb-1">
+                Téléphone <span class="font-normal text-[#333333]/50">(facultatif)</span>
+            </label>
+            <input type="tel" id="storefront-phone" wire:model="phone"
+                placeholder="ex : 01 23 45 67 89"
+                class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+            @error('phone') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+        </div>
+
 
         {{-- Adresse avec carte --}}
         <div wire:ignore>
