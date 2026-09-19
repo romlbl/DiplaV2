@@ -57,6 +57,16 @@ export function initLocationPicker(container) {
         }
     }
 
+    function clearPosition() {
+        setInputValue(latInput, '');
+        setInputValue(lngInput, '');
+
+        if (marker) {
+            map.removeLayer(marker);
+            marker = null;
+        }
+    }
+
     function setPosition(lat, lng, { skipReverseGeocode = false } = {}) {
         setInputValue(latInput, lat);
         setInputValue(lngInput, lng);
@@ -86,6 +96,10 @@ export function initLocationPicker(container) {
     addressInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const query = addressInput.value.trim();
+        
+        if (query.length === 0) {
+            clearPosition();
+        }
 
         if (query.length < 3) {
             suggestionsEl.innerHTML = '';

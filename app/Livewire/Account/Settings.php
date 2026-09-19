@@ -46,6 +46,12 @@ class Settings extends Component
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
         ]);
 
+        if (blank($validated['address'])) {
+            $validated['address'] = null;
+            $validated['latitude'] = null;
+            $validated['longitude'] = null;
+        }
+
         auth()->user()->update($validated);
 
         // Notifie le store JS partagé : une adresse modifiée dans les paramètres

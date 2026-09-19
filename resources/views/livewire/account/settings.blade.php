@@ -33,7 +33,9 @@
 
                 <div wire:ignore>
                     <div data-location-picker class="relative">
-                        <label for="settings-address" class="block text-sm font-medium text-[#1E293B] mb-1">Adresse</label>
+                        <label for="settings-address" class="block text-sm font-medium text-[#1E293B] mb-1">
+                            Adresse <span class="font-normal text-[#333333]/50">(facultatif)</span>
+                        </label>
 
                         <input type="text" id="settings-address" autocomplete="off"
                             data-role="address-input"
@@ -45,7 +47,7 @@
                             class="hidden absolute mt-1 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-lg max-h-60 overflow-y-auto"></div>
 
                         <div data-role="map" class="mt-3 h-48 w-full rounded-xl border border-[#E2E8F0] overflow-hidden"></div>
-
+                        <p class="text-xs text-[#333333]/60 mt-1">Laissez le champ vide pour ne pas renseigner d'adresse.</p>
                         <input type="hidden" data-role="latitude" wire:model="latitude">
                         <input type="hidden" data-role="longitude" wire:model="longitude">
                     </div>

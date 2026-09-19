@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ initialAddress: @js($company->address) }">
     @if(session('storefront-updated'))
         <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 mb-4">
             Devanture mise à jour.
@@ -82,6 +82,13 @@
             </div>
         </div>
         @error('address') <p class="text-sm text-red-600 -mt-3">{{ $message }}</p> @enderror
+        {{-- Visible uniquement si l'adresse a été modifiée --}}
+        <label x-show="$wire.address !== initialAddress" x-cloak x-transition
+            class="flex cursor-pointer items-start gap-2.5 rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-3 py-2.5 text-sm text-[#333333]">
+            <input type="checkbox" wire:model="updateProductsAddress"
+                class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#E2E8F0] accent-[#1E3D59]">
+            <span>Appliquer cette nouvelle adresse à tous mes produits et services</span>
+        </label>
 
         {{-- Description --}}
         <div>

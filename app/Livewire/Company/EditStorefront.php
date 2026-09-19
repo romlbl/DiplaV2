@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Company;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 use App\Services\CloudinaryService;
 use Livewire\Attributes\On;
@@ -20,6 +21,7 @@ class EditStorefront extends Component
     public ?float $latitude = null;
     public ?float $longitude = null;
     public string $description = '';
+    public bool $updateProductsAddress = true;
 
     public $newCoverImage = null;
     public $newCardImage = null;
@@ -96,7 +98,22 @@ class EditStorefront extends Component
         $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newCardImage, $this->company->card_image_url, 'dipla/companies/cards', 'card_image_url'));
         $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newAvatarImage, $this->company->avatar_image_url, 'dipla/companies/avatars', 'avatar_image_url'));
 
-        $this->company->update($data);
+        // À calculer AVANT la mise à jour : on compare avec l'adresse encore enregistrée.
+        $addressChanged = $validated['address'] !== $this->company->address
+            || round((float) $validated['latitude'], 6) !== round((float) $this->company->latitude, 6)
+            || round((float) $validated['longitude'], 6) !== round((float) $this->company->longitude, 6);
+
+        DB::transaction(function () use ($data, $addressChanged) {
+            $this->company->update($data);
+
+            if ($this->updateProductsAddress && $addressChanged) {
+                $this->company->products()->update([
+                    'address' => $data['address'],
+                    'latitude' => $data['latitude'],
+                    'longitude' => $data['longitude'],
+                ]);
+            }
+        });
 
         $this->dispatch('storefront-saved');
     }
