@@ -60,10 +60,10 @@ document.addEventListener('alpine:init', () => {
                 height: targetHeight,
                 imageSmoothingQuality: 'high',
             }).toBlob((blob) => {
-                const croppedFile = new File([blob], this.pendingFile.name, { type: 'image/jpeg' });
+                const croppedFile = new File([blob], this.pendingFile.name, { type: 'image/webp' });
                 this.previewUrl = URL.createObjectURL(blob);
                 this.finishCropping(croppedFile);
-            }, 'image/jpeg', 0.85);
+            }, 'image/webp', 0.85);
         },
 
         cancelCropping() {

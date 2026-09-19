@@ -13,7 +13,7 @@
             @include('company.products._form')
 
             <button type="submit" class="mt-6 w-full inline-flex items-center justify-center rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                Publier le produit
+                Publier
             </button>
         </form>
     </div>

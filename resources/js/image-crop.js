@@ -41,8 +41,8 @@ function createCropRunner({ aspectRatio, imgEl }) {
                 height: 1500, // 2:3, fixe pour ce fichier (photos produit uniquement)
                 imageSmoothingQuality: 'high',
             }).toBlob((blob) => {
-                onCropped(new File([blob], originalName, { type: 'image/jpeg' }));
-            }, 'image/jpeg', 0.85);
+                onCropped(new File([blob], originalName, { type: 'image/webp' }));
+            }, 'image/webp', 0.85);
         },
 
         destroy() {

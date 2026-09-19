@@ -15,12 +15,6 @@
 
     {{-- ============================================================= --}}
     {{-- 1. Hero : image de l'entreprise                                --}}
-    {{-- - sm et plus : bannière large, image entière rétrécie (contain) --}}
-    {{--   pas de recadrage/zoom quand la fenêtre se réduit ;            --}}
-    {{--   dès md, on repasse en cover car il y a assez de place.        --}}
-    {{-- - en dessous de sm (mobile) : trop étroit pour la bannière,     --}}
-    {{--   on bascule sur le visuel "carte" de l'entreprise en 2:3.      --}}
-    {{-- - sans image : même dégradé + motif grille que le dashboard.    --}}
     {{-- ============================================================= --}}
 
     {{-- Version bannière (tablette / desktop) --}}
