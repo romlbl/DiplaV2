@@ -10,6 +10,8 @@ use App\Livewire\CompanyStorefront;
 Route::get('/produits/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/commerce/{company}', CompanyStorefront::class)->name('company.storefront');
 Route::view('/', 'welcome')->name('home');
+Route::view('/mentions-legales', 'legal.mentions')->name('legal.mentions');
+Route::view('/politique-de-confidentialite', 'legal.privacy')->name('legal.privacy');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', AccountDashboard::class)->name('dashboard');

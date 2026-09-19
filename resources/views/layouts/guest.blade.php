@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dipla')</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center bg-[#FBF9F8] text-[#333333] font-sans antialiased px-4 py-12">
     @stack('body-top')
     {{ $slot }}
 
-    <footer class="mt-8 text-center text-sm text-[#333333]/50">
-        &copy; {{ date('Y') }} Dipla — Tous droits réservés
+    <footer class="relative z-10 mt-8 text-center text-sm text-[#333333]/70">
+        <nav aria-label="Informations légales" class="mb-2 flex flex-col items-center gap-1 sm:flex-row sm:justify-center sm:gap-6">
+            <a href="{{ route('legal.mentions') }}" wire:navigate class="py-1 hover:text-[#1E3D59] hover:underline">Mentions légales</a>
+            <a href="{{ route('legal.privacy') }}" wire:navigate class="py-1 hover:text-[#1E3D59] hover:underline">Politique de confidentialité</a>
+        </nav>
+        <p>&copy; {{ date('Y') }} Dipla — Tous droits réservés</p>
     </footer>
-
+    @include('partials.cookie-notice')
     @fluxScripts
 </body>
 </html>
