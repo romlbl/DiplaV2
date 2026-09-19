@@ -1,4 +1,4 @@
 - cursor pointer
-- bouton "utilise ma position" page recherche 
+- nom de onglets
 - mettre en francais qd erreur de connexion
-- lenteur des photos
+- si changement d'adresse, coche pour changer adresse de tout les produits

@@ -82,7 +82,7 @@ class Product extends Model
         });
     }
     /**
-     * Recherche plein texte sur title/keywords/description.
+     * Recherche plein texte optimisée (FTS + Préfixes + Fautes de frappe).
      */
     public function scopeSearch(Builder $query, ?string $term): Builder
     {
@@ -90,10 +90,27 @@ class Product extends Model
             return $query;
         }
 
-        return $query->whereRaw(
-            "search_vector @@ plainto_tsquery('french', ?)",
-            [$term]
-        );
+        $term = trim($term);
+
+        // Prépare la requête de préfixe pour autocomplétion (ex: "chauss" -> "chauss:*")
+        $words = array_filter(explode(' ', $term));
+        $prefixQuery = implode(' & ', array_map(function ($word) {
+            $cleanWord = preg_replace('/[^\w]/u', '', $word);
+            return $cleanWord ? $cleanWord . ':*' : '';
+        }, $words));
+
+        return $query->where(function ($q) use ($term, $prefixQuery) {
+            // 1. Syntaxe moderne Postgres (supporte les guillemets, le OR, etc.)
+            $q->whereRaw("search_vector @@ websearch_to_tsquery('french', ?)", [$term]);
+
+            // 2. Recherche par préfixe (trouve les mots incomplets)
+            if (!empty($prefixQuery)) {
+                $q->orWhereRaw("search_vector @@ to_tsquery('french', ?)", [$prefixQuery]);
+            }
+
+            // 3. Tolérance aux fautes de frappe sur le titre
+            $q->orWhereRaw("similarity(unaccent(title), unaccent(?)) > 0.25", [$term]);
+        });
     }
 
     /**
