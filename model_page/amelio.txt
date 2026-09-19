@@ -2,3 +2,7 @@
 - mettre en francais qd erreur de connexion
 - si changement d'adresse, coche pour changer adresse de tout les produits
 - formulaire de contact
+- les suggestion doivent disparaitre si l'user n'ecrit plus ou a cliquer
+- message de chargement le temps que les photos arrivent
+- "publier ton premier produit" -> votre
+- chargement dès que des truc rame (publier,valider, répondre,...)

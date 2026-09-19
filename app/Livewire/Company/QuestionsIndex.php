@@ -50,11 +50,15 @@ class QuestionsIndex extends Component
 
     public function submitReply(int $discussionId): void
     {
-        $content = trim($this->replyContent[$discussionId] ?? '');
+        $this->replyContent[$discussionId] = trim($this->replyContent[$discussionId] ?? '');
 
-        if ($content === '') {
-            return;
-        }
+        $this->validate(
+            ["replyContent.$discussionId" => ['required', 'string', 'max:1000']],
+            [],
+            ["replyContent.$discussionId" => 'réponse'],
+        );
+
+        $content = $this->replyContent[$discussionId];
 
         $productIds = auth('company')->user()->products()->pluck('id');
 

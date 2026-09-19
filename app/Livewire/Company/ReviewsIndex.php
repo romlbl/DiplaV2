@@ -50,18 +50,18 @@ class ReviewsIndex extends Component
 
     public function submitReply(int $reviewId): void
     {
-        $content = trim($this->replyContent[$reviewId] ?? '');
+        $this->replyContent[$reviewId] = trim($this->replyContent[$reviewId] ?? '');
 
-        if ($content === '') {
-            return;
-        }
+        $this->validate(
+            ["replyContent.$reviewId" => ['required', 'string', 'max:2000']],
+            [],
+            ["replyContent.$reviewId" => 'réponse'],
+        );
 
-        $review = auth('company')->user()
-            ->products()
-            ->findOrFail(
-                Review::findOrFail($reviewId)->product_id
-            )
-            ->reviews()
+        $content = $this->replyContent[$reviewId];
+
+        // Uniquement les avis portant sur les produits de cette entreprise.
+        $review = Review::whereIn('product_id', auth('company')->user()->products()->select('id'))
             ->findOrFail($reviewId);
 
         $review->update([

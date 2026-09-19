@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\ProductRequest;
 use App\Models\Product;
 use App\Services\CloudinaryService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
@@ -29,35 +29,13 @@ class ProductController extends Controller
         return view('company.products.create');
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'description' => ['required', 'string'],
-            'type' => ['required', 'in:produit,service'],
-            'keywords' => ['nullable', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'latitude' => ['required', 'numeric', 'between:-90,90'],
-            'longitude' => ['required', 'numeric', 'between:-180,180'],
-            'images' => ['nullable', 'array', 'max:4'],
-            'images.*' => ['image', 'max:5120'],
-        ]);
+        $product = auth('company')->user()
+            ->products()
+            ->create($request->safe()->except('images'));
 
-        $company = auth('company')->user();
-
-        $product = $company->products()->create(collect($validated)->except('images')->toArray());
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $position => $file) {
-                $url = $this->cloudinary->upload($file->getRealPath());
-
-                $product->images()->create([
-                    'url' => $url,
-                    'position' => $position,
-                ]);
-            }
-        }
+        $this->storeImages($product, $request);
 
         return redirect()
             ->route('company.products.index')
@@ -71,35 +49,12 @@ class ProductController extends Controller
         return view('company.products.edit', compact('product'));
     }
 
-    public function update(Request $request, Product $product)
+    // L'autorisation (propriétaire du produit) est gérée dans ProductRequest::authorize().
+    public function update(ProductRequest $request, Product $product)
     {
-        Gate::forUser(auth('company')->user())->authorize('update', $product);
+        $product->update($request->safe()->except('images'));
 
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'description' => ['required', 'string'],
-            'type' => ['required', 'in:produit,service'],
-            'keywords' => ['nullable', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'latitude' => ['required', 'numeric', 'between:-90,90'],
-            'longitude' => ['required', 'numeric', 'between:-180,180'],
-            'images' => ['nullable', 'array', 'max:4'],
-            'images.*' => ['image', 'max:5120'],
-        ]);
-
-        $product->update(collect($validated)->except('images')->toArray());
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $position => $file) {
-                $url = $this->cloudinary->upload($file->getRealPath());
-
-                $product->images()->create([
-                    'url' => $url,
-                    'position' => $position,
-                ]);
-            }
-        }
+        $this->storeImages($product, $request);
 
         return redirect()
             ->route('company.products.index')
@@ -115,5 +70,15 @@ class ProductController extends Controller
         return redirect()
             ->route('company.products.index')
             ->with('success', 'Produit supprimé.');
+    }
+
+    private function storeImages(Product $product, ProductRequest $request): void
+    {
+        foreach ($request->file('images', []) as $position => $file) {
+            $product->images()->create([
+                'url' => $this->cloudinary->upload($file->getRealPath()),
+                'position' => $position,
+            ]);
+        }
     }
 }

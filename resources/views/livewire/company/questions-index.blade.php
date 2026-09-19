@@ -161,7 +161,7 @@
                                     <textarea wire:model="replyContent.{{ $question->id }}" rows="2"
                                               placeholder="Écrire une réponse publique..."
                                               class="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/10 resize-none"></textarea>
-
+                                    @error("replyContent.{$question->id}") <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                                     <div class="flex justify-end gap-2 mt-2">
                                         @if($editingReplyId === $question->id)
                                             <button type="button" wire:click="cancelReply"

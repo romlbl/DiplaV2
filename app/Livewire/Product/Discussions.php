@@ -48,22 +48,28 @@ class Discussions extends Component
 
     public function submitReply(int $discussionId): void
     {
-        if (!auth()->check() && !auth('company')->check()) {
+        if (!auth()->check()) {
             $this->addError('auth', 'Connecte-toi pour répondre.');
             return;
         }
 
-        $content = trim($this->replyContent[$discussionId] ?? '');
+        $this->replyContent[$discussionId] = trim($this->replyContent[$discussionId] ?? '');
 
-        if ($content === '') {
-            return;
-        }
+        $this->validate(
+            ["replyContent.$discussionId" => ['required', 'string', 'max:1000']],
+            [],
+            ["replyContent.$discussionId" => 'réponse'],
+        );
+
+        // discussions() ne contient que les questions (parent_id null) de CE produit :
+        // impossible de répondre dans le fil d'un autre produit.
+        $question = $this->product->discussions()->findOrFail($discussionId);
 
         Discussion::create([
-            'user_id' => auth()->check() ? auth()->id() : null,
+            'user_id' => auth()->id(),
             'product_id' => $this->product->id,
-            'parent_id' => $discussionId,
-            'content' => $content,
+            'parent_id' => $question->id,
+            'content' => $this->replyContent[$discussionId],
         ]);
 
         $this->replyContent[$discussionId] = '';

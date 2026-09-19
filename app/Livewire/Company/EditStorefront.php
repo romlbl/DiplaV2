@@ -69,7 +69,6 @@ class EditStorefront extends Component
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
@@ -77,9 +76,11 @@ class EditStorefront extends Component
             'newCoverImage' => ['nullable', 'image', 'max:5120'],
             'newCardImage' => ['nullable', 'image', 'max:5120'],
             'newAvatarImage' => ['nullable', 'image', 'max:5120'],
+            'phone' => ['nullable', 'string', 'max:30', 'regex:/^[0-9 +().\-]{6,30}$/'],
+            'openingHours' => ['required', 'array'],
             'openingHours.*.closed' => ['boolean'],
-            'openingHours.*.open' => ['nullable', 'string'],
-            'openingHours.*.close' => ['nullable', 'string'],
+            'openingHours.*.open' => ['nullable', 'date_format:H:i'],
+            'openingHours.*.close' => ['nullable', 'date_format:H:i'],
         ]);
 
         $data = [
@@ -89,7 +90,7 @@ class EditStorefront extends Component
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
             'description' => $validated['description'],
-            'opening_hours' => $this->openingHours,
+            'opening_hours' => $this->sanitizedOpeningHours(),
         ];
 
         $cloudinary = app(CloudinaryService::class);
@@ -116,6 +117,26 @@ class EditStorefront extends Component
         });
 
         $this->dispatch('storefront-saved');
+    }
+
+    /**
+     * Ne conserve que les 7 jours connus avec leurs 3 champs, quoi qu'envoie le navigateur.
+     */
+    protected function sanitizedOpeningHours(): array
+    {
+        $hours = [];
+
+        foreach (array_keys($this->days) as $key) {
+            $day = $this->openingHours[$key] ?? [];
+
+            $hours[$key] = [
+                'closed' => (bool) ($day['closed'] ?? false),
+                'open' => $day['open'] ?? '09:00',
+                'close' => $day['close'] ?? '18:00',
+            ];
+        }
+
+        return $hours;
     }
 
     /**

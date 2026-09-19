@@ -43,6 +43,9 @@
                                         Envoyer
                                     </button>
                                 </div>
+                                @error("replyContent.{$question->id}")
+                                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                @enderror
                             @endif
                         </div>
                     @endauth

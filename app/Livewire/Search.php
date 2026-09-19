@@ -56,8 +56,35 @@ class Search extends Component
         $this->resetPage();
     }
 
+    /**
+     * Les propriétés #[Url] viennent de l'adresse du navigateur : on les remet dans des valeurs sûres.
+     */
+    protected function sanitizeInputs(): void
+    {
+        if (! in_array($this->mode, ['keyword', 'nearby', 'discover'], true)) {
+            $this->mode = 'keyword';
+        }
+
+        if (! in_array($this->type, ['', 'produit', 'service', 'commerce'], true)) {
+            $this->type = '';
+        }
+
+        $this->q = mb_substr(trim($this->q), 0, 100);
+
+        $this->maxPrice = $this->maxPrice !== null ? max(1, min($this->maxPrice, 1000000)) : null;
+        $this->maxDistance = $this->maxDistance !== null ? max(1, min($this->maxDistance, 500)) : null;
+
+        // Coordonnées hors plage ou incomplètes : on les ignore.
+        if ($this->userLat === null || $this->userLng === null
+            || abs($this->userLat) > 90 || abs($this->userLng) > 180) {
+            $this->userLat = null;
+            $this->userLng = null;
+        }
+    }
+
     public function render()
     {
+        $this->sanitizeInputs();
         // "Commerces" cherche uniquement des entreprises.
         if ($this->type === 'commerce') {
             return view('livewire.search', [

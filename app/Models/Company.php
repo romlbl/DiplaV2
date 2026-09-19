@@ -109,8 +109,10 @@ class Company extends Authenticatable
     {
         $haversine = "(
             6371 * acos(
-                cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?))
-                + sin(radians(?)) * sin(radians(latitude))
+                LEAST(1, GREATEST(-1,
+                    cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?))
+                    + sin(radians(?)) * sin(radians(latitude))
+                ))
             )
         )";
 
