@@ -40,7 +40,6 @@
             <x-spinner x-show="navigating" x-cloak />
             Se connecter
         </flux:button>
-
     </form>
 
     <div class="text-center text-sm text-[#333333] mt-4">
