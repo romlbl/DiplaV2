@@ -8,12 +8,15 @@
             <livewire:company.product-image-manager :product="$product" />
         </div>
 
-        <form method="POST" action="{{ route('company.products.update', $product) }}" enctype="multipart/form-data" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
+        <form method="POST" action="{{ route('company.products.update', $product) }}" enctype="multipart/form-data" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm" 
+        x-data="{ submitting: false }" @submit="submitting = true" @pageshow.window="submitting = false">
             @method('PUT')
             @include('company.products._form')
 
-            <button type="submit" class="mt-6 w-full inline-flex items-center justify-center rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                Enregistrer les modifications
+            <button type="submit" :disabled="submitting"
+                    class="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                <x-spinner x-show="submitting" x-cloak />
+                <span x-text="submitting ? 'Enregistrement en cours…' : 'Enregistrer les modifications'">Enregistrer les modifications</span>
             </button>
         </form>
     </div>

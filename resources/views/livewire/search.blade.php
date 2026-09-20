@@ -49,7 +49,9 @@
     </div>
 
     {{-- Statut géolocalisation --}}
-    <div x-show="locating" class="text-sm text-[#333333]/60 mb-4">Localisation en cours...</div>
+    <div x-show="locating" x-cloak role="status" class="mb-4 flex items-center gap-2 text-sm text-[#333333]/60">
+        <x-spinner class="text-[#1E3D59]" /> Localisation en cours…
+    </div>
     <div x-show="locationError" class="text-sm text-[#4A3B5C] mb-4">
         Position non disponible — le mode "à proximité" en a besoin, mais tu peux chercher par mot-clé.
     </div>
@@ -174,7 +176,15 @@
         </aside>
 
         {{-- Résultats --}}
-        <div class="flex-1 min-w-0 flex flex-col gap-10">
+        <div class="flex-1 min-w-0 flex flex-col gap-10 transition-opacity"
+            wire:loading.class="opacity-50"
+            wire:target="q,type,maxPrice,maxDistance,mode,setMode,setUserLocation,gotoPage,nextPage,previousPage">
+
+            <div wire:loading.flex
+                wire:target="q,type,maxPrice,maxDistance,mode,setMode,setUserLocation,gotoPage,nextPage,previousPage"
+                role="status" class="items-center gap-2 text-sm text-[#333333]/60">
+                <x-spinner class="text-[#1E3D59]" /> Recherche en cours…
+            </div>
 
             {{-- Produits / Services --}}
             @if($products !== null)

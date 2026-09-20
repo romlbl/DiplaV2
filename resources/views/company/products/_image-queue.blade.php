@@ -30,6 +30,7 @@
         <input type="file" x-ref="fileInput" multiple accept="image/*" class="hidden"
                @change="handleFiles($event.target.files)">
     </label>
+    <p x-show="errorMessage" x-text="errorMessage" x-cloak class="mt-2 text-sm text-red-600"></p>
 
     {{-- Input réel envoyé avec le formulaire, reconstruit à chaque changement --}}
     <input type="file" name="images[]" multiple x-ref="hiddenInput" class="hidden">
@@ -44,8 +45,13 @@
                 <span class="text-sm text-[#333333]/60" x-text="`${selectionIndex + 1} / ${selection.length}`"></span>
             </div>
 
-            <div class="max-h-80 overflow-hidden rounded-xl">
+            <div class="relative min-h-40 max-h-80 overflow-hidden rounded-xl">
                 <img x-ref="cropImage" class="max-w-full block">
+                <div x-show="cropLoading" x-cloak role="status"
+                    class="absolute inset-0 flex items-center justify-center bg-[#FDFBF7]/80">
+                    <x-spinner size="h-8 w-8" class="text-[#1E3D59]" />
+                    <span class="sr-only">Chargement de l'image</span>
+                </div>
             </div>
 
             <div class="flex gap-3 mt-5">
@@ -57,8 +63,9 @@
                         class="rounded-full border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#1E293B] hover:bg-white transition">
                     Passer
                 </button>
-                <button type="button" @click="confirmCrop()"
-                        class="flex-1 rounded-full bg-[#1E3D59] px-4 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition">
+                <button type="button" @click="confirmCrop()" :disabled="cropLoading || processing"
+                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner x-show="processing" x-cloak />
                     Valider ce recadrage
                 </button>
             </div>

@@ -38,8 +38,9 @@
                                     <input type="text" wire:model="replyContent.{{ $question->id }}"
                                            placeholder="Ta réponse..."
                                            class="flex-1 rounded-xl border border-[#E2E8F0] bg-white px-4 py-2 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
-                                    <button wire:click="submitReply({{ $question->id }})"
-                                            class="rounded-full bg-[#1E3D59] px-4 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F]">
+                                    <button type="submit" wire:loading.attr="disabled" wire:target="submitReply({{ $question->id }})"
+                                            class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                                        <x-spinner wire:loading wire:target="submitReply({{ $question->id }})" />
                                         Envoyer
                                     </button>
                                 </div>
@@ -68,10 +69,11 @@
                     <textarea id="new-question-input" wire:model="newQuestion" rows="4"
                               placeholder="Pose une question sur ce produit/service..."
                               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20"></textarea>
-                    <button wire:click="submitQuestion"
-                            class="self-start rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F]">
-                        Envoyer
-                    </button>
+                <button type="submit" wire:loading.attr="disabled" wire:target="submitQuestion"
+                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner wire:loading wire:target="submitQuestion" />
+                    Envoyer
+                </button>
                 </div>
             @else
                 <div class="rounded-xl border border-dashed border-[#E2E8F0] p-5 text-sm text-[#333333]/60">

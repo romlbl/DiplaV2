@@ -31,9 +31,10 @@
                     @error('current_password_email') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <button type="submit"
-                        class="self-start rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition">
-                    Mettre à jour l'email
+                <button type="submit" wire:loading.attr="disabled" wire:target="updateEmail"
+                        class="self-start inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner wire:loading wire:target="updateEmail" />
+                        Mettre à jour l'email
                 </button>
             </form>
         </div>
@@ -63,8 +64,9 @@
                            class="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
                 </div>
 
-                <button type="submit"
-                        class="self-start rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition">
+                <button type="submit" wire:loading.attr="disabled" wire:target="updatePassword"
+                        class="self-start inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner wire:loading wire:target="updatePassword" />
                     Mettre à jour le mot de passe
                 </button>
             </form>
@@ -116,8 +118,9 @@
                             class="flex-1 rounded-full border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#1E293B] hover:bg-white transition">
                         Annuler
                     </button>
-                    <button type="submit"
-                            class="flex-1 rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition">
+                    <button type="submit" wire:loading.attr="disabled" wire:target="deleteAccount"
+                            class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition disabled:cursor-not-allowed disabled:opacity-60">
+                        <x-spinner wire:loading wire:target="deleteAccount" />
                         Supprimer définitivement
                     </button>
                 </div>

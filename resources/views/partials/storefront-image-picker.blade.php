@@ -25,8 +25,10 @@
             Aucune photo
         </div>
 
-        <div x-show="uploading" x-cloak class="absolute inset-0 flex items-center justify-center bg-black/30 text-xs font-medium text-white">
-            Envoi...
+        <div x-show="uploading" x-cloak role="status"
+            class="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/40 text-xs font-medium text-white">
+            <x-spinner size="h-5 w-5" />
+            <span x-text="`${uploadProgress} %`"></span>
         </div>
     </div>
 
@@ -40,6 +42,7 @@
     @endif
 
     @error($wireModel) <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+    <p x-show="errorMessage" x-text="errorMessage" x-cloak class="text-sm text-red-600 mt-1"></p>
 
     {{-- Modale de recadrage --}}
     <div x-show="cropModalOpen" x-cloak
@@ -48,8 +51,13 @@
         <div class="bg-[#FDFBF7] rounded-2xl p-6 max-w-md w-full shadow-lg">
             <h3 class="text-base font-semibold text-[#1E293B] mb-3">Recadrer la photo</h3>
 
-            <div class="max-h-80 overflow-hidden rounded-xl">
+            <div class="relative min-h-40 max-h-80 overflow-hidden rounded-xl">
                 <img x-ref="cropImage" class="max-w-full block">
+                <div x-show="cropLoading" x-cloak role="status"
+                    class="absolute inset-0 flex items-center justify-center bg-[#FDFBF7]/80">
+                    <x-spinner size="h-8 w-8" class="text-[#1E3D59]" />
+                    <span class="sr-only">Chargement de l'image</span>
+                </div>
             </div>
 
             <div class="flex gap-3 mt-5">
@@ -57,8 +65,9 @@
                         class="rounded-full border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#1E293B] hover:bg-white transition">
                     Annuler
                 </button>
-                <button type="button" @click="confirmCrop()"
-                        class="flex-1 rounded-full bg-[#1E3D59] px-4 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition">
+                <button type="button" @click="confirmCrop()" :disabled="cropLoading || processing"
+                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2 text-sm font-semibold text-[#FDFBF7] hover:bg-[#16293F] transition disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner x-show="processing" x-cloak />
                     Valider ce recadrage
                 </button>
             </div>

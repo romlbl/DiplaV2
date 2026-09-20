@@ -130,8 +130,9 @@
                     class="flex-1 rounded-full border border-[#E2E8F0] px-4 py-2.5 text-sm font-medium text-[#1E293B] transition hover:bg-[#FDFBF7]">
                 Annuler
             </button>
-            <button type="submit"
-                    class="flex-1 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
+            <button type="submit" wire:loading.attr="disabled" wire:target="save"
+                    class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                <x-spinner wire:loading wire:target="save" />
                 Enregistrer
             </button>
         </div>

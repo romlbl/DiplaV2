@@ -2,17 +2,15 @@ import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
 /**
- * Cœur partagé du recadrage : prend une file de fichiers, ouvre le cropper
- * pour chacun tour à tour, et appelle onCropped(file) pour chaque image
- * validée. Utilisé à la fois par la gestion de photos en édition
- * (upload direct vers Livewire) et par la file d'attente en création
- * (assemblée dans un input natif avant soumission du formulaire).
+ * Cœur du recadrage : charge un fichier dans Cropper, puis exporte le résultat.
+ * - onReady : image affichée, cropper prêt (sert à couper le spinner).
+ * - onFail  : lecture ou export impossible.
  */
 function createCropRunner({ aspectRatio, imgEl }) {
     let cropper = null;
 
     return {
-        load(file, onReady) {
+        load(file, onReady, onFail) {
             const reader = new FileReader();
 
             reader.onload = (e) => {
@@ -25,24 +23,28 @@ function createCropRunner({ aspectRatio, imgEl }) {
                     viewMode: 1,
                     autoCropArea: 1,
                     background: false,
+                    ready: onReady,
                 });
-
-                onReady();
             };
 
+            reader.onerror = onFail;
             reader.readAsDataURL(file);
         },
 
-        confirm(originalName, onCropped) {
+        confirm(originalName, onCropped, onFail) {
             if (!cropper) return;
 
-            cropper.getCroppedCanvas({
-                width: 1000,
-                height: 1500, // 2:3, fixe pour ce fichier (photos produit uniquement)
-                imageSmoothingQuality: 'high',
-            }).toBlob((blob) => {
-                onCropped(new File([blob], originalName, { type: 'image/webp' }));
-            }, 'image/webp', 0.85);
+            // Petit délai : laisse le navigateur afficher le spinner avant le calcul (bloquant).
+            setTimeout(() => {
+                cropper.getCroppedCanvas({
+                    width: 1000,
+                    height: 1500, // 2:3
+                    imageSmoothingQuality: 'high',
+                }).toBlob((blob) => {
+                    if (!blob) return onFail();
+                    onCropped(new File([blob], originalName, { type: 'image/webp' }));
+                }, 'image/webp', 0.85);
+            }, 30);
         },
 
         destroy() {
@@ -55,10 +57,14 @@ function createCropRunner({ aspectRatio, imgEl }) {
 }
 
 document.addEventListener('alpine:init', () => {
-    // --- Édition d'un produit existant : upload direct vers Livewire ---
+    // --- Édition d'un produit : upload direct vers Livewire ---
     Alpine.data('productImageManager', () => ({
         confirmingDelete: null,
         cropModalOpen: false,
+        cropLoading: false,   // image en cours de chargement dans le cropper
+        processing: false,    // recadrage en cours de calcul
+        uploadProgress: 0,    // % d'envoi vers le serveur
+        errorMessage: null,
         queue: [],
         queueIndex: 0,
         croppedFiles: [],
@@ -68,6 +74,7 @@ document.addEventListener('alpine:init', () => {
             this.queue = Array.from(fileList);
             this.queueIndex = 0;
             this.croppedFiles = [];
+            this.errorMessage = null;
 
             if (this.queue.length === 0) return;
 
@@ -76,15 +83,31 @@ document.addEventListener('alpine:init', () => {
         },
 
         loadCurrent() {
+            this.cropLoading = true;
             this.runner = createCropRunner({ aspectRatio: 2 / 3, imgEl: this.$refs.cropImage });
-            this.runner.load(this.queue[this.queueIndex], () => {});
+            this.runner.load(
+                this.queue[this.queueIndex],
+                () => { this.cropLoading = false; },
+                () => { this.errorMessage = 'Une image est illisible, elle a été ignorée.'; this.skipImage(); },
+            );
         },
 
         confirmCrop() {
-            this.runner.confirm(this.queue[this.queueIndex].name, (croppedFile) => {
-                this.croppedFiles.push(croppedFile);
-                this.advance();
-            });
+            if (this.cropLoading || this.processing) return;
+            this.processing = true;
+
+            this.runner.confirm(
+                this.queue[this.queueIndex].name,
+                (croppedFile) => {
+                    this.processing = false;
+                    this.croppedFiles.push(croppedFile);
+                    this.advance();
+                },
+                () => {
+                    this.processing = false;
+                    this.errorMessage = 'Recadrage impossible, essaie une autre image.';
+                },
+            );
         },
 
         skipImage() {
@@ -96,37 +119,43 @@ document.addEventListener('alpine:init', () => {
             this.queueIndex < this.queue.length ? this.loadCurrent() : this.finishCropping();
         },
 
-        cancelCropping() {
+        resetCropState() {
             if (this.runner) this.runner.destroy();
+            this.cropModalOpen = false;
+            this.cropLoading = false;
+            this.processing = false;
+            this.$refs.fileInput.value = '';
+        },
+
+        cancelCropping() {
+            this.resetCropState();
             this.queue = [];
             this.queueIndex = 0;
             this.croppedFiles = [];
-            this.cropModalOpen = false;
-            this.$refs.fileInput.value = '';
         },
 
         finishCropping() {
-            if (this.runner) this.runner.destroy();
-            this.cropModalOpen = false;
-            this.$refs.fileInput.value = '';
+            this.resetCropState();
 
-            if (this.croppedFiles.length > 0) {
-                this.$wire.uploadMultiple(
-                    'newImages',
-                    this.croppedFiles,
-                    () => { this.croppedFiles = []; },
-                    () => { alert("Erreur lors de l'envoi des photos."); },
-                    () => {}
-                );
-            }
+            if (this.croppedFiles.length === 0) return;
+
+            this.uploadProgress = 0;
+            this.$wire.uploadMultiple(
+                'newImages',
+                this.croppedFiles,
+                () => { this.croppedFiles = []; },
+                () => { this.errorMessage = "Erreur lors de l'envoi des photos."; },
+                (event) => { this.uploadProgress = event.detail.progress; },
+            );
         },
     }));
 
-    // --- Création d'un produit : file d'attente locale + réorganisation,
-    //     assemblée dans un <input type="file"> natif avant soumission du
-    //     formulaire (pas de produit en base pour uploader via Livewire).
+    // --- Création d'un produit : file locale, envoyée avec le formulaire ---
     Alpine.data('productImageQueue', () => ({
         cropModalOpen: false,
+        cropLoading: false,
+        processing: false,
+        errorMessage: null,
         selection: [],
         selectionIndex: 0,
         items: [], // [{ id, file, previewUrl }]
@@ -137,6 +166,7 @@ document.addEventListener('alpine:init', () => {
             const remainingSlots = 4 - this.items.length;
             this.selection = Array.from(fileList).slice(0, Math.max(remainingSlots, 0));
             this.selectionIndex = 0;
+            this.errorMessage = null;
 
             if (this.selection.length === 0) return;
 
@@ -145,19 +175,35 @@ document.addEventListener('alpine:init', () => {
         },
 
         loadCurrent() {
+            this.cropLoading = true;
             this.runner = createCropRunner({ aspectRatio: 2 / 3, imgEl: this.$refs.cropImage });
-            this.runner.load(this.selection[this.selectionIndex], () => {});
+            this.runner.load(
+                this.selection[this.selectionIndex],
+                () => { this.cropLoading = false; },
+                () => { this.errorMessage = 'Une image est illisible, elle a été ignorée.'; this.skipImage(); },
+            );
         },
 
         confirmCrop() {
-            this.runner.confirm(this.selection[this.selectionIndex].name, (croppedFile) => {
-                this.items.push({
-                    id: `${Date.now()}-${this.selectionIndex}`,
-                    file: croppedFile,
-                    previewUrl: URL.createObjectURL(croppedFile),
-                });
-                this.advance();
-            });
+            if (this.cropLoading || this.processing) return;
+            this.processing = true;
+
+            this.runner.confirm(
+                this.selection[this.selectionIndex].name,
+                (croppedFile) => {
+                    this.processing = false;
+                    this.items.push({
+                        id: `${Date.now()}-${this.selectionIndex}`,
+                        file: croppedFile,
+                        previewUrl: URL.createObjectURL(croppedFile),
+                    });
+                    this.advance();
+                },
+                () => {
+                    this.processing = false;
+                    this.errorMessage = 'Recadrage impossible, essaie une autre image.';
+                },
+            );
         },
 
         skipImage() {
@@ -169,18 +215,22 @@ document.addEventListener('alpine:init', () => {
             this.selectionIndex < this.selection.length ? this.loadCurrent() : this.finishCropping();
         },
 
-        cancelCropping() {
+        resetCropState() {
             if (this.runner) this.runner.destroy();
-            this.selection = [];
-            this.selectionIndex = 0;
             this.cropModalOpen = false;
+            this.cropLoading = false;
+            this.processing = false;
             this.$refs.fileInput.value = '';
         },
 
+        cancelCropping() {
+            this.resetCropState();
+            this.selection = [];
+            this.selectionIndex = 0;
+        },
+
         finishCropping() {
-            if (this.runner) this.runner.destroy();
-            this.cropModalOpen = false;
-            this.$refs.fileInput.value = '';
+            this.resetCropState();
             this.syncHiddenInput();
         },
 
@@ -194,8 +244,7 @@ document.addEventListener('alpine:init', () => {
             this.syncHiddenInput();
         },
 
-        // Reconstruit le <input type="file" multiple> réel à partir de la file
-        // d'attente ordonnée : c'est ce que le formulaire natif enverra.
+        // Reconstruit l'input <file> natif à partir de la file ordonnée.
         syncHiddenInput() {
             const dataTransfer = new DataTransfer();
             this.items.forEach((item) => dataTransfer.items.add(item.file));

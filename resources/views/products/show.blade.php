@@ -230,7 +230,9 @@
                     <div x-ref="map" class="h-64 w-full rounded-xl border border-[#E2E8F0] overflow-hidden"></div>
 
                     <p class="text-sm text-[#333333] mt-3">
-                        <span x-show="loading">Calcul de l'itinéraire...</span>
+                        <span x-show="loading" x-cloak class="inline-flex items-center gap-2">
+                            <x-spinner class="text-[#1E3D59]" /> Calcul de l'itinéraire…
+                        </span>
                         <span x-show="!loading && error" x-text="error" class="text-[#4A3B5C]"></span>
                         <template x-if="!loading && !error && distanceKm !== null">
                             <span>

@@ -66,10 +66,11 @@
                     <textarea wire:model="content" rows="4" placeholder="Ton expérience avec ce produit/service..."
                               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20"></textarea>
 
-                    <button type="submit"
-                            class="self-start inline-flex items-center justify-center rounded-full bg-[#1E3D59] px-5 py-2 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                        Publier l'avis
-                    </button>
+                <button type="submit" wire:loading.attr="disabled" wire:target="submitReview"
+                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                    <x-spinner wire:loading wire:target="submitReview" />
+                    Publier
+                </button>
                 </form>
             @else
                 <div class="rounded-xl border border-dashed border-[#E2E8F0] p-5 text-sm text-[#333333]/60">

@@ -5,15 +5,18 @@
             <h1 class="text-2xl font-semibold text-[#1E293B] mt-2">Nouveau produit</h1>
         </div>
 
-        <form method="POST" action="{{ route('company.products.store') }}" enctype="multipart/form-data" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
+        <form method="POST" action="{{ route('company.products.store') }}" enctype="multipart/form-data" class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm" 
+        x-data="{ submitting: false }" @submit="submitting = true" @pageshow.window="submitting = false">
             <div class="mb-6 pb-6 border-b border-[#E2E8F0]">
                 @include('company.products._image-queue')
             </div>
 
             @include('company.products._form')
 
-            <button type="submit" class="mt-6 w-full inline-flex items-center justify-center rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">
-                Publier
+            <button type="submit" :disabled="submitting"
+                    class="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                <x-spinner x-show="submitting" x-cloak />
+                <span x-text="submitting ? 'Envoi en cours…' : 'Publier'">Publier</span>
             </button>
         </form>
     </div>
