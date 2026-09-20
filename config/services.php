@@ -33,6 +33,9 @@ return [
         'api_key' => env('CLOUDINARY_API_KEY'),
         'api_secret' => env('CLOUDINARY_API_SECRET'),
     ],
+    'contact' => [
+        'to' => env('CONTACT_TO_EMAIL', 'lobelloromain@gmail.com'),
+    ],
 
     'slack' => [
         'notifications' => [

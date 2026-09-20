@@ -34,6 +34,10 @@
                 <strong>Journaux techniques</strong> : adresse IP et requêtes, conservées par l'hébergeur pour la sécurité et le bon fonctionnement du site
                 (intérêt légitime).
             </li>
+            <li>
+                <strong>Messages de contact</strong> : nom, e-mail et message saisis dans le formulaire. Finalité : vous répondre.
+                Ils sont reçus par e-mail et conservés le temps de traiter ta demande.
+            </li>
         </ul>
     </x-legal.section>
 
@@ -118,6 +122,7 @@
                 Votre navigateur contacte directement ces services : ils reçoivent votre adresse IP, et les adresses ou coordonnées nécessaires à la carte,
                 à la recherche ou à l'itinéraire.
             </li>
+            <li><strong>Resend</strong> : envoi des e-mails du site (formulaire de contact).</li>
         </ul>
         <p>
             Certains de ces prestataires sont situés hors de l'Union européenne ; les transferts sont soumis aux garanties prévues

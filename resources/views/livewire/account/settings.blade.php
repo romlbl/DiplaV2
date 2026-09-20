@@ -118,6 +118,18 @@
                 </button>
             </form>
         </div>
+
+        {{-- Contact --}}
+        <div class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
+            <h2 class="text-base font-semibold text-[#1E293B] mb-2">Nous contacter</h2>
+            <p class="text-sm text-[#333333]/70 mb-4">Une question, un souci technique ? Écrivez-nous.</p>
+
+            <a href="{{ route('contact') }}" wire:navigate
+               class="inline-flex items-center justify-center rounded-full border border-[#E2E8F0] px-5 py-2 text-sm font-semibold text-[#1E293B] hover:bg-white transition">
+                Ouvrir le formulaire de contact
+            </a>
+        </div>
+
         {{-- Zone dangereuse --}}
         <div class="rounded-2xl border border-red-200 bg-red-50/40 p-6 shadow-sm">
             <h2 class="text-base font-semibold text-red-700 mb-2">Supprimer mon compte</h2>

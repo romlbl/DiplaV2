@@ -42,9 +42,6 @@ Route::middleware('auth:company')
         Route::get('avis', \App\Livewire\Company\ReviewsIndex::class)->name('reviews.index');
         Route::get('questions', \App\Livewire\Company\QuestionsIndex::class)->name('questions.index');
         Route::get('parametres', \App\Livewire\Company\Settings::class)->name('settings.edit');
-        Route::get('signalement', function () {
-            return view('company.report-placeholder');
-        })->name('report');
 
         Route::resource('produits', \App\Http\Controllers\Company\ProductController::class)
             ->except(['index'])

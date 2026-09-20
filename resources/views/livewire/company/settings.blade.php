@@ -70,14 +70,14 @@
             </form>
         </div>
 
-        {{-- Signalement --}}
+        {{-- Contact --}}
         <div class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-6 shadow-sm">
-            <h2 class="text-base font-semibold text-[#1E293B] mb-2">Signaler un problème</h2>
-            <p class="text-sm text-[#333333]/70 mb-4">Un souci technique, une question sur ton compte ? Fais-le nous savoir.</p>
+            <h2 class="text-base font-semibold text-[#1E293B] mb-2">Nous contacter</h2>
+            <p class="text-sm text-[#333333]/70 mb-4">Un souci technique, une question sur votre compte ? Fais-le nous savoir.</p>
 
-            <a href="{{ route('company.report') }}" wire:navigate
+            <a href="{{ route('contact', ['motif' => 'bug']) }}" wire:navigate
                class="inline-flex items-center justify-center rounded-full border border-[#E2E8F0] px-5 py-2 text-sm font-semibold text-[#1E293B] hover:bg-white transition">
-                Signaler un problème
+                Ouvrir le formulaire de contact
             </a>
         </div>
 

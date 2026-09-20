@@ -54,7 +54,7 @@
 
     <x-legal.section title="Données personnelles">
         <p>
-            Le traitement de tes données est détaillé dans la
+            Le traitement de vos données est détaillé dans la
             <a href="{{ route('legal.privacy') }}" wire:navigate class="font-medium text-[#1E3D59] underline underline-offset-2 hover:text-[#16293F]">politique de confidentialité</a>.
         </p>
     </x-legal.section>
