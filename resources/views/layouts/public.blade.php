@@ -59,6 +59,43 @@
             {{-- Actions desktop : position + connexion --}}
             {{-- Actions : position + connexion (icônes seules sur mobile, texte à partir de md) --}}
             <div class="flex items-center gap-1 md:gap-3">
+                {{-- Loupe : déplie une barre de recherche vers la gauche (plein header sur mobile) --}}
+                <div x-data="{ open: false }"
+                    x-effect="if (open) $nextTick(() => $refs.q.focus())"
+                    @keydown.escape.window="open = false"
+                    @click.outside="open = false"
+                    class="flex items-center md:relative">
+
+                    <button type="button" @click="open = !open"
+                            aria-label="Rechercher" :aria-expanded="open"
+                            class="rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                        </svg>
+                    </button>
+
+                    <form action="{{ route('search') }}" method="GET" role="search"
+                        x-show="open" x-cloak x-transition.opacity
+                        style="display: none;"
+                        class="absolute inset-y-0 inset-x-0 z-10 flex items-center gap-2 bg-[#FBF9F8] px-4
+                                md:inset-y-auto md:inset-x-auto md:right-full md:top-1/2 md:mr-2 md:h-10 md:w-72 lg:w-80
+                                md:-translate-y-1/2 md:rounded-full md:border md:border-[#E2E8F0] md:bg-[#FAFAFF] md:px-3 md:shadow-sm">
+                        <button type="submit" aria-label="Lancer la recherche" class="shrink-0 text-[#333333]/50 hover:text-[#1E3D59]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                            </svg>
+                        </button>
+
+                        <input type="search" name="q" x-ref="q" maxlength="100" autocomplete="off"
+                            placeholder="Que recherchez-vous ?"
+                            class="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-[#333333] placeholder-[#333333]/40 focus:outline-none focus:ring-0">
+
+                        {{-- Fermer (mobile seulement, la loupe est masquée par la barre) --}}
+                        <button type="button" @click="open = false" aria-label="Fermer la recherche"
+                                class="shrink-0 text-[#333333]/50 hover:text-[#333333] md:hidden">✕</button>
+                    </form>
+                </div>
+
                 @include('partials.location-modal')
 
                 @auth
