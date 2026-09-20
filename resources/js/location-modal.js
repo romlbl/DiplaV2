@@ -16,6 +16,7 @@ document.addEventListener('alpine:init', () => {
         selectedLng: null,
         selectedLabel: '',
         searchTimer: null,
+        focused: false,
 
         openModal() {
             this.open = true;
@@ -112,12 +113,25 @@ document.addEventListener('alpine:init', () => {
             this.searchTimer = setTimeout(() => this.fetchSuggestions(), 400);
         },
 
+        closeSuggestions() {
+            clearTimeout(this.searchTimer);
+            this.suggestions = [];
+        },
+
+        closeModal() {
+            this.open = false;
+            this.closeSuggestions();
+        },
+
         async fetchSuggestions() {
             try {
                 const response = await fetch(
                     `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(this.query.trim())}`
                 );
-                this.suggestions = await response.json();
+                const results = await response.json();
+
+                // Réponse tardive : champ quitté entre-temps, on ignore.
+                if (this.focused) this.suggestions = results;
             } catch (error) {
                 console.error('Erreur de géocodage', error);
             }

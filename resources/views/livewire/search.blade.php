@@ -75,7 +75,7 @@
                     <label for="location-inline" class="block text-sm font-medium text-[#1E293B] mb-1">Lieu de recherche</label>
 
                     <div class="relative">
-                        <input type="text" id="location-inline" x-model="query" @input="onQueryInput()" autocomplete="off"
+                        <input type="text" id="location-inline" x-model="query" @input="onQueryInput()" @focus="focused = true" @blur="focused = false; closeSuggestions()" @keydown.escape="closeSuggestions()" autocomplete="off"
                                placeholder="Ville, adresse, quartier..."
                                class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] pl-4 pr-8 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
 
@@ -85,7 +85,7 @@
                         </button>
                     </div>
 
-                    <div x-show="suggestions.length > 0" x-cloak
+                    <div x-show="suggestions.length > 0" x-cloak @mousedown.prevent
                          class="absolute z-20 mt-1 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] shadow-lg max-h-60 overflow-y-auto">
                         <template x-for="suggestion in suggestions" :key="suggestion.place_id">
                             <button type="button" @click="selectSuggestion(suggestion)"

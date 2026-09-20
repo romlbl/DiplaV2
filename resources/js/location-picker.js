@@ -92,18 +92,23 @@ export function initLocationPicker(container) {
         setPosition(e.latlng.lat, e.latlng.lng);
     });
 
+        function hideSuggestions() {
+            clearTimeout(debounceTimer);
+            suggestionsEl.innerHTML = '';
+            suggestionsEl.classList.add('hidden');
+        }
+
     let debounceTimer;
     addressInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const query = addressInput.value.trim();
-        
+
         if (query.length === 0) {
             clearPosition();
         }
 
         if (query.length < 3) {
-            suggestionsEl.innerHTML = '';
-            suggestionsEl.classList.add('hidden');
+            hideSuggestions();
             return;
         }
 
@@ -113,12 +118,24 @@ export function initLocationPicker(container) {
                     `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(query)}`
                 );
                 const results = await response.json();
+
+                // Réponse tardive : l'utilisateur a quitté le champ, on n'affiche rien.
+                if (document.activeElement !== addressInput) return;
                 renderSuggestions(results);
             } catch (error) {
                 console.error('Erreur de géocodage', error);
             }
         }, 400);
     });
+
+    // Perte de focus ou Échap : on ferme la liste.
+    addressInput.addEventListener('blur', hideSuggestions);
+    addressInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideSuggestions();
+    });
+
+    // Empêche le blur du champ quand on clique une suggestion (sinon la liste disparaît avant le clic).
+    suggestionsEl.addEventListener('mousedown', (e) => e.preventDefault());
 
     function renderSuggestions(results) {
         suggestionsEl.innerHTML = '';
@@ -135,9 +152,8 @@ export function initLocationPicker(container) {
             item.textContent = result.display_name;
             item.addEventListener('click', () => {
                 setInputValue(addressInput, result.display_name);
-                setPosition(parseFloat(result.lat), parseFloat(result.lon), { skipReverseGeocode: true })
-                suggestionsEl.innerHTML = '';
-                suggestionsEl.classList.add('hidden');
+                setPosition(parseFloat(result.lat), parseFloat(result.lon), { skipReverseGeocode: true });
+                hideSuggestions();
             });
             suggestionsEl.appendChild(item);
         });
@@ -145,11 +161,6 @@ export function initLocationPicker(container) {
         suggestionsEl.classList.remove('hidden');
     }
 
-    document.addEventListener('click', (e) => {
-        if (!container.contains(e.target)) {
-            suggestionsEl.classList.add('hidden');
-        }
-    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
