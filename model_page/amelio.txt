@@ -2,5 +2,4 @@
 - mettre en francais qd erreur de connexion
 - "publier ton premier produit" -> votre
 - sur page commerce afficher tout la description dans la limite de la taille de l'image
-- amelio recherche produits page commerce + dashboard commerce
 - fond transparent icone

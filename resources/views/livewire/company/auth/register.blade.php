@@ -85,7 +85,11 @@
                 class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
             />
 
-            <flux:button type="submit" variant="primary" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
+            <flux:button type="submit" variant="primary" :loading="false"
+                        wire:loading.attr="disabled" wire:target="register" x-bind:disabled="navigating"
+                        class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
+                <x-spinner wire:loading wire:target="register" />
+                <x-spinner x-show="navigating" x-cloak />
                 Créer mon compte entreprise
             </flux:button>
         </form>

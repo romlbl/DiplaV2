@@ -41,7 +41,7 @@
 
 
 
-                    <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-4">
+                    <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-4" x-data="{ submitting: false }" @submit="submitting = true" @pageshow.window="submitting = false">
                         @csrf
 
                         <flux:input
@@ -68,9 +68,10 @@
                             />
                         </div>
 
-
-                        <flux:button variant="primary" type="submit" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
-                            Se connecter
+                        <flux:button variant="primary" type="submit" x-bind:disabled="submitting"
+                                    class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
+                            <x-spinner x-show="submitting" x-cloak />
+                            <span x-text="submitting ? 'Connexion…' : 'Se connecter'">Se connecter</span>
                         </flux:button>
                     </form>
 

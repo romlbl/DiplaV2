@@ -37,10 +37,10 @@
             </div>
         @endif
 
-        <div class="relative p-5 md:p-8">
+        <div class="relative p-5 md:p-8" wire:ignore x-data="fitHeroText">
             <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-1">{{ $company->name }}</h1>
             @if($company->description)
-                <p class="text-sm md:text-base text-white/80 max-w-2xl line-clamp-2">{{ $company->description }}</p>
+                <p x-ref="desc" class="text-sm md:text-base text-white/80 max-w-2xl">{{ $company->description }}</p>
             @endif
         </div>
     </section>
@@ -66,10 +66,10 @@
             </div>
         @endif
 
-        <div class="relative p-4">
+        <div class="relative p-4" wire:ignore x-data="fitHeroText">
             <h1 class="text-xl font-extrabold text-white mb-1">{{ $company->name }}</h1>
             @if($company->description)
-                <p class="text-xs text-white/80 line-clamp-2">{{ $company->description }}</p>
+                <p x-ref="desc" class="text-xs text-white/80">{{ $company->description }}</p>
             @endif
         </div>
     </section>
