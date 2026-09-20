@@ -1,4 +1,3 @@
-```blade
 <x-legal.page title="Politique de confidentialité" updated="19 septembre 2026">
 
     <x-legal.section title="Qui est responsable de vos données ?">
@@ -167,4 +166,3 @@
     </x-legal.section>
 
 </x-legal.page>
-```

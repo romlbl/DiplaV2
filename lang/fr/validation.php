@@ -15,6 +15,7 @@ return [
     'in' => 'La valeur choisie pour :attribute est invalide.',
     'integer' => 'Le champ :attribute doit être un nombre entier.',
     'lowercase' => 'Le champ :attribute doit être en minuscules.',
+    'accepted' => 'Vous devez accepter :attribute.',
     'max' => [
         'array' => 'Le champ :attribute ne peut pas contenir plus de :max éléments.',
         'file' => 'Le fichier :attribute ne peut pas dépasser :max Ko.',
@@ -61,5 +62,6 @@ return [
         'content' => 'contenu',
         'rating' => 'note',
         'newQuestion' => 'question',
+        'acceptTerms' => 'les conditions d\'utilisation',
     ],
 ];

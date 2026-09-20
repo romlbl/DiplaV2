@@ -2,6 +2,3 @@
 - mettre en francais qd erreur de connexion
 - fond transparent icone
 - CU sur les donne des produits
-- pas de barre de glissement sir compte user
-- visu chargment mal positionner connexion mobil
-- mode a pied par def sinon voiture

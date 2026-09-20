@@ -19,6 +19,7 @@ class Register extends Component
     public string $address = '';
     public ?float $latitude = null;
     public ?float $longitude = null;
+    public bool $acceptTerms = false;
 
     public function register(): void
     {
@@ -29,10 +30,12 @@ class Register extends Component
             'address' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'acceptTerms' => ['accepted'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
         unset($validated['password_confirmation']);
+        unset($validated['password_confirmation'], $validated['acceptTerms']);
 
         $company = Company::create($validated);
 

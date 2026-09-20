@@ -14,6 +14,7 @@ Route::view('/mentions-legales', 'legal.mentions')->name('legal.mentions');
 Route::view('/politique-de-confidentialite', 'legal.privacy')->name('legal.privacy');
 Route::get('/recherche', Search::class)->name('search');
 Route::get('/contact', \App\Livewire\Contact::class)->name('contact');
+Route::view('/conditions-utilisation', 'legal.terms')->name('legal.terms');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', AccountDashboard::class)->name('dashboard');
     Route::get('compte/parametres', \App\Livewire\Account\Settings::class)->name('account.settings');

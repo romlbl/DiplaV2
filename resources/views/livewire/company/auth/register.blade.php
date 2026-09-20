@@ -85,6 +85,19 @@
                 class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
             />
 
+            <div>
+                <label class="flex cursor-pointer items-start gap-2.5 text-sm text-[#333333]">
+                    <input type="checkbox" wire:model="acceptTerms" required
+                        class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#E2E8F0] accent-[#1E3D59]">
+                    <span>
+                        J'ai lu et j'accepte les
+                        <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener"
+                        class="font-medium text-[#1E3D59] underline underline-offset-2">conditions d'utilisation</a>.
+                    </span>
+                </label>
+                @error('acceptTerms') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
             <flux:button type="submit" variant="primary" :loading="false"
                         wire:loading.attr="disabled" wire:target="register" x-bind:disabled="navigating"
                         class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
