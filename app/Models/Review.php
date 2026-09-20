@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Concerns\SearchesText;
 
 class Review extends Model
 {
-    use HasFactory;
+    use HasFactory,SearchesText;
+
+    protected static array $searchColumns = ['subject', 'content'];
 
     protected $fillable = [
         'user_id',

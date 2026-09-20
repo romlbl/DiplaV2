@@ -33,7 +33,7 @@ class CompanyStorefront extends Component
     public function render()
     {
         $products = $this->company->products()
-            ->when($this->search !== '', fn ($q) => $q->where('title', 'like', '%'.$this->search.'%'))
+            ->when($this->search !== '', fn ($q) => $q->search(mb_substr(trim($this->search), 0, 100)))
             ->with(['images', 'company', 'reviews'])
             ->latest()
             ->paginate(8);

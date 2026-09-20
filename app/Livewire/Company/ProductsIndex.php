@@ -44,7 +44,7 @@ class ProductsIndex extends Component
             ->with(['images', 'reviews']);
 
         if ($this->search !== '') {
-            $query->where('title', 'like', '%'.$this->search.'%');
+            $query->search(mb_substr(trim($this->search), 0, 100));
         }
 
         if ($this->type !== '') {

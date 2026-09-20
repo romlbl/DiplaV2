@@ -208,8 +208,9 @@
         <h2 class="text-lg font-semibold text-[#1E293B]">Venir en boutique</h2>
 
         @if($company->latitude && $company->longitude)
-            <div x-data="routePreview({{ $company->latitude }}, {{ $company->longitude }})"
-                 class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-4 shadow-sm">
+            <div wire:ignore
+                x-data="routePreview({{ $company->latitude }}, {{ $company->longitude }})"
+                class="rounded-2xl border border-[#E2E8F0] bg-[#FAFAFF] p-4 shadow-sm">
 
                 <div class="flex gap-2 mb-3 overflow-x-auto">
                     <button type="button" @click="setMode('walking')"

@@ -128,10 +128,7 @@ class QuestionsIndex extends Component
             ->with(['user', 'product.images', 'replies.user']);
 
         if ($this->search !== '') {
-            $query->where(function ($q) {
-                $q->where('content', 'like', '%'.$this->search.'%')
-                    ->orWhereHas('product', fn ($p) => $p->where('title', 'like', '%'.$this->search.'%'));
-            });
+            $query->search(mb_substr(trim($this->search), 0, 100));
         }
 
         if ($this->productId !== '') {
