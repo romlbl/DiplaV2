@@ -169,8 +169,9 @@
                                                 Annuler
                                             </button>
                                         @endif
-                                    <button type="submit" wire:loading.attr="disabled" wire:target="submitReply({{ $question->id }})"
-                                            class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                                    <button type="button" wire:click="submitReply({{ $question->id }})"
+                                        wire:loading.attr="disabled" wire:target="submitReply({{ $question->id }})"
+                                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
                                         <x-spinner wire:loading wire:target="submitReply({{ $question->id }})" />
                                         Répondre
                                     </button>

@@ -117,10 +117,10 @@ class Search extends Component
             case 'discover':
                 if ($this->userLat && $this->userLng) {
                     $query->nearby($this->userLat, $this->userLng, $this->maxDistance ?? 200);
+                    $query->orderBy('distance');
                 } else {
-                    $query->whereNotNull('latitude');
+                    $query->whereNotNull('latitude')->latest();
                 }
-                $query->inRandomOrder()->limit(1000);
                 break;
 
             case 'keyword':
@@ -145,11 +145,14 @@ class Search extends Component
 
         return $this->applyModeScopes($query, 'products')
             ->with(['images', 'company', 'reviews'])
-            ->paginate(12, ['*'], 'productsPage');
+            ->paginate(10, ['*'], 'productsPage');
     }
 
     protected function searchCompanies()
     {
-        return $this->applyModeScopes(Company::query(), 'companies')->paginate(12, ['*'], 'companiesPage');
+        return $this->applyModeScopes(Company::query(), 'companies')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->paginate(10, ['*'], 'companiesPage');
     }
 }

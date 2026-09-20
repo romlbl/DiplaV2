@@ -110,12 +110,6 @@
                                         {{ $review->user->name ?? 'Utilisateur' }} · {{ $review->created_at->diffForHumans() }}
                                     </p>
                                 </div>
-
-                                @if(!$review->company_reply)
-                                    <span class="shrink-0 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                                        En attente
-                                    </span>
-                                @endif
                             </div>
 
                             <p class="text-sm text-[#333333]">{{ $review->content }}</p>
@@ -148,8 +142,9 @@
                                                 Annuler
                                             </button>
                                         @endif
-                                        <button type="submit" wire:loading.attr="disabled" wire:target="submitReply({{ $review->id }})"
-                                                class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                                        <button type="button" wire:click="submitReply({{ $review->id }})"
+                                            wire:loading.attr="disabled" wire:target="submitReply({{ $review->id }})"
+                                            class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
                                             <x-spinner wire:loading wire:target="submitReply({{ $review->id }})" />
                                             Répondre
                                         </button>

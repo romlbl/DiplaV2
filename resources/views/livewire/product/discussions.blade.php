@@ -38,8 +38,9 @@
                                     <input type="text" wire:model="replyContent.{{ $question->id }}"
                                            placeholder="Ta réponse..."
                                            class="flex-1 rounded-xl border border-[#E2E8F0] bg-white px-4 py-2 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
-                                    <button type="submit" wire:loading.attr="disabled" wire:target="submitReply({{ $question->id }})"
-                                            class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
+                                    <button type="button" wire:click="submitReply({{ $question->id }})"
+                                        wire:loading.attr="disabled" wire:target="submitReply({{ $question->id }})"
+                                        class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
                                         <x-spinner wire:loading wire:target="submitReply({{ $question->id }})" />
                                         Envoyer
                                     </button>
@@ -69,7 +70,8 @@
                     <textarea id="new-question-input" wire:model="newQuestion" rows="4"
                               placeholder="Pose une question sur ce produit/service..."
                               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20"></textarea>
-                <button type="submit" wire:loading.attr="disabled" wire:target="submitQuestion"
+                <button type="button" wire:click="submitQuestion"
+                        wire:loading.attr="disabled" wire:target="submitQuestion"
                         class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3D59] px-4 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F] disabled:cursor-not-allowed disabled:opacity-60">
                     <x-spinner wire:loading wire:target="submitQuestion" />
                     Envoyer

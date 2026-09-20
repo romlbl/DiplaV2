@@ -32,6 +32,11 @@ class Dashboard extends Component
         auth()->user()->discussions()->where('id', $discussionId)->whereNull('parent_id')->delete();
     }
 
+    public function removeHistory(int $historyId): void
+    {
+        auth()->user()->viewHistory()->where('id', $historyId)->delete();
+    }
+
     public function clearHistory(): void
     {
         auth()->user()->viewHistory()->delete();

@@ -21,7 +21,9 @@
             <p class="text-sm text-[#333333] mt-1">Créez votre compte pour publier vos produits et services.</p>
         </div>
 
-        <form wire:submit="register" class="flex flex-col gap-4">
+        <form wire:submit="register" class="flex flex-col gap-4"
+            x-data="{ navigating: false }"
+            x-on:livewire:navigate.window="navigating = true">
             <flux:input
                 wire:model="name"
                 label="Nom de l'entreprise"

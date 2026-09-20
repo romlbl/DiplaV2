@@ -255,6 +255,11 @@
                                                 Pas d'image
                                             </div>
                                         @endif
+                                        @if($company->reviews_count > 0)
+                                            <span class="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-[#FDFBF7]/90 px-2.5 py-1 text-xs font-semibold text-[#1E293B] backdrop-blur-sm">
+                                                <span class="text-[#4A3B5C]">★</span> {{ number_format($company->reviews_avg_rating, 1) }}
+                                            </span>
+                                        @endif
                                     </div>
 
                                     <div class="flex flex-1 flex-col p-4">

@@ -45,12 +45,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('search', ['type' => 'produit']) }}" wire:navigate class="text-[#333333]/70 transition hover:text-[#1E3D59]">
+                    <a href="{{ route('search', ['type' => 'produit', 'mode' => 'discover']) }}" wire:navigate class="text-[#333333]/70 transition hover:text-[#1E3D59]">
                         Produits
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('search', ['type' => 'commerce']) }}" wire:navigate class="text-[#333333]/70 transition hover:text-[#1E3D59]">
+                    <a href="{{ route('search', ['type' => 'commerce', 'mode' => 'discover']) }}" wire:navigate class="text-[#333333]/70 transition hover:text-[#1E3D59]">
                         Commerces
                     </a>
                 </li>
@@ -95,8 +95,8 @@
                     Explorer
                 </a>
             </li>
-            <li><a href="{{ route('search', ['type' => 'produit']) }}" wire:navigate class="block py-2">Produits</a></li>
-            <li><a href="{{ route('search', ['type' => 'commerce']) }}" wire:navigate class="block py-2">Commerces</a></li>
+            <li><a href="{{ route('search', ['type' => 'produit', 'mode' => 'discover']) }}" wire:navigate class="block py-2">Produits</a></li>
+            <li><a href="{{ route('search', ['type' => 'commerce', 'mode' => 'discover']) }}" wire:navigate class="block py-2">Commerces</a></li>
             <li><a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="block py-2">À proximité</a></li>
             @auth
                 <li><a href="{{ route('dashboard') }}" wire:navigate class="block py-2 font-bold text-[#1E3D59]">Mon compte</a></li>

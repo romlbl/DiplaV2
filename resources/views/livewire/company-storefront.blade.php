@@ -9,6 +9,8 @@
         'sun' => 'Dimanche',
     ];
     $isOpen = $company->isOpenNow();
+    $reviewsCount = $company->reviews()->count();
+    $avgRating = $company->averageRating();
 @endphp
 
 <div class="flex flex-col gap-8 md:gap-10">
@@ -126,6 +128,16 @@
                 </svg>
                 Informations pratiques
             </h2>
+
+            @if($reviewsCount > 0)
+                <div class="flex items-start gap-3">
+                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1E3D59]/10 text-amber-500">★</div>
+                    <div>
+                        <h3 class="text-sm font-medium text-[#1E293B]">Note</h3>
+                        <p class="text-sm text-[#333333]/70 mt-0.5">{{ $avgRating }}/5 · {{ $reviewsCount }} avis</p>
+                    </div>
+                </div>
+            @endif
 
             <div class="flex flex-col gap-4">
                 <div class="flex items-start gap-3">

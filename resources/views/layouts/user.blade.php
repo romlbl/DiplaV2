@@ -51,7 +51,7 @@
 
     {{-- Barre mobile --}}
     <div class="md:hidden fixed top-0 inset-x-0 z-30 flex items-center justify-between border-b border-[#E2E8F0] bg-[#FAFAFF] px-4 py-3">
-        <a href="{{ route('home') }}" wire:navigate class="text-lg font-semibold text-[#1E293B]">Dipla</a>
+        <a href="{{ route('home') }}" wire:navigate class="text-2xl font-extrabold tracking-tight text-[#1E293B]">Dipla</a>
         <button id="user-menu-toggle" class="p-2 text-[#1E293B]" aria-label="Ouvrir le menu">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16" />

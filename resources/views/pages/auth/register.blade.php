@@ -23,7 +23,8 @@
 
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-4">
+            <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-4"
+            x-data="{ submitting: false }" @submit="submitting = true" @pageshow.window="submitting = false">
                 @csrf
 
                 <flux:input
