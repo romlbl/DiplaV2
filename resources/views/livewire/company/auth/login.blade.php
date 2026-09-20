@@ -11,7 +11,7 @@
         <h1 class="text-2xl font-semibold text-[#1E293B]">Connexion entreprise</h1>
     </div>
 
-    <form wire:submit="login" class="flex flex-col gap-4">
+    <form wire:submit="login" class="flex flex-col gap-4" x-data="{ navigating: false }" @livewire:navigate.window="navigating = true">
         <flux:input
             wire:model="email"
             label="Email"
@@ -33,9 +33,14 @@
         />
 
 
-        <flux:button type="submit" variant="primary" class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold!">
+        <flux:button type="submit" variant="primary" :loading="false"
+                    wire:loading.attr="disabled" wire:target="login" x-bind:disabled="navigating"
+                    class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
+            <x-spinner wire:loading wire:target="login" />
+            <x-spinner x-show="navigating" x-cloak />
             Se connecter
         </flux:button>
+
     </form>
 
     <div class="text-center text-sm text-[#333333] mt-4">

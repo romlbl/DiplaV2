@@ -145,29 +145,29 @@
 
                         {{-- Distance max --}}
                         @if($mode !== 'nearby')
-                            <div class="border-t border-[#E2E8F0] pt-5">
+                            <div x-data="{ value: @js($maxDistance) }" class="border-t border-[#E2E8F0] pt-5">
                                 <div class="flex justify-between items-center mb-1">
-                                    <span class="text-sm font-medium text-[#1E293B]">Distance max</span>
-                                    <span class="text-sm font-mono text-[#1E293B]">
-                                        {{ $maxDistance ? $maxDistance.' km' : 'Aucune' }}
-                                    </span>
+                                    <label for="maxDistance" class="text-sm font-medium text-[#1E293B]">Distance max</label>
+                                    <span class="text-sm font-mono text-[#1E293B]" x-text="value ? value + ' km' : 'Aucune'"></span>
                                 </div>
-                                <input type="range" id="maxDistance" wire:model.live="maxDistance" min="1" max="200" step="1"
-                                       class="accent-[#1E3D59] w-full">
+                                <input type="range" id="maxDistance" min="1" max="200" step="1"
+                                    x-model.number="value"
+                                    @input.debounce.300ms="$wire.$set('maxDistance', value)"
+                                    class="accent-[#1E3D59] w-full">
                             </div>
                         @endif
 
                         {{-- Prix max --}}
                         @if($type !== 'commerce')
-                            <div class="border-t border-[#E2E8F0] pt-5">
+                            <div x-data="{ value: @js($maxPrice) }" class="border-t border-[#E2E8F0] pt-5">
                                 <div class="flex justify-between items-center mb-1">
-                                    <span class="text-sm font-medium text-[#1E293B]">Prix max</span>
-                                    <span class="text-sm font-mono text-[#1E293B]">
-                                        {{ $maxPrice ? $maxPrice.' €' : 'Aucun' }}
-                                    </span>
+                                    <label for="maxPrice" class="text-sm font-medium text-[#1E293B]">Prix max</label>
+                                    <span class="text-sm font-mono text-[#1E293B]" x-text="value ? value + ' €' : 'Aucun'"></span>
                                 </div>
-                                <input type="range" id="maxPrice" wire:model.live="maxPrice" min="5" max="1000" step="5"
-                                       class="accent-[#1E3D59] w-full">
+                                <input type="range" id="maxPrice" min="5" max="1000" step="5"
+                                    x-model.number="value"
+                                    @input.debounce.300ms="$wire.$set('maxPrice', value)"
+                                    class="accent-[#1E3D59] w-full">
                             </div>
                         @endif
                     </div>

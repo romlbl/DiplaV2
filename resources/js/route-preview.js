@@ -1,19 +1,36 @@
 import L from 'leaflet';
 import './leaflet-default-icon.js';
 
-// Composant Alpine pour l'itinéraire de la fiche produit : récupère la position
-// du user (store partagé "searchLocation" en priorité, sinon géolocalisation
-// navigateur), calcule un itinéraire via OSRM, et estime le temps pour
-// plusieurs modes de transport à partir de la distance obtenue.
+// Serveur gratuit avec un vrai profil par mode (le serveur OSRM démo = voiture seulement).
+const PROFILES = {
+    walking: 'routed-foot',
+    cycling: 'routed-bike',
+    driving: 'routed-car',
+};
+
+const MODE_COLORS = { walking: '#1E3D59', cycling: '#4A3B5C', driving: '#333333' };
+
+function formatDuration(seconds) {
+    const minutes = Math.round(seconds / 60);
+    if (minutes < 1) return '< 1 min';
+    if (minutes < 60) return `${minutes} min`;
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m === 0 ? `${h} h` : `${h} h ${m}`;
+}
+
+// Composant Alpine pour l'itinéraire : position du user (store "searchLocation"
+// en priorité, sinon géolocalisation navigateur), puis un tracé réel par mode.
 document.addEventListener('alpine:init', () => {
     Alpine.data('routePreview', (destLat, destLng) => ({
         destLat,
         destLng,
-        mode: 'walking',
+        mode: 'walking', // mode par défaut
         loading: true,
         error: null,
         distanceKm: null,
         durations: { walking: null, cycling: null, driving: null },
+        routes: { walking: null, cycling: null, driving: null },
         originLat: null,
         originLng: null,
         map: null,
@@ -41,8 +58,7 @@ document.addEventListener('alpine:init', () => {
                 (position) => {
                     this.originLat = position.coords.latitude;
                     this.originLng = position.coords.longitude;
-                    // On réutilise le store partagé pour ne pas redemander la position
-                    // à chaque fiche produit consultée.
+                    // Store partagé : pas de nouvelle demande à chaque fiche consultée.
                     this.$store.searchLocation.set('Ma position actuelle', this.originLat, this.originLng);
                     this.initMapAndRoute();
                 },
@@ -69,59 +85,67 @@ document.addEventListener('alpine:init', () => {
                 L.marker([this.destLat, this.destLng]).addTo(this.map).bindPopup('Destination');
                 L.marker([this.originLat, this.originLng]).addTo(this.map).bindPopup('Toi');
 
-                this.fetchRoute();
+                this.fetchRoutes();
             });
         },
 
-        async fetchRoute() {
-            this.loading = true;
-            this.error = null;
+        async fetchRoute(mode) {
+            const url = `https://routing.openstreetmap.de/${PROFILES[mode]}/route/v1/driving/`
+                + `${this.originLng},${this.originLat};${this.destLng},${this.destLat}`
+                + `?overview=full&geometries=geojson`;
 
             try {
-                const response = await fetch(
-                    `https://router.project-osrm.org/route/v1/driving/${this.originLng},${this.originLat};${this.destLng},${this.destLat}?overview=full&geometries=geojson`
-                );
+                const response = await fetch(url);
                 const data = await response.json();
-
-                if (data.routes && data.routes.length > 0) {
-                    const route = data.routes[0];
-                    const coords = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
-
-                    if (this.polyline) this.map.removeLayer(this.polyline);
-                    this.polyline = L.polyline(coords, { color: '#1E3D59', weight: 4 }).addTo(this.map);
-                    this.map.fitBounds(coords);
-
-                    this.distanceKm = route.distance / 1000;
-                    this.computeDurations();
-                } else {
-                    this.error = "Itinéraire indisponible pour cette destination.";
-                }
+                return data.routes?.[0] ?? null;
             } catch (error) {
-                console.error('Erreur OSRM', error);
-                this.error = "Impossible de calculer l'itinéraire pour le moment.";
-            } finally {
-                this.loading = false;
+                console.error(`Erreur itinéraire (${mode})`, error);
+                return null;
             }
         },
 
-        computeDurations() {
-            if (this.distanceKm === null) return;
+        async fetchRoutes() {
+            this.loading = true;
+            this.error = null;
 
-            // Le tracé provient d'un calcul "voiture" (seul profil disponible sur
-            // le serveur OSRM public gratuit) ; pour les autres modes, on estime
-            // le temps à partir de vitesses moyennes en ville.
-            const speeds = { walking: 5, cycling: 15, driving: 30 };
+            // Les 3 modes en parallèle : temps réels pour chaque bouton.
+            const modes = Object.keys(PROFILES);
+            const results = await Promise.all(modes.map((mode) => this.fetchRoute(mode)));
 
-            this.durations = Object.fromEntries(
-                Object.entries(speeds).map(([key, speed]) => {
-                    const minutes = Math.round((this.distanceKm / speed) * 60);
-                    return [key, minutes < 1 ? '< 1 min' : `${minutes} min`];
-                })
-            );
+            modes.forEach((mode, i) => {
+                this.routes[mode] = results[i];
+                this.durations[mode] = results[i] ? formatDuration(results[i].duration) : null;
+            });
+
+            this.loading = false;
+            this.showMode();
+        },
+
+        showMode() {
+            const route = this.routes[this.mode];
+
+            if (this.polyline) {
+                this.map.removeLayer(this.polyline);
+                this.polyline = null;
+            }
+
+            if (!route) {
+                this.distanceKm = null;
+                this.error = "Itinéraire indisponible pour ce mode de transport.";
+                return;
+            }
+
+            this.error = null;
+            this.distanceKm = route.distance / 1000;
+
+            const coords = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+            this.polyline = L.polyline(coords, { color: MODE_COLORS[this.mode], weight: 4 }).addTo(this.map);
+            this.map.fitBounds(coords);
         },
 
         setMode(mode) {
             this.mode = mode;
+            if (this.map && !this.loading) this.showMode();
         },
     }));
 });

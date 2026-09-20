@@ -95,11 +95,13 @@
                     class="rounded-xl! border-[#E2E8F0]! bg-[#FDFBF7]! focus:border-[#1E3D59]! focus:ring-[#1E3D59]/20!"
                 />
 
-            <flux:button variant="primary" type="submit" data-test="register-user-button" x-bind:disabled="submitting"
-                        class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! font-semibold! text-[#FDFBF7]! disabled:opacity-60 disabled:cursor-not-allowed">
-                <x-spinner x-show="submitting" x-cloak />
-                <span x-text="submitting ? 'Création…' : 'Créer mon compte'">Créer mon compte</span>
-            </flux:button>
+                <flux:button variant="primary" type="submit" data-test="register-user-button" x-bind:disabled="submitting"
+                            class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! font-semibold! text-[#FDFBF7]! disabled:opacity-60 disabled:cursor-not-allowed">
+                    <span class="inline-flex items-center justify-center gap-2">
+                        <x-spinner x-show="submitting" x-cloak />
+                        <span x-text="submitting ? 'Création…' : 'Créer mon compte'">Créer mon compte</span>
+                    </span>
+                </flux:button>
             </form>
 
             <div class="text-center text-sm text-[#333333] mt-4">

@@ -39,8 +39,6 @@
                         <h1 class="text-2xl font-semibold text-[#1E293B]">Connexion</h1>
                     </div>
 
-
-
                     <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-4" x-data="{ submitting: false }" @submit="submitting = true" @pageshow.window="submitting = false">
                         @csrf
 
@@ -70,8 +68,10 @@
 
                         <flux:button variant="primary" type="submit" x-bind:disabled="submitting"
                                     class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
-                            <x-spinner x-show="submitting" x-cloak />
-                            <span x-text="submitting ? 'Connexion…' : 'Se connecter'">Se connecter</span>
+                            <span class="inline-flex items-center justify-center gap-2">
+                                <x-spinner x-show="submitting" x-cloak />
+                                <span x-text="submitting ? 'Connexion…' : 'Se connecter'">Se connecter</span>
+                            </span>
                         </flux:button>
                     </form>
 

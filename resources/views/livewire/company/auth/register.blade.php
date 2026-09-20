@@ -88,9 +88,11 @@
             <flux:button type="submit" variant="primary" :loading="false"
                         wire:loading.attr="disabled" wire:target="register" x-bind:disabled="navigating"
                         class="w-full rounded-full! bg-[#1E3D59]! hover:bg-[#16293F]! text-[#FFFFFF]! font-semibold! disabled:opacity-60 disabled:cursor-not-allowed">
-                <x-spinner wire:loading wire:target="register" />
-                <x-spinner x-show="navigating" x-cloak />
-                Créer mon compte entreprise
+                <span class="inline-flex items-center justify-center gap-2">
+                    <x-spinner wire:loading wire:target="register" />
+                    <x-spinner x-show="navigating" x-cloak />
+                    <span>Créer mon compte entreprise</span>
+                </span>
             </flux:button>
         </form>
 

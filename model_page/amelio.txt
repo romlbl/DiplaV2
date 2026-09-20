@@ -1,5 +1,7 @@
 - cursor pointer
 - mettre en francais qd erreur de connexion
-- "publier ton premier produit" -> votre
-- sur page commerce afficher tout la description dans la limite de la taille de l'image
 - fond transparent icone
+- CU sur les donne des produits
+- pas de barre de glissement sir compte user
+- visu chargment mal positionner connexion mobil
+- mode a pied par def sinon voiture
