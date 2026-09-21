@@ -93,8 +93,7 @@
         {{-- Description --}}
         <div>
             <label for="storefront-description" class="block text-sm font-medium text-[#1E293B] mb-1">Description</label>
-            <textarea id="storefront-description" wire:model="description" rows="4"
-                      class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20"></textarea>
+            <x-rich-textarea id="storefront-description" wire:model="description" rows="4" />
             @error('description') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -103,23 +102,49 @@
             <label class="block text-sm font-medium text-[#1E293B] mb-2">Horaires d'ouverture</label>
             <div class="flex flex-col gap-2">
                 @foreach($this->days as $key => $label)
-                    <div class="flex flex-wrap items-center gap-3 rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-3 py-2">
-                        <span class="w-20 shrink-0 text-sm font-medium text-[#1E293B]">{{ $label }}</span>
+                    <div wire:key="hours-{{ $key }}" class="flex flex-col gap-2 rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-3 py-3">
 
-                        <label class="flex items-center gap-1.5 text-xs text-[#333333]/70">
-                            <input type="checkbox" wire:model="openingHours.{{ $key }}.closed" class="rounded border-[#E2E8F0]">
-                            Fermé
-                        </label>
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-sm font-medium text-[#1E293B]">{{ $label }}</span>
+                            <label class="flex cursor-pointer items-center gap-1.5 text-xs text-[#333333]/70">
+                                <input type="checkbox" wire:model="openingHours.{{ $key }}.closed"
+                                    class="h-4 w-4 rounded border-[#E2E8F0] accent-[#1E3D59]">
+                                Fermé
+                            </label>
+                        </div>
 
-                        @if(!($openingHours[$key]['closed'] ?? false))
-                            <input type="time" wire:model="openingHours.{{ $key }}.open"
-                                   class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1 text-sm text-[#333333]">
-                            <span class="text-sm text-[#333333]/50">à</span>
-                            <input type="time" wire:model="openingHours.{{ $key }}.close"
-                                   class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1 text-sm text-[#333333]">
-                        @else
-                            <span class="text-sm text-[#333333]/40 italic">Fermé toute la journée</span>
-                        @endif
+                        <p x-show="$wire.openingHours.{{ $key }}.closed" class="text-sm italic text-[#333333]/40">
+                            Fermé toute la journée
+                        </p>
+
+                        <div x-show="!$wire.openingHours.{{ $key }}.closed" class="flex flex-col gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <input type="time" wire:model="openingHours.{{ $key }}.open"
+                                    class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-sm text-[#333333]">
+                                <span class="text-sm text-[#333333]/50">à</span>
+                                <input type="time" wire:model="openingHours.{{ $key }}.close"
+                                    class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-sm text-[#333333]">
+                            </div>
+
+                            <label class="flex cursor-pointer items-center gap-1.5 text-xs text-[#333333]/70">
+                                <input type="checkbox" wire:model="openingHours.{{ $key }}.has_break"
+                                    class="h-4 w-4 rounded border-[#E2E8F0] accent-[#1E3D59]">
+                                Pause dans la journée (ex : midi)
+                            </label>
+
+                            <div x-show="$wire.openingHours.{{ $key }}.has_break" class="flex flex-wrap items-center gap-2">
+                                <span class="text-xs text-[#333333]/60">Fermé de</span>
+                                <input type="time" wire:model="openingHours.{{ $key }}.break_start"
+                                    class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-sm text-[#333333]">
+                                <span class="text-sm text-[#333333]/50">à</span>
+                                <input type="time" wire:model="openingHours.{{ $key }}.break_end"
+                                    class="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-sm text-[#333333]">
+                            </div>
+                        </div>
+
+                        @error("openingHours.$key.close")
+                            <p class="text-xs text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                 @endforeach
             </div>

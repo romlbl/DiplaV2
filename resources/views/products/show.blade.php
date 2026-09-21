@@ -169,7 +169,7 @@
 
             {{-- Description --}}
             <div x-show="tab === 'description'" class="max-w-3xl">
-                <p class="text-[#333333]/80 leading-relaxed whitespace-pre-line">{{ $product->description }}</p>
+                <x-rich-text :text="$product->description" class="text-[#333333]/80 leading-relaxed" />
 
                 @if($product->keywords)
                     <div class="flex flex-wrap gap-2 mt-5">

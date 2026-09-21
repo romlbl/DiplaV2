@@ -78,7 +78,20 @@ class Company extends Authenticatable
 
         $currentTime = $localNow->format('H:i');
 
-        return $currentTime >= $open && $currentTime <= $close;
+        if ($currentTime < $open || $currentTime > $close) {
+            return false;
+        }
+
+        // Pause (ex : midi) : fermé entre début et fin de pause.
+        $breakStart = $today['break_start'] ?? null;
+        $breakEnd = $today['break_end'] ?? null;
+
+        if (($today['has_break'] ?? false) && $breakStart && $breakEnd
+            && $currentTime >= $breakStart && $currentTime < $breakEnd) {
+            return false;
+        }
+
+        return true;
     }
 
     public function scopeSearch(\Illuminate\Database\Eloquent\Builder $query, ?string $term): \Illuminate\Database\Eloquent\Builder

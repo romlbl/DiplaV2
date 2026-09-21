@@ -1,4 +1,7 @@
 - cursor pointer
 - mettre en francais qd erreur de connexion
 - fond transparent icone
-- dipla comme sur welcome page sur dash user tel
+- centre etaoil
+- amelio recherche
+- chg cloudinary et render
+- possible pas de prix fixe

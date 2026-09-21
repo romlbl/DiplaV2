@@ -42,7 +42,7 @@
         <div class="relative p-5 md:p-8" wire:ignore x-data="fitHeroText">
             <h1 class="text-2xl md:text-4xl font-extrabold text-white mb-1">{{ $company->name }}</h1>
             @if($company->description)
-                <p x-ref="desc" class="text-sm md:text-base text-white/80 max-w-2xl">{{ $company->description }}</p>
+                <x-rich-text x-ref="desc" :text="$company->description" class="text-sm md:text-base text-white/80 max-w-2xl" />
             @endif
         </div>
     </section>
@@ -71,7 +71,7 @@
         <div class="relative p-4" wire:ignore x-data="fitHeroText">
             <h1 class="text-xl font-extrabold text-white mb-1">{{ $company->name }}</h1>
             @if($company->description)
-                <p x-ref="desc" class="text-xs text-white/80">{{ $company->description }}</p>
+                <x-rich-text x-ref="desc" :text="$company->description" class="text-xs text-white/80" />
             @endif
         </div>
     </section>
@@ -105,10 +105,14 @@
                 <ul class="flex flex-col gap-2 text-sm text-[#333333]">
                     @foreach($days as $key => $label)
                         @php($day = $company->opening_hours[$key] ?? null)
-                        <li class="flex justify-between">
+                        <li class="flex justify-between gap-3">
                             <span>{{ $label }}</span>
                             @if(!$day || ($day['closed'] ?? true))
                                 <span class="text-[#333333]/50">Fermé</span>
+                            @elseif(($day['has_break'] ?? false) && ($day['break_start'] ?? null) && ($day['break_end'] ?? null))
+                                <span class="text-right font-medium text-[#1E293B]">
+                                    {{ $day['open'] }} - {{ $day['break_start'] }} · {{ $day['break_end'] }} - {{ $day['close'] }}
+                                </span>
                             @else
                                 <span class="font-medium text-[#1E293B]">{{ $day['open'] }} - {{ $day['close'] }}</span>
                             @endif
