@@ -115,7 +115,7 @@
         <ul class="list-disc space-y-2 pl-5">
             <li><strong>Render</strong> : hébergement du site (États-Unis).</li>
             <li><strong>Neon</strong> : base de données, région Europe (Francfort).</li>
-            <li><strong>Cloudinary</strong> : stockage et diffusion des photos.</li>
+            <li><strong>ImageKit</strong> : stockage et diffusion des photos.</li>
             <li>
                 <strong>OpenStreetMap, Nominatim et OSRM</strong> : affichage des cartes, recherche d'adresses et calcul d'itinéraires.
                 Votre navigateur contacte directement ces services : ils reçoivent votre adresse IP, et les adresses ou coordonnées nécessaires à la carte,

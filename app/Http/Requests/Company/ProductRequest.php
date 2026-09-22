@@ -24,6 +24,15 @@ class ProductRequest extends FormRequest
 
         return $product ? Gate::forUser($company)->allows('update', $product) : true;
     }
+    protected function prepareForValidation(): void
+    {
+        // Si "Prix variable" est coché (value="1"), on force price à null
+        if ($this->boolean('price_variable')) {
+            $this->merge([
+                'price' => null,
+            ]);
+        }
+    }
 
     /**
      * @return array<string, array<int, mixed>>
@@ -32,7 +41,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'price' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:999999.99'],
+            'price' => ['nullable', 'required_unless:price_variable,1', 'numeric', 'decimal:0,2', 'min:0', 'max:999999.99'],
             'description' => ['required', 'string', 'max:5000'],
             'type' => ['required', Rule::in(['produit', 'service'])],
             'keywords' => ['nullable', 'string', 'max:255'],

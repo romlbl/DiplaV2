@@ -26,7 +26,7 @@
         </p>
         <p>
             La base de données (PostgreSQL) est hébergée chez Neon, région Europe (Francfort).
-            Les images sont stockées et diffusées par Cloudinary.
+            Les images sont stockées et diffusées par ImageKit.
         </p>
     </x-legal.section>
 

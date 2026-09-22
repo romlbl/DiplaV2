@@ -1,5 +1,5 @@
 - cursor pointer
 - mettre en francais qd erreur de connexion
 - fond transparent icone
-- centre etaoil
-- chg cloudinary et render
+- distance par def 10km
+- prix -> chg pour variable -> pas pris en compte

@@ -51,11 +51,14 @@ class EditStorefront extends Component
         $existing = $company->opening_hours ?? [];
 
         foreach ($this->days as $key => $label) {
-            $this->openingHours[$key] = $existing[$key] ?? [
+            $this->openingHours[$key] = array_merge([
                 'closed' => false,
                 'open' => '09:00',
                 'close' => '18:00',
-            ];
+                'has_break' => false,
+                'break_start' => '12:00',
+                'break_end' => '14:00',
+            ], $existing[$key] ?? []);
         }
     }
 
@@ -80,7 +83,15 @@ class EditStorefront extends Component
             'openingHours.*.closed' => ['boolean'],
             'openingHours.*.open' => ['nullable', 'date_format:H:i'],
             'openingHours.*.close' => ['nullable', 'date_format:H:i'],
+            'openingHours.*.has_break' => ['boolean'],
+            'openingHours.*.break_start' => ['nullable', 'date_format:H:i'],
+            'openingHours.*.break_end' => ['nullable', 'date_format:H:i'],
         ]);
+        $hours = $this->sanitizedOpeningHours();
+
+        if (! $this->hoursAreCoherent($hours)) {
+            return;
+        }
 
         $data = [
             'name' => $validated['name'],
@@ -89,7 +100,7 @@ class EditStorefront extends Component
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
             'description' => $validated['description'],
-            'opening_hours' => $this->sanitizedOpeningHours(),
+            'opening_hours' => $hours,
         ];
 
         $imageKit = app(ImageKitService::class);
@@ -119,7 +130,7 @@ class EditStorefront extends Component
     }
 
     /**
-     * Ne conserve que les 7 jours connus avec leurs 3 champs, quoi qu'envoie le navigateur.
+     * Ne conserve que les 7 jours connus avec leurs champs, quoi qu'envoie le navigateur.
      */
     protected function sanitizedOpeningHours(): array
     {
@@ -130,12 +141,46 @@ class EditStorefront extends Component
 
             $hours[$key] = [
                 'closed' => (bool) ($day['closed'] ?? false),
-                'open' => $day['open'] ?? '09:00',
-                'close' => $day['close'] ?? '18:00',
+                'open' => ($day['open'] ?? null) ?: '09:00',
+                'close' => ($day['close'] ?? null) ?: '18:00',
+                'has_break' => (bool) ($day['has_break'] ?? false),
+                'break_start' => ($day['break_start'] ?? null) ?: '12:00',
+                'break_end' => ($day['break_end'] ?? null) ?: '14:00',
             ];
         }
 
         return $hours;
+    }
+
+    /**
+     * Vérifie l'ordre : ouverture < début pause < fin pause < fermeture.
+     */
+    protected function hoursAreCoherent(array $hours): bool
+    {
+        $valid = true;
+
+        foreach ($this->days as $key => $label) {
+            $day = $hours[$key];
+
+            if ($day['closed']) {
+                continue;
+            }
+
+            if ($day['open'] >= $day['close']) {
+                $this->addError("openingHours.$key.close", "$label : la fermeture doit être après l'ouverture.");
+                $valid = false;
+                continue;
+            }
+
+            if ($day['has_break'] && ! ($day['open'] < $day['break_start']
+                && $day['break_start'] < $day['break_end']
+                && $day['break_end'] < $day['close'])) {
+                $this->addError("openingHours.$key.close", "$label : la pause doit être comprise entre l'ouverture et la fermeture.");
+                $valid = false;
+            }
+        }
+
+        return $valid;
     }
 
     /**

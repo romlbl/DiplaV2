@@ -163,7 +163,7 @@ class Product extends Model
     {
         return $this->price !== null
             ? number_format($this->price, 2) . ' €'
-            : 'Sur devis';
+            : 'Variable';
     }
 
 }
