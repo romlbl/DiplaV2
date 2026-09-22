@@ -10,6 +10,7 @@
     </div>
 @endif
 
+
 <div class="flex flex-col gap-4">
     <div>
         <label for="title" class="block text-sm font-medium text-[#1E293B] mb-1">Nom du produit / service</label>
@@ -35,9 +36,15 @@
         </label>
     </div>
 
-    <div x-data="{ variable: {{ old('price', $product->price ?? null) === null ? 'true' : 'false' }} }">
+    @php
+        // Coché seulement si édition d'un produit déjà en prix variable. Jamais coché à la création.
+        $isVariablePrice = old('price_variable')
+            ? true
+            : (isset($product) && $product->exists && is_null($product->price));
+    @endphp
+    <div x-data="{ variable: {{ $isVariablePrice ? 'true' : 'false' }} }">
         <label class="flex cursor-pointer items-center gap-2.5 mb-2 text-sm text-[#1E293B]">
-            <input type="checkbox" x-model="variable"
+            <input type="checkbox" x-model="variable" name="price_variable" value="1"
                 class="h-4 w-4 cursor-pointer rounded border-[#E2E8F0] accent-[#1E3D59]">
             Prix variable 
         </label>

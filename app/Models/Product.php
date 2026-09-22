@@ -159,5 +159,11 @@ class Product extends Model
         return $query->where('price', '<=', $price);
     }
 
+    public function priceLabel(): string
+    {
+        return $this->price !== null
+            ? number_format($this->price, 2) . ' €'
+            : 'Sur devis';
+    }
 
 }
