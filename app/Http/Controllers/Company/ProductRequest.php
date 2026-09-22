@@ -32,7 +32,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:999999.99'],
+            'price' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:999999.99'],
             'description' => ['required', 'string', 'max:5000'],
             'type' => ['required', Rule::in(['produit', 'service'])],
             'keywords' => ['nullable', 'string', 'max:255'],

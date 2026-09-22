@@ -92,24 +92,15 @@ class Product extends Model
 
         $term = trim($term);
 
-        // Prépare la requête de préfixe pour autocomplétion (ex: "chauss" -> "chauss:*")
-        $words = array_filter(explode(' ', $term));
-        $prefixQuery = implode(' & ', array_map(function ($word) {
-            $cleanWord = preg_replace('/[^\w]/u', '', $word);
-            return $cleanWord ? $cleanWord . ':*' : '';
-        }, $words));
-
-        return $query->where(function ($q) use ($term, $prefixQuery) {
-            // 1. Syntaxe moderne Postgres (supporte les guillemets, le OR, etc.)
+        return $query->where(function ($q) use ($term) {
+            // Full-text classique (rapide, gère pluriel/accents/stemming français)
             $q->whereRaw("search_vector @@ websearch_to_tsquery('french', ?)", [$term]);
 
-            // 2. Recherche par préfixe (trouve les mots incomplets)
-            if (!empty($prefixQuery)) {
-                $q->orWhereRaw("search_vector @@ to_tsquery('french', ?)", [$prefixQuery]);
-            }
-
-            // 3. Tolérance aux fautes de frappe sur le titre
-            $q->orWhereRaw("similarity(unaccent(title), unaccent(?)) > 0.25", [$term]);
+            // Flou façon TNTSearch : compare "mot par mot" contre titre/mots-clés/description.
+            // word_similarity trouve un mot proche même dans un texte plus long ("barber" ~ "coiffeur barber shop").
+            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(title)) > 0.25", [$term]);
+            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(coalesce(keywords, ''))) > 0.25", [$term]);
+            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(coalesce(description, ''))) > 0.2", [$term]);
         });
     }
 
@@ -157,6 +148,13 @@ class Product extends Model
         }
 
         return $query->where('price', '<=', $price);
+    }
+
+    public function priceLabel(): string
+    {
+        return $this->price !== null
+            ? number_format($this->price, 2) . ' €'
+            : 'Variable';
     }
 
 

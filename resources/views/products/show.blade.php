@@ -76,8 +76,8 @@
 
                 {{-- Prix, sans fond ni bordure --}}
                 <div class="mb-5">
-                    <span class="text-xl md:text-2xl font-sans font-bold text-[#1E3D59]">
-                        {{ number_format($product->price, 2) }} €
+                    <span class="inline-block w-fit rounded-full bg-[#1E3D59] px-3 py-1 font-sans text-xs font-semibold text-[#FDFBF7]">
+                        {{ $product->priceLabel() }}
                     </span>
                 </div>
 
@@ -270,7 +270,7 @@
                             </div>
                             <div class="p-3">
                                 <p class="text-sm font-medium text-[#1E293B] truncate">{{ $relatedProduct->title }}</p>
-                                <p class="text-xs font-sans text-[#333333]/70 mt-1">{{ number_format($relatedProduct->price, 2) }} €</p>
+                                <p class="text-xs font-sans text-[#333333]/70 mt-1">{{ $relatedProduct->priceLabel() }}</p>
                             </div>
                         </a>
                     @endforeach

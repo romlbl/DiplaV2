@@ -74,7 +74,7 @@
 
                                 {{-- Prix --}}
                                 <p class="text-xs md:text-sm font-mono font-semibold text-slate-700 mt-1">
-                                    {{ number_format($product->price, 2) }} €
+                                    {{ $product->priceLabel() }}
                                 </p>
 
                                 {{-- Adresse --}}
@@ -339,7 +339,7 @@
 
                                     {{-- Prix --}}
                                     <p class="text-xs md:text-sm font-mono font-semibold text-slate-700 mt-1">
-                                        {{ number_format($entry->product->price, 2) }} €
+                                        {{ $product->priceLabel() }}
                                     </p>
 
                                     {{-- Adresse --}}

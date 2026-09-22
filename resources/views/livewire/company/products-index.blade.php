@@ -85,7 +85,7 @@
                         @endif
 
                         <p class="mt-2 sm:mt-3 font-mono text-base sm:text-lg font-semibold text-[#1E293B]">
-                            {{ number_format($product->price, 2) }} €
+                            {{ $product->priceLabel() }}
                         </p>
 
                         <div class="mt-auto pt-3 sm:pt-4 flex gap-2">

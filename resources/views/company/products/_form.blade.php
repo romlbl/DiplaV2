@@ -35,11 +35,21 @@
         </label>
     </div>
 
-    <div>
-        <label for="price" class="block text-sm font-medium text-[#1E293B] mb-1">Prix (€)</label>
-        <input type="number" name="price" id="price" step="0.01" min="0" required
-               value="{{ old('price', $product->price ?? '') }}"
-               class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm font-mono text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+    <div x-data="{ variable: {{ old('price', $product->price ?? null) === null ? 'true' : 'false' }} }">
+        <label class="flex cursor-pointer items-center gap-2.5 mb-2 text-sm text-[#1E293B]">
+            <input type="checkbox" x-model="variable"
+                class="h-4 w-4 cursor-pointer rounded border-[#E2E8F0] accent-[#1E3D59]">
+            Prix variable 
+        </label>
+
+        <div x-show="!variable">
+            <label for="price" class="block text-sm font-medium text-[#1E293B] mb-1">Prix (€)</label>
+            <input type="number" name="price" id="price" step="0.01" min="0"
+                :required="!variable" x-bind:disabled="variable"
+                value="{{ old('price', $product->price ?? '') }}"
+                class="w-full rounded-xl border border-[#E2E8F0] bg-[#FDFBF7] px-4 py-2.5 text-sm font-mono text-[#333333] focus:border-[#1E3D59] focus:outline-none focus:ring-2 focus:ring-[#1E3D59]/20">
+            @error('price') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+        </div>
     </div>
 
     <div>

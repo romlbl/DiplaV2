@@ -58,7 +58,7 @@
 
             <div class="mt-2 flex flex-col gap-1 border-t border-[#E2E8F0] pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                 <span class="inline-block w-fit rounded-full bg-[#1E3D59] px-3 py-1 font-sans text-xs font-semibold text-[#FDFBF7]">
-                    {{ number_format($product->price, 2) }} €
+                    {{ $product->priceLabel() }}
                 </span>
                 <span x-show="distanceLabel()" x-text="distanceLabel()" x-cloak
                       class="font-sans text-xs text-[#333333]/60 whitespace-nowrap"></span>

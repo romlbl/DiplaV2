@@ -21,14 +21,17 @@ trait SearchesText
         $table = $query->getModel()->getTable();
 
         return $query->where(function ($q) use ($term, $words, $table) {
-            // 1. Chaque mot doit apparaître dans au moins une colonne (accents et casse ignorés).
+            // 1. Chaque mot doit apparaître (contient OU flou) dans au moins une colonne.
             $q->where(function ($allWords) use ($words, $table) {
                 foreach ($words as $word) {
                     $like = '%'.addcslashes($word, '%_\\').'%';
 
-                    $allWords->where(function ($oneWord) use ($like, $table) {
+                    $allWords->where(function ($oneWord) use ($like, $word, $table) {
                         foreach (static::$searchColumns as $column) {
                             $oneWord->orWhereRaw("unaccent({$table}.{$column}) ILIKE unaccent(?)", [$like]);
+
+                            // Flou : trouve le mot même mal orthographié ou proche (ex: "coiffeur" ~ "coiffure").
+                            $oneWord->orWhereRaw("word_similarity(unaccent(?), unaccent({$table}.{$column})) > 0.25", [$word]);
                         }
                     });
                 }

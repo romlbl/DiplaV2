@@ -101,21 +101,11 @@ class Company extends Authenticatable
         }
 
         $term = trim($term);
-        $words = array_filter(explode(' ', $term));
 
-        return $query->where(function ($q) use ($term, $words) {
-            // 1. Recherche flexible mot par mot (ignore accents et majuscules/minuscules)
-            $q->where(function ($subQuery) use ($words) {
-                foreach ($words as $word) {
-                    $subQuery->where(function ($wordQuery) use ($word) {
-                        $wordQuery->whereRaw("unaccent(name) ILIKE unaccent(?)", ["%{$word}%"])
-                                ->orWhereRaw("unaccent(address) ILIKE unaccent(?)", ["%{$word}%"]);
-                    });
-                }
-            });
-
-            // 2. Tolérance aux fautes de frappe sur le nom de l'entreprise
-            $q->orWhereRaw("similarity(unaccent(name), unaccent(?)) > 0.25", [$term]);
+        return $query->where(function ($q) use ($term) {
+            $q->whereRaw("unaccent(name) ILIKE unaccent(?)", ["%{$term}%"])
+            ->orWhereRaw("unaccent(address) ILIKE unaccent(?)", ["%{$term}%"])
+            ->orWhereRaw("word_similarity(unaccent(?), unaccent(name)) > 0.25", [$term]);
         });
     }
 
