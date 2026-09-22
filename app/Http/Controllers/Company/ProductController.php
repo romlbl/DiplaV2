@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\ProductRequest;
 use App\Models\Product;
-use App\Services\CloudinaryService;
+use App\Services\ImageKitService;
 use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
-    public function __construct(protected CloudinaryService $cloudinary)
+    public function __construct(protected ImageKitService $imageKit)
     {
     }
 
@@ -76,7 +76,7 @@ class ProductController extends Controller
     {
         foreach ($request->file('images', []) as $position => $file) {
             $product->images()->create([
-                'url' => $this->cloudinary->upload($file->getRealPath()),
+                'url' => $this->imageKit->upload($file->getRealPath()),
                 'position' => $position,
             ]);
         }

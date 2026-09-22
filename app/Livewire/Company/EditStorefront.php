@@ -4,8 +4,7 @@ namespace App\Livewire\Company;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
-use App\Services\CloudinaryService;
-use Livewire\Attributes\On;
+use App\Services\ImageKitService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -43,7 +42,7 @@ class EditStorefront extends Component
     {
         $this->company = $company;
         $this->name = $company->name;
-         $this->phone = $company->phone ?? '';
+        $this->phone = $company->phone ?? '';
         $this->address = $company->address;
         $this->latitude = $company->latitude ? (float) $company->latitude : null;
         $this->longitude = $company->longitude ? (float) $company->longitude : null;
@@ -52,14 +51,11 @@ class EditStorefront extends Component
         $existing = $company->opening_hours ?? [];
 
         foreach ($this->days as $key => $label) {
-            $this->openingHours[$key] = array_merge([
+            $this->openingHours[$key] = $existing[$key] ?? [
                 'closed' => false,
                 'open' => '09:00',
                 'close' => '18:00',
-                'has_break' => false,
-                'break_start' => '12:00',
-                'break_end' => '14:00',
-            ], $existing[$key] ?? []);
+            ];
         }
     }
 
@@ -84,15 +80,7 @@ class EditStorefront extends Component
             'openingHours.*.closed' => ['boolean'],
             'openingHours.*.open' => ['nullable', 'date_format:H:i'],
             'openingHours.*.close' => ['nullable', 'date_format:H:i'],
-            'openingHours.*.has_break' => ['boolean'],
-            'openingHours.*.break_start' => ['nullable', 'date_format:H:i'],
-            'openingHours.*.break_end' => ['nullable', 'date_format:H:i'],
         ]);
-        $hours = $this->sanitizedOpeningHours();
-
-        if (! $this->hoursAreCoherent($hours)) {
-            return;
-        }
 
         $data = [
             'name' => $validated['name'],
@@ -101,14 +89,14 @@ class EditStorefront extends Component
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
             'description' => $validated['description'],
-            'opening_hours' => $hours,
+            'opening_hours' => $this->sanitizedOpeningHours(),
         ];
 
-        $cloudinary = app(CloudinaryService::class);
+        $imageKit = app(ImageKitService::class);
 
-        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newCoverImage, $this->company->cover_image_url, 'dipla/companies', 'cover_image_url'));
-        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newCardImage, $this->company->card_image_url, 'dipla/companies/cards', 'card_image_url'));
-        $data = array_merge($data, $this->uploadIfPresent($cloudinary, $this->newAvatarImage, $this->company->avatar_image_url, 'dipla/companies/avatars', 'avatar_image_url'));
+        $data = array_merge($data, $this->uploadIfPresent($imageKit, $this->newCoverImage, $this->company->cover_image_url, 'dipla/companies', 'cover_image_url'));
+        $data = array_merge($data, $this->uploadIfPresent($imageKit, $this->newCardImage, $this->company->card_image_url, 'dipla/companies/cards', 'card_image_url'));
+        $data = array_merge($data, $this->uploadIfPresent($imageKit, $this->newAvatarImage, $this->company->avatar_image_url, 'dipla/companies/avatars', 'avatar_image_url'));
 
         // À calculer AVANT la mise à jour : on compare avec l'adresse encore enregistrée.
         $addressChanged = $validated['address'] !== $this->company->address
@@ -131,7 +119,7 @@ class EditStorefront extends Component
     }
 
     /**
-     * Ne conserve que les 7 jours connus avec leurs champs, quoi qu'envoie le navigateur.
+     * Ne conserve que les 7 jours connus avec leurs 3 champs, quoi qu'envoie le navigateur.
      */
     protected function sanitizedOpeningHours(): array
     {
@@ -142,11 +130,8 @@ class EditStorefront extends Component
 
             $hours[$key] = [
                 'closed' => (bool) ($day['closed'] ?? false),
-                'open' => ($day['open'] ?? null) ?: '09:00',
-                'close' => ($day['close'] ?? null) ?: '18:00',
-                'has_break' => (bool) ($day['has_break'] ?? false),
-                'break_start' => ($day['break_start'] ?? null) ?: '12:00',
-                'break_end' => ($day['break_end'] ?? null) ?: '14:00',
+                'open' => $day['open'] ?? '09:00',
+                'close' => $day['close'] ?? '18:00',
             ];
         }
 
@@ -154,52 +139,20 @@ class EditStorefront extends Component
     }
 
     /**
-     * Vérifie l'ordre : ouverture < début pause < fin pause < fermeture.
-     */
-    protected function hoursAreCoherent(array $hours): bool
-    {
-        $valid = true;
-
-        foreach ($this->days as $key => $label) {
-            $day = $hours[$key];
-
-            if ($day['closed']) {
-                continue;
-            }
-
-            if ($day['open'] >= $day['close']) {
-                $this->addError("openingHours.$key.close", "$label : la fermeture doit être après l'ouverture.");
-                $valid = false;
-                continue;
-            }
-
-            if ($day['has_break'] && ! ($day['open'] < $day['break_start']
-                && $day['break_start'] < $day['break_end']
-                && $day['break_end'] < $day['close'])) {
-                $this->addError("openingHours.$key.close", "$label : la pause doit être comprise entre l'ouverture et la fermeture.");
-                $valid = false;
-            }
-        }
-
-        return $valid;
-    }
-
-    /**
-     * Remplace une photo de devanture : supprime l'ancienne sur Cloudinary si besoin,
+     * Remplace une photo de devanture : supprime l'ancienne sur ImageKit si besoin,
      * envoie la nouvelle, et retourne le tableau à fusionner dans les données à sauvegarder.
      */
-    protected function uploadIfPresent(CloudinaryService $cloudinary, $newFile, ?string $existingUrl, string $folder, string $column): array
+    protected function uploadIfPresent(ImageKitService $imageKit, $newFile, ?string $existingUrl, string $folder, string $column): array
     {
         if (!$newFile) {
             return [];
         }
 
         if ($existingUrl) {
-            $publicId = pathinfo(parse_url($existingUrl, PHP_URL_PATH), PATHINFO_FILENAME);
-            $cloudinary->delete($folder.'/'.$publicId);
+            $imageKit->delete($existingUrl);
         }
 
-        return [$column => $cloudinary->upload($newFile->getRealPath(), $folder)];
+        return [$column => $imageKit->upload($newFile->getRealPath(), $folder)];
     }
 
     public function render()

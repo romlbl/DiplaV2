@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Company;
 
-use App\Services\CloudinaryService;
+use App\Services\ImageKitService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -54,7 +54,7 @@ class Settings extends Component
         session()->flash('settings-status', 'Mot de passe mis à jour.');
     }
 
-    public function deleteAccount(CloudinaryService $cloudinary): void
+    public function deleteAccount(ImageKitService $imageKit): void
     {
         $this->validate([
             'delete_password' => ['required', 'current_password:company'],
@@ -62,22 +62,15 @@ class Settings extends Component
 
         $company = auth('company')->user();
 
-        // Supprime les 3 photos de la devanture sur Cloudinary.
-        $imagesToClean = [
-            'cover_image_url' => 'dipla/companies',
-            'card_image_url' => 'dipla/companies/cards',
-            'avatar_image_url' => 'dipla/companies/avatars',
-        ];
-
-        foreach ($imagesToClean as $column => $folder) {
-            if ($company->{$column}) {
-                $publicId = pathinfo(parse_url($company->{$column}, PHP_URL_PATH), PATHINFO_FILENAME);
-                $cloudinary->delete($folder.'/'.$publicId);
+        // Supprime les 3 photos de la devanture sur ImageKit.
+        foreach ([$company->cover_image_url, $company->card_image_url, $company->avatar_image_url] as $url) {
+            if ($url) {
+                $imageKit->delete($url);
             }
         }
 
         // Supprime chaque produit individuellement (pas de delete() en masse) pour
-        // déclencher Product::booted() → nettoyage des photos produit sur Cloudinary.
+        // déclencher Product::booted() → nettoyage des photos produit sur ImageKit.
         // Les avis, questions, favoris et historique liés à chaque produit partent
         // automatiquement en cascade au niveau base de données (cascadeOnDelete).
         $company->products()->get()->each(fn ($product) => $product->delete());

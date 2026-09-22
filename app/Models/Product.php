@@ -72,10 +72,10 @@ class Product extends Model
     protected static function booted(): void
     {
         static::deleting(function (Product $product) {
+            $imageKit = app(\App\Services\ImageKitService::class);
+
             foreach ($product->images as $image) {
-                // on extrait le public_id depuis l'URL Cloudinary pour pouvoir la supprimer
-                $publicId = pathinfo(parse_url($image->url, PHP_URL_PATH), PATHINFO_FILENAME);
-                app(\App\Services\CloudinaryService::class)->delete('dipla/products/' . $publicId);
+                $imageKit->delete($image->url);
             }
 
             $product->images()->delete();
@@ -92,15 +92,24 @@ class Product extends Model
 
         $term = trim($term);
 
-        return $query->where(function ($q) use ($term) {
-            // Full-text classique (rapide, gère pluriel/accents/stemming français)
+        // Prépare la requête de préfixe pour autocomplétion (ex: "chauss" -> "chauss:*")
+        $words = array_filter(explode(' ', $term));
+        $prefixQuery = implode(' & ', array_map(function ($word) {
+            $cleanWord = preg_replace('/[^\w]/u', '', $word);
+            return $cleanWord ? $cleanWord . ':*' : '';
+        }, $words));
+
+        return $query->where(function ($q) use ($term, $prefixQuery) {
+            // 1. Syntaxe moderne Postgres (supporte les guillemets, le OR, etc.)
             $q->whereRaw("search_vector @@ websearch_to_tsquery('french', ?)", [$term]);
 
-            // Flou façon TNTSearch : compare "mot par mot" contre titre/mots-clés/description.
-            // word_similarity trouve un mot proche même dans un texte plus long ("barber" ~ "coiffeur barber shop").
-            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(title)) > 0.25", [$term]);
-            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(coalesce(keywords, ''))) > 0.25", [$term]);
-            $q->orWhereRaw("word_similarity(unaccent(?), unaccent(coalesce(description, ''))) > 0.2", [$term]);
+            // 2. Recherche par préfixe (trouve les mots incomplets)
+            if (!empty($prefixQuery)) {
+                $q->orWhereRaw("search_vector @@ to_tsquery('french', ?)", [$prefixQuery]);
+            }
+
+            // 3. Tolérance aux fautes de frappe sur le titre
+            $q->orWhereRaw("similarity(unaccent(title), unaccent(?)) > 0.25", [$term]);
         });
     }
 
@@ -148,13 +157,6 @@ class Product extends Model
         }
 
         return $query->where('price', '<=', $price);
-    }
-
-    public function priceLabel(): string
-    {
-        return $this->price !== null
-            ? number_format($this->price, 2) . ' €'
-            : 'Variable';
     }
 
 

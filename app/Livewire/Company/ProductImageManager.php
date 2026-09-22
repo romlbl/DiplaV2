@@ -3,7 +3,7 @@
 namespace App\Livewire\Company;
 
 use App\Models\Product;
-use App\Services\CloudinaryService;
+use App\Services\ImageKitService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -29,11 +29,11 @@ class ProductImageManager extends Component
             'newImages.*' => ['image', 'max:5120'],
         ]);
 
-        $cloudinary = app(CloudinaryService::class);
+        $imageKit = app(ImageKitService::class);
         $position = ($this->product->images()->max('position') ?? -1) + 1;
 
         foreach ($this->newImages as $file) {
-            $url = $cloudinary->upload($file->getRealPath());
+            $url = $imageKit->upload($file->getRealPath());
 
             $this->product->images()->create([
                 'url' => $url,
@@ -49,8 +49,7 @@ class ProductImageManager extends Component
     {
         $image = $this->product->images()->findOrFail($imageId);
 
-        $publicId = pathinfo(parse_url($image->url, PHP_URL_PATH), PATHINFO_FILENAME);
-        app(CloudinaryService::class)->delete('dipla/products/' . $publicId);
+        app(ImageKitService::class)->delete($image->url);
 
         $image->delete();
         $this->product->refresh();
