@@ -7,15 +7,13 @@
     positionnement "fixed" de ses descendants (ils deviennent relatifs à cet
     ancêtre au lieu du viewport), ce qui décale la carte et teinte le header.
 --}}
-<div x-data="locationSearchModal()" x-cloak>
+<div x-data="locationSearchModal()" x-cloak @open-location-modal.window="openModal()">
     <button type="button" @click="openModal()" aria-label="Choisir une position de recherche"
             class="relative rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <span x-show="$store.searchLocation.hasLocation" x-cloak
-              class="absolute top-1 right-1 h-2 w-2 rounded-full bg-[#4A3B5C]"></span>
     </button>
 
     <template x-teleport="body">

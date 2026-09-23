@@ -60,19 +60,18 @@
                            class="w-full border-0 bg-transparent p-0 text-sm text-[#333333] placeholder-[#333333]/40 focus:outline-none focus:ring-0">
                 </div>
 
-                <a x-data
-                   :href="$store.searchLocation.hasLocation
-                            ? `{{ route('search', ['mode' => 'nearby']) }}?lat=${$store.searchLocation.lat}&lng=${$store.searchLocation.lng}`
-                            : '{{ route('search', ['mode' => 'nearby']) }}'"
-                   wire:navigate
-                   class="mx-1 inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#FDFBF7] px-4 py-2.5 text-sm font-medium text-[#1E3D59] transition hover:bg-[#E2E8F0]">
+
+                <button type="button" x-data
+                        @click="window.dispatchEvent(new CustomEvent('open-location-modal'))"
+                        class="mx-1 inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#FDFBF7] px-4 py-2.5 text-sm font-medium text-[#1E3D59] transition hover:bg-[#E2E8F0] my-2 md:my-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span x-text="$store.searchLocation.hasLocation ? $store.searchLocation.label : 'À proximité'"
-                          class="max-w-[9rem] truncate">À proximité</span>
-                </a>
+                    <span x-text="$store.searchLocation.hasLocation ? $store.searchLocation.label : 'Ma ville'"
+                        class="max-w-[9rem] truncate">Ma ville</span>
+                </button>
+        
 
                 <button type="submit"
                         class="shrink-0 rounded-full bg-[#1E3D59] px-6 py-2.5 text-sm font-semibold text-[#FDFBF7] transition hover:bg-[#16293F]">

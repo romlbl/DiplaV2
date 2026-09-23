@@ -107,7 +107,7 @@ class Search extends Component
         switch ($this->mode) {
             case 'nearby':
                 if ($this->userLat && $this->userLng) {
-                    $query->nearby($this->userLat, $this->userLng, 20);
+                    $query->nearby($this->userLat, $this->userLng, 10);
                     $query->orderBy('distance');
                 } else {
                     $query->whereRaw('1 = 0');
@@ -116,7 +116,7 @@ class Search extends Component
 
             case 'discover':
                 if ($this->userLat && $this->userLng) {
-                    $query->nearby($this->userLat, $this->userLng, $this->maxDistance ?? 200);
+                    $query->nearby($this->userLat, $this->userLng, $this->maxDistance ?? 10);
                     $query->orderBy('distance');
                 } else {
                     $query->whereNotNull('latitude')->latest();

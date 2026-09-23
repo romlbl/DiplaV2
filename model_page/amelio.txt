@@ -2,4 +2,3 @@
 - mettre en francais qd erreur de connexion
 - fond transparent icone
 - distance par def 10km
-- prix -> chg pour variable -> pas pris en compte
