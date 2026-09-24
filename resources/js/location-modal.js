@@ -17,6 +17,7 @@ document.addEventListener('alpine:init', () => {
         selectedLabel: '',
         searchTimer: null,
         focused: false,
+        locating: false,
 
         openModal() {
             this.open = true;
@@ -146,10 +147,10 @@ document.addEventListener('alpine:init', () => {
 
         useMyPosition() {
             if (!navigator.geolocation) return;
-
+            this.locating = true;
             navigator.geolocation.getCurrentPosition(
-                (position) => this.placeMarker(position.coords.latitude, position.coords.longitude),
-                () => console.warn('Géolocalisation refusée ou indisponible'),
+                (position) => { this.placeMarker(position.coords.latitude, position.coords.longitude); this.locating = false; },
+                () => { console.warn('Géolocalisation refusée ou indisponible'); this.locating = false; },
                 { timeout: 8000 }
             );
         },

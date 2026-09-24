@@ -41,13 +41,15 @@
                     </div>
                 </div>
 
-                <button type="button" @click="useMyPosition()"
-                        class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#1E3D59] hover:underline">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <!-- resources/views/partials/location-modal.blade.php -->
+                <button type="button" @click="useMyPosition()" :disabled="locating"
+                        class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#1E3D59] hover:underline disabled:opacity-60">
+                    <x-spinner x-show="locating" x-cloak />
+                    <svg x-show="!locating" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    Utiliser ma position actuelle
+                    <span x-text="locating ? 'Localisation...' : 'Utiliser ma position actuelle'"></span>
                 </button>
 
                 <div x-ref="modalMap" class="mt-3 h-64 w-full rounded-xl border border-[#E2E8F0] overflow-hidden"></div>

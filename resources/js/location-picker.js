@@ -12,6 +12,7 @@ export function initLocationPicker(container) {
     const latInput = container.querySelector('[data-role="latitude"]');
     const lngInput = container.querySelector('[data-role="longitude"]');
     const suggestionsEl = container.querySelector('[data-role="suggestions"]');
+    let loadingIndicator = null;
 
     if (!addressInput || !mapEl || !latInput || !lngInput) {
         console.warn('location-picker: éléments manquants dans le conteneur', container);
@@ -34,26 +35,37 @@ export function initLocationPicker(container) {
         ? L.marker([startLat, startLng], { draggable: true }).addTo(map)
         : null;
 
+    function showLoading() {
+        if (loadingIndicator) return;
+        loadingIndicator = document.createElement('div');
+        loadingIndicator.className = 'absolute inset-0 z-[1000] flex items-center justify-center bg-white/70';
+        loadingIndicator.innerHTML = `<svg class="animate-spin h-6 w-6 text-[#1E3D59]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>`;
+        mapEl.style.position = 'relative';
+        mapEl.appendChild(loadingIndicator);
+    }
+
+    function hideLoading() {
+        loadingIndicator?.remove();
+        loadingIndicator = null;
+    }
+
     async function reverseGeocode(lat, lng) {
-        // Désactive le bouton d'envoi pendant la recherche d'adresse : sans ça,
-        // un clic rapide sur "Enregistrer" peut soumettre le formulaire avant
-        // que l'adresse n'ait eu le temps de se remplir automatiquement.
         const submitButton = container.closest('form')?.querySelector('[type="submit"]');
         if (submitButton) submitButton.disabled = true;
+        showLoading();
 
         try {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`
-            );
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`);
             const result = await response.json();
-
-            if (result && result.display_name) {
-                setInputValue(addressInput, result.display_name);
-            }
+            if (result && result.display_name) setInputValue(addressInput, result.display_name);
         } catch (error) {
             console.error('Erreur de géocodage inverse', error);
         } finally {
             if (submitButton) submitButton.disabled = false;
+            hideLoading();
         }
     }
 
@@ -102,28 +114,20 @@ export function initLocationPicker(container) {
     addressInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const query = addressInput.value.trim();
+        if (query.length === 0) clearPosition();
+        if (query.length < 3) { hideSuggestions(); return; }
 
-        if (query.length === 0) {
-            clearPosition();
-        }
-
-        if (query.length < 3) {
-            hideSuggestions();
-            return;
-        }
-
+        addressInput.classList.add('bg-[url("data:image/svg+xml,...spinner...")]'); // ou classe custom
         debounceTimer = setTimeout(async () => {
             try {
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(query)}`
-                );
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(query)}`);
                 const results = await response.json();
-
-                // Réponse tardive : l'utilisateur a quitté le champ, on n'affiche rien.
                 if (document.activeElement !== addressInput) return;
                 renderSuggestions(results);
             } catch (error) {
                 console.error('Erreur de géocodage', error);
+            } finally {
+                addressInput.classList.remove('...spinner-class...');
             }
         }, 400);
     });

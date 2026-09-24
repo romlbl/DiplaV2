@@ -27,7 +27,7 @@
                 <div class="relative">
                     <h1 class="text-xl md:text-2xl font-bold text-white">{{ $company->name }}</h1>
                     <p class="mt-2 max-w-lg text-sm text-white/70">
-                        Votre vitrine digitale est actuellement visible. Personnalisez-la pour attirer plus de clients autour de vous.
+                        Votre vitrine est actuellement visible. Personnalisez-la pour attirer plus de clients autour de vous.
                     </p>
 
                     <button type="button" @click="showDevantureModal = true"

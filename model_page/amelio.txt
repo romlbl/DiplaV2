@@ -1,4 +1,3 @@
 - cursor pointer
 - mettre en francais qd erreur de connexion
 - fond transparent icone
-- distance par def 10km
