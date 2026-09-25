@@ -12,6 +12,8 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,11 +38,12 @@ class AppServiceProvider extends ServiceProvider
         }
         $this->configureDefaults();
 
+        RateLimiter::for('geocode', function (Request $request) {
+            return Limit::perMinute(30)->by($request->ip());
+        });
+
         Event::listen(Login::class, function (Login $event): void {
             if ($event->guard === 'web') {
-                // session()->put (pas flash) : le flag doit survivre à la redirection
-                // vers /dashboard et rester disponible jusqu'à la première page
-                // publique réellement affichée, où il sera consommé.
                 session()->put('just_logged_in', true);
             }
         });

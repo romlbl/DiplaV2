@@ -212,13 +212,6 @@
                             <span x-show="durations.walking" x-text="durations.walking" class="font-sans text-xs opacity-80"></span>
                         </button>
 
-                        <button type="button" @click="setMode('cycling')"
-                                :class="mode === 'cycling' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
-                                class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">
-                            Vélo
-                            <span x-show="durations.cycling" x-text="durations.cycling" class="font-sans text-xs opacity-80"></span>
-                        </button>
-
                         <button type="button" @click="setMode('driving')"
                                 :class="mode === 'driving' ? 'bg-[#1E3D59] text-[#FDFBF7]' : 'border border-[#E2E8F0] text-[#333333] hover:bg-white'"
                                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition">

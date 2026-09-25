@@ -25,13 +25,11 @@ class GeocodeController extends Controller
         $cacheKey = 'geocode:search:' . md5($q);
 
         $results = Cache::remember($cacheKey, now()->addDay(), function () use ($q) {
-            $response = Http::get('https://us1.locationiq.com/v1/search', [
+            $response = Http::timeout(4)->get('https://us1.locationiq.com/v1/autocomplete', [
                 'key' => $this->key(),
                 'q' => $q,
                 'format' => 'json',
-                'addressdetails' => 1,
                 'limit' => 5,
-                'countrycodes' => 'fr',
             ]);
 
             return $response->successful() ? $response->json() : [];
@@ -50,27 +48,41 @@ class GeocodeController extends Controller
             return response()->json(['error' => 'coordonnées invalides'], 422);
         }
 
+        if (!$this->key()) {
+            \Log::error('LocationIQ: clé API manquante');
+            return response()->json(['error' => 'service indisponible'], 503);
+        }
+
         $cacheKey = 'geocode:reverse:' . round($lat, 5) . ':' . round($lon, 5);
 
-        $result = Cache::remember($cacheKey, now()->addDay(), function () use ($lat, $lon) {
-            $response = Http::get('https://us1.locationiq.com/v1/reverse', [
-                'key' => $this->key(),
-                'lat' => $lat,
-                'lon' => $lon,
-                'format' => 'json',
-                'addressdetails' => 1,
-            ]);
+        try {
+            $result = Cache::remember($cacheKey, now()->addDay(), function () use ($lat, $lon) {
+                $response = Http::timeout(5)->get('https://us1.locationiq.com/v1/reverse', [
+                    'key' => $this->key(),
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'format' => 'json',
+                ]);
 
-            return $response->successful() ? $response->json() : null;
-        });
+                if (!$response->successful()) {
+                    \Log::warning('LocationIQ reverse a échoué', ['status' => $response->status(), 'body' => $response->body()]);
+                    return null;
+                }
+
+                return $response->json();
+            });
+        } catch (\Throwable $e) {
+            \Log::error('LocationIQ reverse exception', ['message' => $e->getMessage()]);
+            return response()->json(['error' => 'service indisponible'], 503);
+        }
 
         return response()->json($result);
     }
 
-    // Itinéraire entre 2 points (remplace OSRM démo)
+    // Itinéraire entre 2 points
     public function route(Request $request, string $mode)
     {
-        $profiles = ['walking' => 'foot', 'cycling' => 'bicycle', 'driving' => 'driving'];
+        $profiles = ['walking' => 'walking', 'cycling' => 'driving', 'driving' => 'driving'];
         $profile = $profiles[$mode] ?? null;
 
         if (!$profile) {
@@ -84,12 +96,22 @@ class GeocodeController extends Controller
 
         $coords = "{$originLng},{$originLat};{$destLng},{$destLat}";
 
-        $response = Http::get("https://us1.locationiq.com/v1/directions/{$profile}/{$coords}", [
-            'key' => $this->key(),
-            'overview' => 'full',
-            'geometries' => 'geojson',
-        ]);
+        try {
+            $response = Http::timeout(5)->get("https://us1.locationiq.com/v1/directions/{$profile}/{$coords}", [
+                'key' => $this->key(),
+                'overview' => 'full',
+                'geometries' => 'geojson',
+            ]);
 
-        return response()->json($response->successful() ? $response->json() : ['routes' => []]);
+            if (!$response->successful()) {
+                \Log::warning('LocationIQ directions a échoué', ['status' => $response->status(), 'body' => $response->body()]);
+                return response()->json(['routes' => []]);
+            }
+
+            return response()->json($response->json());
+        } catch (\Throwable $e) {
+            \Log::error('LocationIQ directions exception', ['message' => $e->getMessage()]);
+            return response()->json(['routes' => []]);
+        }
     }
 }

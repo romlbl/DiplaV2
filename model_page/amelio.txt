@@ -1,3 +1,5 @@
 - cursor pointer
 - mettre en francais qd erreur de connexion
 - fond transparent icone
+- la description du commerce ne s'affiche pas au moment de modif
+- chargement le temps de geocoder/reverse geocoder

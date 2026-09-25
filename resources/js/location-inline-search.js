@@ -23,7 +23,7 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            this.searchTimer = setTimeout(() => this.fetchSuggestions(), 400);
+            this.searchTimer = setTimeout(() => this.fetchSuggestions(), 550);
         },
 
         closeSuggestions() {
