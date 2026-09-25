@@ -98,9 +98,17 @@
 
                 @include('partials.location-modal')
 
-                @auth
+                @auth('company')
+                    <a href="{{ route('company.dashboard') }}" wire:navigate aria-label="Mon commerce"
+                    class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75L12 3l9 6.75V21a.75.75 0 01-.75.75H15a.75.75 0 01-.75-.75v-4.5a2.25 2.25 0 00-4.5 0V21a.75.75 0 01-.75.75H3.75A.75.75 0 013 21V9.75z" />
+                        </svg>
+                        <span class="hidden text-sm font-semibold md:inline">Mon commerce</span>
+                    </a>
+                @elseif(auth()->check())
                     <a href="{{ route('dashboard') }}" wire:navigate aria-label="Mon compte"
-                       class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
+                    class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg>
@@ -108,7 +116,7 @@
                     </a>
                 @else
                     <a href="{{ route('login') }}" wire:navigate aria-label="Connexion"
-                       class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
+                    class="flex items-center gap-2 rounded-full p-2 text-[#1E3D59] transition hover:bg-[#E2E8F0]/60 md:bg-[#1E3D59] md:px-5 md:py-2 md:text-[#FDFBF7] md:hover:bg-[#16293F]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg>
@@ -135,7 +143,9 @@
             <li><a href="{{ route('search', ['type' => 'produit', 'mode' => 'discover']) }}" wire:navigate class="block py-2">Produits</a></li>
             <li><a href="{{ route('search', ['type' => 'commerce', 'mode' => 'discover']) }}" wire:navigate class="block py-2">Commerces</a></li>
             <li><a href="{{ route('search', ['mode' => 'nearby']) }}" wire:navigate class="block py-2">À proximité</a></li>
-            @auth
+            @auth('company')
+                <li><a href="{{ route('company.dashboard') }}" wire:navigate class="block py-2 font-bold text-[#1E3D59]">Mon commerce</a></li>
+            @elseif(auth()->check())
                 <li><a href="{{ route('dashboard') }}" wire:navigate class="block py-2 font-bold text-[#1E3D59]">Mon compte</a></li>
             @else
                 <li><a href="{{ route('login') }}" wire:navigate class="block py-2 font-bold text-[#1E3D59]">Connexion</a></li>

@@ -64,10 +64,10 @@ class QuestionsIndex extends Component
 
         $question = Discussion::whereIn('product_id', $productIds)
             ->whereNull('parent_id')
-            ->with('replies')
+            ->with('companyReply')
             ->findOrFail($discussionId);
 
-        $existingReply = $question->replies->first();
+        $existingReply = $question->companyReply;
 
         if ($existingReply) {
             $existingReply->update(['content' => $content]);
@@ -110,14 +110,15 @@ class QuestionsIndex extends Component
 
         $baseQuestions = Discussion::whereIn('product_id', $productIds)->whereNull('parent_id');
 
-        $answeredQuestions = (clone $baseQuestions)->has('replies')->with(['replies' => fn ($r) => $r->oldest()])->get();
+        $answeredQuestions = (clone $baseQuestions)->whereHas('companyReply')
+            ->with('companyReply')->get();
 
         $avgResponseMinutes = $answeredQuestions->isNotEmpty()
-            ? $answeredQuestions->avg(fn ($q) => $q->created_at->diffInMinutes($q->replies->first()->created_at))
+            ? $answeredQuestions->avg(fn ($q) => $q->created_at->diffInMinutes($q->companyReply->created_at))
             : null;
 
         $stats = [
-            'pending_count' => (clone $baseQuestions)->doesntHave('replies')->count(),
+            'pending_count' => (clone $baseQuestions)->whereDoesntHave('companyReply')->count(),
             'total_count' => (clone $baseQuestions)->count(),
             'answered_count' => $answeredQuestions->count(),
             'avg_response_label' => $this->formatResponseTime($avgResponseMinutes),
@@ -125,7 +126,8 @@ class QuestionsIndex extends Component
 
         $query = Discussion::whereIn('product_id', $productIds)
             ->whereNull('parent_id')
-            ->with(['user', 'product.images', 'replies.user']);
+            ->with(['user', 'product.images', 'companyReply.user', 'replies.user']);
+
 
         if ($this->search !== '') {
             $query->search(mb_substr(trim($this->search), 0, 100));
@@ -136,9 +138,9 @@ class QuestionsIndex extends Component
         }
 
         if ($this->status === 'pending') {
-            $query->doesntHave('replies');
+            $query->whereDoesntHave('companyReply');
         } elseif ($this->status === 'answered') {
-            $query->has('replies');
+            $query->whereHas('companyReply');
         }
 
         match ($this->sort) {

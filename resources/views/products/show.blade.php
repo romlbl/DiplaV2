@@ -50,7 +50,7 @@
                 <div class="flex items-start justify-between gap-3 mb-1">
                     <h1 class="text-xl md:text-2xl font-bold text-[#1E293B] leading-tight">
                         {{ $product->title }}
-                    </h1>
+                    </h1> 
 
                     @if($product->reviews->isNotEmpty())
                         <button type="button" 
@@ -73,10 +73,17 @@
                 @else
                     <div class="mb-3"></div>
                 @endif
+                <p class="flex items-start gap-1 text-sm text-[#333333]/50 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0 text-[#4A3B5C] mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>{{ $product->address }}</span>
+                </p>
 
                 {{-- Prix, sans fond ni bordure --}}
                 <div class="mb-5">
-                    <span class="inline-block w-fit rounded-full bg-[#1E3D59] px-3 py-1 font-sans text-xs font-semibold text-[#FDFBF7]">
+                    <span class="inline-block w-fit rounded-full bg-[#1E3D59] px-3 py-1 font-sans text-sm font-semibold text-[#FDFBF7]">
                         {{ $product->priceLabel() }}
                     </span>
                 </div>

@@ -9,7 +9,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-#[Layout('layouts.public')]
+#[Layout('layouts.guest')]
 class Contact extends Component
 {
     public const SUBJECTS = [

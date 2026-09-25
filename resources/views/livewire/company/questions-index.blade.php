@@ -100,7 +100,7 @@
         <div class="flex flex-col gap-5">
             @foreach($questions as $question)
                 <div wire:key="question-{{ $question->id }}"
-                     class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-5 md:p-6 shadow-sm {{ $question->replies->isEmpty() ? 'border-l-4 border-l-red-400' : '' }}">
+                     class="rounded-xl border border-[#E2E8F0] bg-[#FAFAFF] p-5 md:p-6 shadow-sm {{ !$question->companyReply ? 'border-l-4 border-l-red-400' : '' }}">
                     <div class="flex flex-col md:flex-row gap-5">
                         {{-- Produit --}}
                         <div class="w-full md:w-40 shrink-0 flex items-center gap-3 md:flex-col md:items-start">
@@ -121,7 +121,7 @@
                                     <p class="text-xs text-[#333333]/50">{{ $question->created_at->diffForHumans() }}</p>
                                 </div>
 
-                                @if($question->replies->isEmpty())
+                                @if(!$question->companyReply)
                                     <span class="shrink-0 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
                                         En attente
                                     </span>
@@ -135,12 +135,13 @@
                             <p class="text-sm text-[#333333] font-medium">{{ $question->content }}</p>
 
                             {{-- Réponse existante --}}
-                            @if($question->replies->isNotEmpty() && $editingReplyId !== $question->id)
-                                @php($reply = $question->replies->first())
+                            @php($reply = $question->companyReply)
+
+                            @if($reply && $editingReplyId !== $question->id)
                                 <div class="mt-4 rounded-lg border-l-4 border-[#1E3D59] bg-white p-3">
                                     <div class="flex items-center justify-between mb-1">
                                         <p class="text-xs font-semibold text-[#1E3D59]">
-                                            {{ $reply->user->name ?? $question->product->company->name }}
+                                            {{ $reply->user?->name ?? $question->product->company->name }}
                                             @if(!$reply->user)
                                                 <span class="font-normal text-[#4A3B5C]">· Réponse du commerce</span>
                                             @endif
@@ -156,7 +157,7 @@
                             @endif
 
                             {{-- Formulaire de réponse (nouvelle ou édition) --}}
-                            @if($question->replies->isEmpty() || $editingReplyId === $question->id)
+                            @if(!$question->companyReply || $editingReplyId === $question->id)
                                 <div class="mt-4 border-t border-[#E2E8F0] pt-4">
                                     <textarea wire:model="replyContent.{{ $question->id }}" rows="2"
                                               placeholder="Écrire une réponse publique..."

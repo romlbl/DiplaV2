@@ -35,6 +35,10 @@ class Discussion extends Model
     {
         return $this->belongsTo(Discussion::class, 'parent_id');
     }
+    public function companyReply(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Discussion::class, 'parent_id')->whereNull('user_id');
+    }
 
     public function replies(): HasMany
     {

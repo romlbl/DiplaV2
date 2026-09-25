@@ -339,7 +339,7 @@
 
                                     {{-- Prix --}}
                                     <p class="text-xs md:text-sm font-mono font-semibold text-slate-700 mt-1">
-                                        {{ $product->priceLabel() }}
+                                        {{ $entry->product->priceLabel() }}
                                     </p>
 
                                     {{-- Adresse --}}
