@@ -58,7 +58,7 @@ export function initLocationPicker(container) {
         showLoading();
 
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`);
+            const response = await fetch(`/api/geocode/reverse?lat=${lat}&lon=${lng}`);
             const result = await response.json();
             if (result && result.display_name) setInputValue(addressInput, result.display_name);
         } catch (error) {
@@ -120,7 +120,7 @@ export function initLocationPicker(container) {
         addressInput.classList.add('bg-[url("data:image/svg+xml,...spinner...")]'); // ou classe custom
         debounceTimer = setTimeout(async () => {
             try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(query)}`);
+                const response = await fetch(`/api/geocode/search?q=${encodeURIComponent(query)}`);
                 const results = await response.json();
                 if (document.activeElement !== addressInput) return;
                 renderSuggestions(results);

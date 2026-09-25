@@ -89,9 +89,7 @@ document.addEventListener('alpine:init', () => {
 
         async reverseGeocode(lat, lng) {
             try {
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`
-                );
+                const response = await fetch(`/api/geocode/reverse?lat=${lat}&lon=${lng}`);
                 const result = await response.json();
 
                 if (result && result.display_name) {
@@ -126,9 +124,7 @@ document.addEventListener('alpine:init', () => {
 
         async fetchSuggestions() {
             try {
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=fr&q=${encodeURIComponent(this.query.trim())}`
-                );
+                const response = await fetch(`/api/geocode/search?q=${encodeURIComponent(this.query.trim())}`);
                 const results = await response.json();
 
                 // Réponse tardive : champ quitté entre-temps, on ignore.

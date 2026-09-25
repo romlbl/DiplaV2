@@ -32,6 +32,9 @@ return [
         'private_key' => env('IMAGEKIT_PRIVATE_KEY'),
         'url_endpoint' => env('IMAGEKIT_URL_ENDPOINT'),
     ],
+    'locationiq' => [
+        'key' => env('LOCATIONIQ_KEY'),
+    ],
     'contact' => [
         'to' => env('CONTACT_TO_EMAIL', 'lobelloromain@gmail.com'),
     ],

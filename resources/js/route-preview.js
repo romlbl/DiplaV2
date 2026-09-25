@@ -90,9 +90,9 @@ document.addEventListener('alpine:init', () => {
         },
 
         async fetchRoute(mode) {
-            const url = `https://routing.openstreetmap.de/${PROFILES[mode]}/route/v1/driving/`
-                + `${this.originLng},${this.originLat};${this.destLng},${this.destLat}`
-                + `?overview=full&geometries=geojson`;
+            const url = `/api/geocode/route/${mode}`
+                + `?origin_lat=${this.originLat}&origin_lng=${this.originLng}`
+                + `&dest_lat=${this.destLat}&dest_lng=${this.destLng}`;
 
             try {
                 const response = await fetch(url);

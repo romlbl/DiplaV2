@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -66,4 +67,12 @@ class AppServiceProvider extends ServiceProvider
             : null,
         );
     }
+
+    protected function configureRatelimiting(): void
+    {
+        RateLimiter::for('geocode', function (Request $request) {
+            return Limit::perMinute(30)->by($request->ip());
+        });
+    }
+
 }
