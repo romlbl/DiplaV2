@@ -7,6 +7,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/model_page/amelio.txt
 .env
 .env.backup
 .env.production
