@@ -1,9 +1,0 @@
-- cursor pointer
-- mettre en francais qd erreur de connexion
-- fond transparent icone
-
-Avant deploiment réel :
-- upgrade pour pay as you go
-- mot de passe oublié
-- envoi mail pour contact
-- page pour dupliquer catalogue
